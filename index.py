@@ -13,19 +13,12 @@ def onClick():
     fontconi = Font(family=fontFamilyy.get(), size=fontSizze.get(), weight='normal')
     fontconfi = Font(family=fontFamilyy.get(), size=fontSizze2.get(), weight='normal')
 
-
-
     mylabel = Label(x, text="LOGIN", font=fontconi, bg="light green", fg="dark green", padx=20, pady=50)
     mylabel.grid(row=0,column=4,columnspan=5,padx=20,pady=20)
 
     q = Entry(x,width=100,bg="light blue",justify="center")
     q.insert(END,"Enter your username")
     q.grid(row=1,column=4,columnspan=5,padx=20,pady=20)
-
-
-
-
-
 
     s = Entry(x, width=100, bg="light blue", justify="center")
     s.insert(END, "Enter your password")
@@ -60,12 +53,12 @@ def withoutClick():
 
 
     myLabel = Label(root, text="SIGN-UP TODAY!!", font=fontcon, bg="light green", fg="dark green", padx=20, pady=50)
-    myLabel.grid(row=0,column=4,columnspan = 5,padx=20,pady=20)
+    myLabel.grid(row=0, column=4, columnspan=5, padx=20, pady=20)
 
 
     e = Entry(root, width = 100,bg="light blue",justify="center")
     e.insert(END , "Enter your Username:")
-    e.grid(row = 1,column=4,columnspan=5,padx=20,pady=20)
+    e.grid(row = 1, column=4, columnspan=5, padx=20, pady=20)
 
 
 
@@ -83,8 +76,6 @@ def withoutClick():
     g = Entry(root, width = 100,bg="light blue",justify="center")
     g.insert(END , "Re-enter your Password:")
     g.grid(row=4,column=4,columnspan=5,padx=20,pady=20)
-
-
 
     b = Button(root,text="SUBMIT",fg="white",bg="black")
     b.grid(row=5,column=4,columnspan=5,padx=20,pady=20)
