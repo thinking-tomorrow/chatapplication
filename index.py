@@ -99,6 +99,4 @@ def withoutClick():
     root.mainloop()
 
 
-
-
 onClick()
