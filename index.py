@@ -2,9 +2,7 @@ from tkinter import  *
 from tkinter.font import Font
 
 
-
-def onClick():
-    global x
+def login():
     x = Tk()
     x.configure(background="light green")
     x.title("Login Form")
@@ -45,13 +43,13 @@ def onClick():
 
     tFont = Font(family=fontFamily12.get(), size=fontSize15.get(), weight='normal')
 
-    ylabel = Button(x, text="Not yet registered??", font=tFont,bg="forest green",  command= withoutClick)
+    ylabel = Button(x, text="Not yet registered??", font=tFont,bg="forest green",  command=lambda:[x.destroy(), register()])
 
     ylabel.grid(row=7, column=5)
     x.mainloop()
 
 
-def withoutClick():
+def register():
     global root
     root = Tk()
     root.configure(background="light green")
@@ -110,10 +108,10 @@ def withoutClick():
 
 
 
-    yLabel = Button(root,text="Already registered??",font=WFont,bg="forest green",command=onClick,justify="center")
+    yLabel = Button(root,text="Already registered??",font=WFont,bg="forest green",command=lambda:[root.destroy(), login()],justify="center")
     yLabel.grid(row=10,column=6)
 
     root.mainloop()
 
 
-onClick()
+login()
