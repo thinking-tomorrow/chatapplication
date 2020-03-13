@@ -1,5 +1,6 @@
-from tkinter import  *
+from tkinter import *
 from tkinter.font import Font
+import controller
 
 
 def login():
@@ -34,7 +35,7 @@ def login():
     ut = Checkbutton(x, text="Remember Me!!", bg="light green")
     ut.grid(row=5, column=4, padx=10, pady=10)
 
-    bi = Button(x, text="LOGIN", fg="white", bg="black")
+    bi = Button(x, text="LOGIN", fg="white", bg="black", command=lambda: controller.login(q.get(), s.get()))
     bi.grid(row=6, column=4, columnspan=5, padx=30, pady=20)
 
     fontFamily12 = StringVar(value="Arial")
@@ -105,3 +106,12 @@ def register():
     yLabel.grid(row=10,column=6)
 
     root.mainloop()
+
+
+def chat_page():
+    y = Tk()
+    y.configure(background="light green")
+    y.title("Chat page")
+
+
+login()
