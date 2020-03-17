@@ -88,7 +88,7 @@ def register():
     abel = Label(root, text="Enter your Password", font=fontconf, bg="light green", fg="slate blue", padx=10, pady=10)
     abel.grid(row=5, column=4, columnspan=5)
 
-    h = Entry(root, width=90, bg="light blue", justify="center")
+    h = Entry(root, show="*",width=90, bg="light blue", justify="center")
 
     h.grid(row=6, column=4, columnspan=5, padx=20, pady=20)
 
