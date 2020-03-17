@@ -22,3 +22,4 @@ def add_user(username, email, password):
 
     cursor.execute(query, params)
     my_db.commit()
+

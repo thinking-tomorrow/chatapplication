@@ -1,10 +1,10 @@
 from tkinter import *
 from tkinter.font import Font
-import controller
 
 
-def login():
+def login(login_backend, register_backend):
     x = Tk()
+    x.state('zoomed')
     x.configure(background="light green")
     x.title("Login Form")
     fontFamilyy = StringVar(value="Verdana")
@@ -28,14 +28,14 @@ def login():
     abel = Label(x, text="Enter your password", font=fontconfi, bg="light green", fg="slate blue", padx=10, pady=10)
     abel.grid(row=3, column=4, columnspan=5)
 
-    s = Entry(x, width=90, bg="light blue", justify="center")
+    s = Entry(x, show="*", width=90, bg="light blue", justify="center")
 
     s.grid(row=4, column=4, columnspan=5, padx=10, pady=10)
 
     ut = Checkbutton(x, text="Remember Me!!", bg="light green")
     ut.grid(row=5, column=4, padx=10, pady=10)
 
-    bi = Button(x, text="LOGIN", fg="white", bg="black", command=lambda: controller.login(q.get(), s.get()))
+    bi = Button(x, text="LOGIN", fg="white", bg="black", command=lambda: [login_backend(q.get(), s.get(), x)])
     bi.grid(row=6, column=4, columnspan=5, padx=30, pady=20)
 
     fontFamily12 = StringVar(value="Arial")
@@ -43,15 +43,16 @@ def login():
 
     tFont = Font(family=fontFamily12.get(), size=fontSize15.get(), weight='normal')
 
-    ylabel = Button(x, text="Not yet registered??", font=tFont, bg="forest green",  command=lambda: [x.destroy(), register()])
+    ylabel = Button(x, text="Not yet registered??", font=tFont, bg="forest green",  command=lambda: [x.destroy(), register(register_backend, login_backend)])
 
     ylabel.grid(row=7, column=5)
     x.mainloop()
 
 
-def register():
+def register(register_backend, login_backend):
     global root
     root = Tk()
+    root.state('zoomed')
     root.configure(background="light green")
     root.title("Sign-up Form")
     fontFamily = StringVar(value="Verdana")
@@ -84,25 +85,25 @@ def register():
     abel = Label(root, text="Enter your Password", font=fontconf, bg="light green", fg="slate blue", padx=10, pady=10)
     abel.grid(row=5, column=4, columnspan=5)
 
-    h = Entry(root, width=90, bg="light blue", justify="center")
+    h = Entry(root, width=90, show="*", bg="light blue", justify="center")
 
     h.grid(row=6, column=4, columnspan=5, padx=20, pady=20)
 
     abel = Label(root, text="Re-enter your Password", font=fontconf, bg="light green", fg="slate blue", padx=10, pady=10)
     abel.grid(row=7, column=4, columnspan=5)
 
-    g = Entry(root, width=90, bg="light blue", justify="center")
+    g = Entry(root, show="*", width=90, bg="light blue", justify="center")
 
     g.grid(row=8, column=4, columnspan=5, padx=20, pady=20)
 
-    b = Button(root, text="SUBMIT", fg="white", bg="black")
+    b = Button(root, text="SUBMIT", fg="white", bg="black", command=lambda: [register_backend(e.get(), f.get(), h.get(), g.get(), root)])
     b.grid(row=9, column=4, columnspan=5, padx=20, pady=20)
 
     fontFamily2 = StringVar(value="Arial")
     fontSize5 = IntVar(value=7)
     WFont = Font(family=fontFamily2.get(), size=fontSize5.get(), weight='normal')
 
-    yLabel = Button(root,text="Already registered??", font=WFont, bg="forest green", command=lambda: [root.destroy(), login()], justify="center")
+    yLabel = Button(root,text="Already registered??", font=WFont, bg="forest green", command=lambda: [root.destroy(), login(login_backend, register_backend)], justify="center")
     yLabel.grid(row=10,column=6)
 
     root.mainloop()
@@ -113,5 +114,3 @@ def chat_page():
     y.configure(background="light green")
     y.title("Chat page")
 
-
-login()
