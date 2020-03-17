@@ -1,6 +1,6 @@
 import mysql.connector as db
 
-my_db = db.connect(host="localhost", user="root", passwd="", database="chat_application")
+my_db = db.connect(host="localhost", user="Hrishikesh", passwd="hrishi123", database="chat_application")
 cursor = my_db.cursor(buffered=True)
 
 
