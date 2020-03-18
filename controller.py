@@ -7,9 +7,11 @@ regex = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
 
 
 def register(username, email, password, repeat_password, window):
+
     for x in [username, email, password, repeat_password]:
         if x == '':
             messagebox.showerror("Error", "Please fill in all the fields")
+            break
     else:
         if not (re.search(regex, email)):
             messagebox.showerror("Error", "invalid Email")
@@ -22,7 +24,7 @@ def register(username, email, password, repeat_password, window):
                 else:
                     db.add_user(username, email, password)
                     window.destroy()
-                    view.chat_page()
+                    view.default()
 
 
 def login(username, password, window):
@@ -40,7 +42,7 @@ def login(username, password, window):
             else:
                 print(True)
                 window.destroy()
-                view.chat_page()
+                view.default()
 
 
 view.login(login, register)
