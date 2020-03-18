@@ -2,22 +2,25 @@ from tkinter import *
 from PIL import ImageTk,Image
 from tkinter.font import Font
 import tkinter.ttk as x
+from sqlite3 import * 
+conn = connect('chat_application.db')
 
 def click(num):
 
 	chatpage = Tk()
 	chatpage.configure(background="light blue")
 	chatpage.title("Contact  "+ str(num) + " Chat Page")
-	Button(chatpage,text=" <- Back " ,font=("Courier",8,"normal"),padx=20,bg="white",fg="red",command=lambda:[x.destroy(),default()]).grid(row=0,column=0)
+	Button(chatpage,text=" <- Back " ,font=("Courier",8,"normal"),padx=20,bg="white",fg="red",command=lambda:[chatpage.destroy(),default()]).grid(row=0,column=0)
 	contactdetails = Frame(chatpage,bg="light blue",pady=20,padx=50)
 	contactdetails.grid(row=0,column=1)
 	profileimg = Image.open('pr.jpg')#the location of the image would change according to every user
 	profileimage = profileimg.resize((30, 30), Image.ANTIALIAS)
 	openprofileimage = ImageTk.PhotoImage(profileimage)
-	buttonforprofileimage = Button(contactdetails,image=openprofileimage)
+	buttonforprofileimage = Button(contactdetails,image=openprofileimage,anchor=CENTER)
 	buttonforprofileimage.grid(row=(0),column=(1))
 	buttonforprofileimage.image = openprofileimage
 	Button(contactdetails,text="Contact  "+str(num),font=("Courier",12,"bold"),bg="light green",fg="red").grid(row=0,column=2)
+	
 	messagebox=Frame(chatpage,bg="pink")
 	messagebox.grid(row=1,column=0)
 	Label(messagebox,text="Hello!!",bg="pink",fg="black").grid(row=1,column=0)
