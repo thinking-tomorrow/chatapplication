@@ -4,119 +4,75 @@ from tkinter.font import Font
 import tkinter.ttk as x
 
 def click(num):
-	if(num==1):
-		x = Tk()
-		x.configure(background="light blue")
-		x.title("Contact  "+ str(num) + " Chat Page")
-		top = Frame(x,bg="light blue",pady=20,padx=500)
-		top.grid(row=0,column=0,columnspan=30)
-		img = Image.open('pr.jpg')#the location of the image would change according to every user
-		image = img.resize((30, 30), Image.ANTIALIAS)
-		openimg = ImageTk.PhotoImage(image)
-		conbi = Button(top,image=openimg)
-		conbi.grid(row=(0),column=(0))
-		conbi.image = openimg
-		Button(top,text="Contact  "+str(num),font=("Courier",12,"bold"),bg="light green",fg="red").grid(row=0,column=1)
-		new=Frame(x,bg="pink")
-		new.grid(row=1,column=0)
-		Label(new,text="Hello!!",bg="pink",fg="black").grid(row=1,column=0)
-		Label(new,text="14.08",bg="pink",font=("Arial",6,'roman'),padx=5).grid(row=1,column=1)
-		Label(x,text="                                                                                                                                                          ",bg="light blue",fg="black").grid(row=2,column=0)
-		ne=Frame(x,bg="snow")
-		ne.grid(row=2,column=3)
-		Label(ne,text="Who are you?",bg="snow",fg="black").grid(row=2,column=4)
-		Label(ne,text="14.08",bg="snow",font=("Arial",6,'roman')).grid(row=2,column=5)
-		n=Frame(x,bg="pink")
-		n.grid(row=3,column=0)
-		Label(n,text="I am contact "+str(num),bg="pink",fg="black").grid(row=3,column=0)
-		Label(n,text="14.08",bg="pink",font=("Arial",6,'roman')).grid(row=3,column=1)
-		me = Frame(x,pady=300,bg="light blue")
-		me.grid(row=15,column=3)
-		fontfa = StringVar(value="Magneto")
-		fonts = IntVar(value=12)
-		mesfont = Font(family=fontfa.get(),size=fonts.get(),weight='normal')
-		e = Entry(me,font=mesfont,borderwidth=5,bg="yellow",justify="center")
-		e.grid(row=5,column=0)
-		
-		
-		img = Image.open('send.png')
-		image = img.resize((20, 20), Image.ANTIALIAS)
-		openimg = ImageTk.PhotoImage(image)
-		button1 = Button(me, image=openimg)
-		button1.grid(row=5,column=3)
-		button1.image = openimg
-		Button(top,text=" Back ",font=("Courier",8,"normal"),bg="white",fg="red",command=lambda:[x.destroy(),default()]).grid(row=0,column=5,padx=150)
-		x.mainloop()
-		x.destroy()
+
+	chatpage = Tk()
+	chatpage.configure(background="light blue")
+	chatpage.title("Contact  "+ str(num) + " Chat Page")
+	Button(chatpage,text=" <- Back " ,font=("Courier",8,"normal"),padx=20,bg="white",fg="red",command=lambda:[x.destroy(),default()]).grid(row=0,column=0)
+	contactdetails = Frame(chatpage,bg="light blue",pady=20,padx=50)
+	contactdetails.grid(row=0,column=1)
+	profileimg = Image.open('pr.jpg')#the location of the image would change according to every user
+	profileimage = profileimg.resize((30, 30), Image.ANTIALIAS)
+	openprofileimage = ImageTk.PhotoImage(profileimage)
+	buttonforprofileimage = Button(contactdetails,image=openprofileimage)
+	buttonforprofileimage.grid(row=(0),column=(1))
+	buttonforprofileimage.image = openprofileimage
+	Button(contactdetails,text="Contact  "+str(num),font=("Courier",12,"bold"),bg="light green",fg="red").grid(row=0,column=2)
+	messagebox=Frame(chatpage,bg="pink")
+	messagebox.grid(row=1,column=0)
+	Label(messagebox,text="Hello!!",bg="pink",fg="black").grid(row=1,column=0)
+	Label(messagebox,text="14.08",bg="pink",font=("Arial",6,'roman'),padx=5).grid(row=1,column=1)
+	Label(chatpage,text="                                                                                                                                                          ",bg="light blue",fg="black").grid(row=2,column=0)
+	messagebox2=Frame(chatpage,bg="snow")
+	messagebox2.grid(row=2,column=3)
+	Label(messagebox2,text="Who are you?",bg="snow",fg="black").grid(row=2,column=4)
+	Label(messagebox2,text="14.08",bg="snow",font=("Arial",6,'roman')).grid(row=2,column=5)
+	messagebox3=Frame(chatpage,bg="pink")
+	messagebox3.grid(row=3,column=0)
+	Label(messagebox3,text="I am contact "+str(num),bg="pink",fg="black").grid(row=3,column=0)
+	Label(messagebox3,text="14.08",bg="pink",font=("Arial",6,'roman')).grid(row=3,column=1)
+	chatbox = Frame(chatpage,pady=300,bg="light blue")
+	chatbox.grid(row=5,column=1)
 	
-	else:
-		x = Tk()
-		x.configure(background="light blue")
-		x.title("Contact  "+ str(num) + " Chat Page")
-		top = Frame(x,bg="light blue",pady=20,padx=500)
-		top.grid(row=0,column=0,columnspan=30)
-		img = Image.open('pr.jpg')#the location of the image would change according to every user
-		image = img.resize((30, 30), Image.ANTIALIAS)
-		openimg = ImageTk.PhotoImage(image)
-		conbi = Button(top,image=openimg)
-		conbi.grid(row=(0),column=(0))
-		conbi.image = openimg
-		Button(top,text="Contact  "+str(num),font=("Courier",12,"bold"),bg="light green",fg="red").grid(row=0,column=1)
-		new=Frame(x,bg="pink")
-		new.grid(row=1,column=0)
-		Label(new,text="Hello!!",bg="pink",fg="black").grid(row=1,column=0)
-		Label(new,text="14.08",bg="pink",font=("Arial",6,'roman'),padx=5).grid(row=1,column=1)
-		Label(x,text="                                                                                                                                                          ",bg="light blue",fg="black").grid(row=2,column=0)
-		ne=Frame(x,bg="snow")
-		ne.grid(row=2,column=3)
-		Label(ne,text="Who are you?",bg="snow",fg="black").grid(row=2,column=4)
-		Label(ne,text="14.08",bg="snow",font=("Arial",6,'roman')).grid(row=2,column=5)
-		n=Frame(x,bg="pink")
-		n.grid(row=3,column=0)
-		Label(n,text="I am contact "+str(num),bg="pink",fg="black").grid(row=3,column=0)
-		Label(n,text="14.08",bg="pink",font=("Arial",6,'roman')).grid(row=3,column=1)
-		me = Frame(x,pady=300,bg="light blue")
-		me.grid(row=15,column=3)
-		fontfa = StringVar(value="Magneto")
-		fonts = IntVar(value=12)
-		mesfont = Font(family=fontfa.get(),size=fonts.get(),weight='normal')
-		e = Entry(me,font=mesfont,borderwidth=5,bg="yellow",justify="center")
-		e.grid(row=5,column=0)
+	entryforchatbox = Entry(chatbox,borderwidth=5,bg="yellow",justify="center")
+	entryforchatbox.grid(row=5,column=1)
 		
 		
-		img = Image.open('send.png')
-		image = img.resize((20, 20), Image.ANTIALIAS)
-		openimg = ImageTk.PhotoImage(image)
-		button1 = Button(me, image=openimg)
-		button1.grid(row=5,column=3)
-		button1.image = openimg
-		Button(top,text=" Back ",font=("Courier",8,"normal"),bg="white",fg="red",command=lambda:[x.destroy(),default()]).grid(row=0,column=5,padx=150)
-		x.mainloop()
-		x.destroy()
+	send = Image.open('send.png')
+	imageforsend = send.resize((20, 20), Image.ANTIALIAS)
+	openimageforsend = ImageTk.PhotoImage(imageforsend)
+	buttonforsend = Button(chatbox, image=openimageforsend)
+	buttonforsend.grid(row=5,column=3)
+	buttonforsend.image = openimageforsend
+		
+	chatpage.mainloop()
+		
+	
+
 def default():
 	root = Tk()
 	root.title("Chat Page")
 	root.configure(background="light green")
 
-	ame = Frame(root,bg="light green")
-	ame.grid(row=0,column=5,pady=20,padx=100)
+	userdetails = Frame(root,bg="light green")
+	userdetails.grid(row=0,column=5,pady=20,padx=100)
 
 	fontfamily = StringVar(value="Kalpurush")
 	fontSize = IntVar(value=14)
 	appFont = Font(family=fontfamily.get(),size=fontSize.get(),weight='bold')
 
 
-	myLabel = Label(ame,font=appFont,text="USERNAME",bg="light green",fg="red",padx=10)
-	myLabel.grid(row=0,column=0,columnspan=3)
+	username = Label(userdetails,font=appFont,text="USERNAME",bg="light green",fg="red",padx=10)
+	username.grid(row=0,column=0,columnspan=3)
 
-	img = Image.open('default.jfif')
-	image = img.resize((30, 30), Image.ANTIALIAS)
-	openimg = ImageTk.PhotoImage(image)
+	userimg = Image.open('default.jfif')
+	userimage = userimg.resize((30, 30), Image.ANTIALIAS)
+	openuserimage = ImageTk.PhotoImage(userimage)
 
 
-	button1 = Button(ame, image=openimg, command=click,bg="light green")
-	button1.grid(row=0,column=4)
-	button1.image = openimg
+	buttonforuserimage = Button(userdetails, image=openuserimage, command=click,bg="light green")
+	buttonforuserimage.grid(row=0,column=4)
+	buttonforuserimage.image = openuserimage
 
 
 	fontfamily = StringVar(value="Magneto")
@@ -126,24 +82,24 @@ def default():
 	frame = Frame(root,bg="light green")
 	frame.grid(row=1,column=5,padx=100)
 
-	sm = Image.open('search.png')
-	sem = sm.resize((20,20),Image.ANTIALIAS)
-	searchmenu = ImageTk.PhotoImage(sem)
+	searchimage = Image.open('search.png')
+	searchimageopen = searchimage.resize((20,20),Image.ANTIALIAS)
+	opensearchimage = ImageTk.PhotoImage(searchimageopen)
 
 
 
-	newlabel = Entry(frame,font=appFont,bg="pink",fg="blue",justify="center",borderwidth=0)
+	searchbar = Entry(frame,font=appFont,bg="pink",fg="blue",justify="center",borderwidth=0)
 	
-	newlabel.grid(row=1,column=0,columnspan=4)
+	searchbar.grid(row=1,column=0,columnspan=4)
 
-	button1 = Button(frame, image=searchmenu , bg='white', command=click)
+	button1 = Button(frame, image=opensearchimage , bg='white', command=click)
 	button1.grid(row=1,column=5)
-	button1.image = searchmenu
+	button1.image = opensearchimage
 
-	f = StringVar(value="Courier")
-	s = IntVar(value=20)
+	fontstyle = StringVar(value="Courier")
+	fontsize = IntVar(value=20)
 
-	cf = Font(family=f.get(),size=s.get(),weight='normal')
+	contactfont = Font(family=fontstyle.get(),size=fontsize.get(),weight='normal')
 
 	scrollbar = Scrollbar(root,orient="vertical")
 
@@ -158,46 +114,29 @@ def default():
 
 
 	Button(frame,bg="yellow",command= lambda: [root.destroy(),click(1)],text="Contact "+str(1),width=48,anchor="center",justify="center").grid(row=(3),column=(5))
-	conbi = Button(frame,image=openimg)
-	conbi.grid(row=(3),column=(0))
-	conbi.image = openimg
-	Button(frame,bg="yellow",command= lambda: [root.destroy(),click(2)],text="Contact "+str(1+1),width=48,anchor="center",justify="center").grid(row=(2+2),column=(5))
-	conbi = Button(frame,image=openimg)
-	conbi.grid(row=(4),column=(0))
-	conbi.image = openimg
-	Button(frame,bg="yellow",command= lambda: [root.destroy(),click(3)],text="Contact "+str(2+1),width=48,anchor="center",justify="center").grid(row=(3+2),column=(5))
-	conbi = Button(frame,image=openimg)
-	conbi.grid(row=(5),column=(0))
-	conbi.image = openimg
-	Button(frame,bg="yellow",command= lambda: [root.destroy(),click(4)],text="Contact "+str(3+1),width=48,anchor="center",justify="center").grid(row=(4+2),column=(5))
-	conbi = Button(frame,image=openimg)
-	conbi.grid(row=(6),column=(0))
-	conbi.image = openimg
-	Button(frame,bg="yellow",command= lambda: [root.destroy(),click(5)],text="Contact "+str(4+1),width=48,anchor="center",justify="center").grid(row=(5+2),column=(5))
-	conbi = Button(frame,image=openimg)
-	conbi.grid(row=(7),column=(0))
-	conbi.image = openimg
-	Button(frame,bg="yellow",command= lambda: [root.destroy(),click(6)],text="Contact "+str(5+1),width=48,anchor="center",justify="center").grid(row=(6+2),column=(5))
-	conbi = Button(frame,image=openimg)
-	conbi.grid(row=(8),column=(0))
-	conbi.image = openimg
-	Button(frame,bg="yellow",command= lambda: [root.destroy(),click(7)],text="Contact "+str(6+1),width=48,anchor="center",justify="center").grid(row=(7+2),column=(5))
-	conbi = Button(frame,image=openimg)
-	conbi.grid(row=(9),column=(0))
-	conbi.image = openimg
-	Button(frame,bg="yellow",command= lambda: [root.destroy(),click(8)],text="Contact "+str(7+1),width=48,anchor="center",justify="center").grid(row=(8+2),column=(5))
-	conbi = Button(frame,image=openimg)
-	conbi.grid(row=(10),column=(0))
-	conbi.image = openimg
-	Button(frame,bg="yellow",command= lambda: [root.destroy(),click(9)],text="Contact "+str(8+1),width=48,anchor="center",justify="center").grid(row=(9+2),column=(5))
-	conbi = Button(frame,image=openimg)
-	conbi.grid(row=(11),column=(0))
-	conbi.image = openimg
-	Button(frame,bg="yellow",command= lambda: [root.destroy(),click(10)],text="Contact "+str(9+1),width=48,anchor="center",justify="center").grid(row=(10+2),column=(5))
-	conbi = Button(frame,image=openimg)
-	conbi.grid(row=(12),column=(0))
-	conbi.image = openimg
-
+	
+	Button(frame,bg="yellow",command= lambda: [root.destroy(),click(1)],text="Contact "+str(1+1),width=48,anchor="center",justify="center").grid(row=(2+2),column=(5))
+	
+	Button(frame,bg="yellow",command= lambda: [root.destroy(),click(1)],text="Contact "+str(2+1),width=48,anchor="center",justify="center").grid(row=(3+2),column=(5))
+	
+	Button(frame,bg="yellow",command= lambda: [root.destroy(),click(1)],text="Contact "+str(3+1),width=48,anchor="center",justify="center").grid(row=(4+2),column=(5))
+	
+	Button(frame,bg="yellow",command= lambda: [root.destroy(),click(1)],text="Contact "+str(4+1),width=48,anchor="center",justify="center").grid(row=(5+2),column=(5))
+	
+	Button(frame,bg="yellow",command= lambda: [root.destroy(),click(1)],text="Contact "+str(5+1),width=48,anchor="center",justify="center").grid(row=(6+2),column=(5))
+	
+	Button(frame,bg="yellow",command= lambda: [root.destroy(),click(1)],text="Contact "+str(6+1),width=48,anchor="center",justify="center").grid(row=(7+2),column=(5))
+	
+	Button(frame,bg="yellow",command= lambda: [root.destroy(),click(1)],text="Contact "+str(7+1),width=48,anchor="center",justify="center").grid(row=(8+2),column=(5))
+	
+	Button(frame,bg="yellow",command= lambda: [root.destroy(),click(1)],text="Contact "+str(8+1),width=48,anchor="center",justify="center").grid(row=(9+2),column=(5))
+	
+	Button(frame,bg="yellow",command= lambda: [root.destroy(),click(1)],text="Contact "+str(9+1),width=48,anchor="center",justify="center").grid(row=(10+2),column=(5))
+	
+	for i in range(10):
+		conbi = Button(frame,image=openimg)
+		conbi.grid(row=(i+3),column=(0))
+		conbi.image = openimg
 
 	canvas.create_window(0, 0, anchor='nw', window=frame)
 
