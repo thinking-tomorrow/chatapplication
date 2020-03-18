@@ -2,8 +2,7 @@ from tkinter import *
 from PIL import ImageTk,Image
 from tkinter.font import Font
 import tkinter.ttk as x
-from sqlite3 import * 
-conn = connect('chat_application.db')
+
 
 def click(num):
 
