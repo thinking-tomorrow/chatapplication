@@ -1,7 +1,6 @@
 from tkinter import *
 from PIL import ImageTk, Image
 from tkinter.font import Font
-import tkinter.ttk as y
 
 
 def login(login_backend, register_backend):
@@ -115,13 +114,14 @@ def register(register_backend, login_backend):
 
 def click(num=1):
     chat_page = Tk()
+    chat_page.state('zoomed')
     chat_page.configure(background="light blue")
     chat_page.title("Contact  " + str(num) + " Chat Page")
     Button(chat_page, text=" <- Back ", font=("Courier", 8, "normal"), padx=20, bg="white", fg="red",
-           command=lambda: [y.destroy(), default()]).grid(row=0, column=0)
+           command=lambda: [chat_page.destroy(), default()]).grid(row=0, column=0)
     contact_details = Frame(chat_page, bg="light blue", pady=20, padx=50)
     contact_details.grid(row=0, column=1)
-    profileimg = Image.open('pr.jpg')  # the location of the image would change according to every user
+    profileimg = Image.open('images/pr.jpg')  # the location of the image would change according to every user
     profileimage = profileimg.resize((30, 30), Image.ANTIALIAS)
     openprofileimage = ImageTk.PhotoImage(profileimage)
     buttonforprofileimage = Button(contact_details, image=openprofileimage)
@@ -150,7 +150,7 @@ def click(num=1):
     entryforchatbox = Entry(chatbox, borderwidth=5, bg="yellow", justify="center")
     entryforchatbox.grid(row=5, column=1)
 
-    send = Image.open('send.png')
+    send = Image.open('images/send.png')
     imageforsend = send.resize((20, 20), Image.ANTIALIAS)
     openimageforsend = ImageTk.PhotoImage(imageforsend)
     buttonforsend = Button(chatbox, image=openimageforsend)
@@ -162,6 +162,7 @@ def click(num=1):
 
 def default():
     root = Tk()
+    root.state('zoomed')
     root.title("Chat Page")
     root.configure(background="light green")
 
@@ -175,7 +176,7 @@ def default():
     username = Label(userdetails, font=app_font, text="USERNAME", bg="light green", fg="red", padx=10)
     username.grid(row=0, column=0, columnspan=3)
 
-    userimg = Image.open('default.jfif')
+    userimg = Image.open('images/default.jfif')
     userimage = userimg.resize((30, 30), Image.ANTIALIAS)
     openuserimage = ImageTk.PhotoImage(userimage)
 
@@ -190,7 +191,7 @@ def default():
     frame = Frame(root, bg="light green")
     frame.grid(row=1, column=5, padx=100)
 
-    searchimage = Image.open('search.png')
+    searchimage = Image.open('images/search.png')
     searchimageopen = searchimage.resize((20, 20), Image.ANTIALIAS)
     opensearchimage = ImageTk.PhotoImage(searchimageopen)
 
@@ -214,7 +215,7 @@ def default():
 
     frame = Frame(canvas, bg="light green")
 
-    img = Image.open('pr.jpg')  # the location of the image would change according to every user
+    img = Image.open('images/pr.jpg')  # the location of the image would change according to every user
     image = img.resize((30, 30), Image.ANTIALIAS)
     openimg = ImageTk.PhotoImage(image)
 
