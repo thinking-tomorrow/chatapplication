@@ -24,7 +24,7 @@ def register(username, email, password, repeat_password, window):
                 else:
                     db.add_user(username, email, password)
                     window.destroy()
-                    view.default()
+                    view.default(username)
 
 
 def login(username, password, window):
@@ -40,9 +40,8 @@ def login(username, password, window):
             if data['Password'] != password:
                 messagebox.showerror("Error", "Invalid username or password")
             else:
-                print(True)
                 window.destroy()
-                view.default()
+                view.default(data['Username'])
 
 
 view.login(login, register)
