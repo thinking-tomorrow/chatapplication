@@ -66,7 +66,7 @@ def register(register_backend, login_backend):
     root.title("Sign-up Form")
     fontFamily = StringVar(value="Verdana")
     fontSize = IntVar(value=12)
-    fontSize2 = IntVar(value=8)
+
     fontcon = Font(family=fontFamily.get(), size=fontSize.get(), weight='normal')
 
     qw = StringVar(value="Verdana")
