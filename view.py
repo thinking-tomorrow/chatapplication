@@ -1,6 +1,7 @@
 from tkinter import *
 from PIL import ImageTk, Image
 from tkinter.font import Font
+import database_local as db
 
 user = ''
 
@@ -60,7 +61,7 @@ def login(login_backend, register_backend):
 def register(register_backend, login_backend):
     global root
     root = Tk()
-    root.attributes("-fullscreen", True)
+    root.state('zoomed')
 
     root.configure(background="light green")
     root.title("Sign-up Form")
@@ -121,38 +122,49 @@ def register(register_backend, login_backend):
     root.mainloop()
 
 
-def click(num=1):
+def click(contact):
     chat_page = Tk()
     chat_page.state('zoomed')
     chat_page.configure(background="light blue")
-    chat_page.title("Contact  " + str(num) + " Chat Page")
+    chat_page.title(contact[1])
+
     Button(chat_page, text=" <- Back ", font=("Courier", 8, "normal"), padx=20, bg="white", fg="red",
            command=lambda: [chat_page.destroy(), default(user)]).grid(row=0, column=0)
+
     contact_details = Frame(chat_page, bg="light blue", pady=20, padx=50)
     contact_details.grid(row=0, column=1)
-    profileimg = Image.open('images/pr.jpg')  # the location of the image would change according to every user
+
+    profileimg = Image.open(f'images/profile_image/{contact[4]}')  # the location of the image would change according to every user
     profileimage = profileimg.resize((30, 30), Image.ANTIALIAS)
     openprofileimage = ImageTk.PhotoImage(profileimage)
     buttonforprofileimage = Button(contact_details, image=openprofileimage)
     buttonforprofileimage.grid(row=0, column=1)
     buttonforprofileimage.image = openprofileimage
-    Button(contact_details, text="Contact  " + str(num), font=("Courier", 12, "bold"), bg="light green", fg="red").grid(
+
+    Button(contact_details, text=contact[1], font=("Courier", 12, "bold"), bg="light green", fg="red").grid(
         row=0, column=2)
+
     messagebox = Frame(chat_page, bg="pink")
     messagebox.grid(row=1, column=0)
+
     Label(messagebox, text="Hello!!", bg="pink", fg="black").grid(row=1, column=0)
     Label(messagebox, text="14.08", bg="pink", font=("Arial", 6, 'roman'), padx=5).grid(row=1, column=1)
     Label(chat_page,
           text="                                                                                                                                                          ",
           bg="light blue", fg="black").grid(row=2, column=0)
+
     messagebox2 = Frame(chat_page, bg="snow")
     messagebox2.grid(row=2, column=3)
+
     Label(messagebox2, text="Who are you?", bg="snow", fg="black").grid(row=2, column=4)
     Label(messagebox2, text="14.08", bg="snow", font=("Arial", 6, 'roman')).grid(row=2, column=5)
+
     messagebox3 = Frame(chat_page, bg="pink")
     messagebox3.grid(row=3, column=0)
-    Label(messagebox3, text="I am contact " + str(num), bg="pink", fg="black").grid(row=3, column=0)
+
+    Label(messagebox3, text="I am contact " + str(contact[1]), bg="pink", fg="black").grid(row=3, column=0)
     Label(messagebox3, text="14.08", bg="pink", font=("Arial", 6, 'roman')).grid(row=3, column=1)
+
     chatbox = Frame(chat_page, pady=300, bg="light blue")
     chatbox.grid(row=5, column=1)
 
@@ -173,23 +185,22 @@ def default(username):
     global user
     user = username
     root = Tk()
-    root.attributes('-fullscreen',True)
+    root.state('zoomed')
     root.title("Chat Page")
     root.configure(background="light green")
 
-    Button(root,text="EXIT",fg="red",command=root.destroy).grid(row=1,column=1)
+    # Button(root, text="EXIT", fg="red", command=root.destroy).grid(row=1, column=1)
 
-    username = Label(root, font=('Kalpurush',20,'bold'), text=f"{username}", bg="light green", fg="red")
-    username.place(relx=0.5,rely=0.1,anchor=N)
+    username = Label(root, font=('Kalpurush', 20, 'bold'), text=f"{username}", bg="light green", fg="red")
+    username.place(relx=0.5, rely=0.1, anchor=N)
 
     userimg = Image.open('images/default_profile_image.png')
     userimage = userimg.resize((50, 50), Image.ANTIALIAS)
     openuserimage = ImageTk.PhotoImage(userimage)
 
     buttonforuserimage = Button(root, image=openuserimage, bg="light green")
-    buttonforuserimage.place(relx=0.6,rely=0.04,anchor=CENTER)
+    buttonforuserimage.place(relx=0.5, rely=0.04, anchor=CENTER)
     buttonforuserimage.image = openuserimage
-
 
     searchimage = Image.open('images/search.png')
     searchimageopen = searchimage.resize((20, 20), Image.ANTIALIAS)
@@ -197,10 +208,10 @@ def default(username):
 
     searchbar = Entry(root, bg="pink", fg="blue", justify="center", borderwidth=3)
 
-    searchbar.place(relx=0.5,rely=0.2,width=250,anchor=CENTER)
+    searchbar.place(relx=0.5, rely=0.2, width=250, anchor=CENTER)
 
     button1 = Button(root, image=opensearchimage,width=50, bg='white')
-    button1.place(relx=0.6,rely=0.2,anchor=CENTER)
+    button1.place(relx=0.6, rely=0.2, anchor=CENTER)
     button1.image = opensearchimage
 
 
@@ -210,54 +221,68 @@ def default(username):
     # contactfont = Font(family=fontstyle.get(), size=font_size.get(), weight='normal')
     # scrollbar = Scrollbar(root, orient="vertical")
 
-
     canvas = Canvas(root, bg="light green")
 
     frame = Frame(canvas, bg="light green")
     
     scroll_y = Scrollbar(root, orient="vertical", command=canvas.yview)
 
-    img = Image.open('images/pr.jpg')  # the location of the image would change according to every user
-    image = img.resize((30, 30), Image.ANTIALIAS)
-    openimg = ImageTk.PhotoImage(image)
+    # img = Image.open('images/pr.jpg')  # the location of the image would change according to every user
+    # image = img.resize((30, 30), Image.ANTIALIAS)
+    # openimg = ImageTk.PhotoImage(image)
 
+    row = 5
+    contacts = db.get_all_contacts()
+    # print(contacts)
+    for contact in contacts:
+        Button(frame, bg="yellow", text=f"{contact[1]}\t\t {contact[3]}", width=48, height=2,
+               anchor="center", justify="center", command=lambda: [root.destroy(), click(contact)]).grid(row=row, column=4)
 
-    Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
-           anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=5,column=4)
+        img = Image.open(f'images/profile_image/{contact[4]}')  # the location of the image would change according to every user
+        image = img.resize((30, 30), Image.ANTIALIAS)
+        openimg = ImageTk.PhotoImage(image)
 
-    Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
-           anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=6,column=4)
-
-    Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
-           anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=7,column=4)
-
-    Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
-           anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=8,column=4)
-
-    Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
-           anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=9,column=4)
-
-    Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
-           anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=10,column=4)
-
-    Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
-           anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=11,column=4)
-
-    Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
-           anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=12,column=4)
-
-    Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
-           anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=13,column=4)
-
-    Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
-           anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=14,column=4)
-
-
-    for i in range(10):
         conbi = Button(frame, image=openimg)
-        
-        conbi.grid(row=(5+i),column=3)
+
+        conbi.grid(row=row, column=3)
         conbi.image = openimg
+        row += 1
+
+    # Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
+    #        anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=5,column=4)
+    #
+    # Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
+    #        anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=6,column=4)
+    #
+    # Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
+    #        anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=7,column=4)
+    #
+    # Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
+    #        anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=8,column=4)
+    #
+    # Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
+    #        anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=9,column=4)
+    #
+    # Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
+    #        anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=10,column=4)
+    #
+    # Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
+    #        anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=11,column=4)
+    #
+    # Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
+    #        anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=12,column=4)
+    #
+    # Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
+    #        anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=13,column=4)
+    #
+    # Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
+    #        anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=14,column=4)
+
+    # for i in range(10):
+    #     conbi = Button(frame, image=openimg)
+    #
+    #     conbi.grid(row=(5+i),column=3)
+    #     conbi.image = openimg
 
     canvas.create_window(0, 0, anchor='nw', window=frame)
 
@@ -266,7 +291,7 @@ def default(username):
     canvas.configure(scrollregion=canvas.bbox('all'),
                      yscrollcommand=scroll_y.set)
 
-    canvas.grid(row=12, column=12, columnspan = 2 , rowspan=2 ,padx=500,pady=200)
-    scroll_y.grid(row=12,column=13,sticky='ns', rowspan=5)
+    canvas.grid(row=12, column=12, columnspan=2, rowspan=2, padx=500, pady=200)
+    scroll_y.grid(row=12, column=13, sticky='ns', rowspan=2)
 
     root.mainloop()

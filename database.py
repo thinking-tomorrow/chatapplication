@@ -5,6 +5,7 @@ cursor = my_db.cursor(buffered=True)
 
 
 def get_user(username):
+
     sql = f"SELECT * FROM clients WHERE Username='{username}'"
     cursor.execute(sql)
     my_db.commit()
@@ -22,4 +23,3 @@ def add_user(username, email, password):
 
     cursor.execute(query, params)
     my_db.commit()
-

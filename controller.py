@@ -17,7 +17,7 @@ def register(username, email, password, repeat_password, window):
             messagebox.showerror("Error", "invalid Email")
         else:
             if db.get_user(username):
-                messagebox.showerror("Error", "You already have an account")
+                messagebox.showerror("Error", "This username has already been taken!")
             else:
                 if password != repeat_password:
                     messagebox.showerror("Error", "The passwords do not match")
