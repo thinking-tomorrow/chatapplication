@@ -177,40 +177,32 @@ def default(username):
     root.title("Chat Page")
     root.configure(background="light green")
 
-    userdetails = Frame(root, bg="light green")
-    userdetails.place(relx=0.4,rely=0.1,width=20,anchor=CENTER)
+    Button(root,text="EXIT",fg="red",command=root.destroy).grid(row=1,column=1)
 
-    fontfamily = StringVar(value="Kalpurush")
-    font_size = IntVar(value=14)
-    app_font = Font(family=fontfamily.get(), size=font_size.get(), weight='bold')
-
-    username = Label(userdetails, font=app_font, text=f"{username}", bg="light green", fg="red", padx=10)
-    username.place(relx=0.5,rely=0.1,anchor=CENTER)
+    username = Label(root, font=('Kalpurush',20,'bold'), text=f"{username}", bg="light green", fg="red")
+    username.place(relx=0.5,rely=0.1,anchor=N)
 
     userimg = Image.open('images/default_profile_image.png')
-    userimage = userimg.resize((100, 100), Image.ANTIALIAS)
+    userimage = userimg.resize((50, 50), Image.ANTIALIAS)
     openuserimage = ImageTk.PhotoImage(userimage)
 
-    buttonforuserimage = Button(userdetails, image=openuserimage, bg="light green")
-    buttonforuserimage.place(relx=0.4,rely=0.1,anchor=CENTER)
+    buttonforuserimage = Button(root, image=openuserimage, bg="light green")
+    buttonforuserimage.place(relx=0.6,rely=0.04,anchor=CENTER)
     buttonforuserimage.image = openuserimage
 
-
-
-    frame = Frame(root, bg="light green")
-    frame.place(relx=0.5,rely=0.2,width=20,anchor=CENTER)
 
     searchimage = Image.open('images/search.png')
     searchimageopen = searchimage.resize((20, 20), Image.ANTIALIAS)
     opensearchimage = ImageTk.PhotoImage(searchimageopen)
 
-    searchbar = Entry(frame, font=app_font, bg="pink", fg="blue", justify="center", borderwidth=0)
+    searchbar = Entry(root, bg="pink", fg="blue", justify="center", borderwidth=3)
 
-    searchbar.place(relx=0.5,rely=0.2,anchor=CENTER)
+    searchbar.place(relx=0.5,rely=0.2,width=250,anchor=CENTER)
 
-    button1 = Button(frame, image=opensearchimage, bg='white', command=click)
+    button1 = Button(root, image=opensearchimage,width=50, bg='white')
     button1.place(relx=0.6,rely=0.2,anchor=CENTER)
     button1.image = opensearchimage
+
 
     # fontstyle = StringVar(value="Courier")
     # font_size = IntVar(value=20)
@@ -218,51 +210,53 @@ def default(username):
     # contactfont = Font(family=fontstyle.get(), size=font_size.get(), weight='normal')
     # scrollbar = Scrollbar(root, orient="vertical")
 
+
     canvas = Canvas(root, bg="light green")
-    scroll_y = Scrollbar(root, orient="vertical", command=canvas.yview)
 
     frame = Frame(canvas, bg="light green")
+    
+    scroll_y = Scrollbar(root, orient="vertical", command=canvas.yview)
 
     img = Image.open('images/pr.jpg')  # the location of the image would change according to every user
     image = img.resize((30, 30), Image.ANTIALIAS)
     openimg = ImageTk.PhotoImage(image)
 
-    Button(frame, bg="yellow", command=lambda: [root.destroy(), click()], text="Contact " + str(1), width=48,
-           anchor="center", justify="center").place(relx=0.5,rely=0.3,anchor=CENTER)
 
-    Button(frame, bg="yellow", command=lambda: [root.destroy(), click()], text="Contact " + str(1 + 1), width=48,
-           anchor="center", justify="center").place(relx=0.5,rely=0.35,anchor=CENTER)
+    Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
+           anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=5,column=4)
 
-    Button(frame, bg="yellow", command=lambda: [root.destroy(), click()], text="Contact " + str(2 + 1), width=48,
-           anchor="center", justify="center").place(relx=0.5,rely=0.4,anchor=CENTER)
+    Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
+           anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=6,column=4)
 
-    Button(frame, bg="yellow", command=lambda: [root.destroy(), click()], text="Contact " + str(3 + 1), width=48,
-           anchor="center", justify="center").place(relx=0.5,rely=0.45,anchor=CENTER)
+    Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
+           anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=7,column=4)
 
-    Button(frame, bg="yellow", command=lambda: [root.destroy(), click()], text="Contact " + str(4 + 1), width=48,
-           anchor="center", justify="center").place(relx=0.5,rely=0.5,anchor=CENTER)
+    Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
+           anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=8,column=4)
 
-    Button(frame, bg="yellow", command=lambda: [root.destroy(), click()], text="Contact " + str(5 + 1), width=48,
-           anchor="center", justify="center").place(relx=0.5,rely=0.55,anchor=CENTER)
+    Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
+           anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=9,column=4)
 
-    Button(frame, bg="yellow", command=lambda: [root.destroy(), click()], text="Contact " + str(6 + 1), width=48,
-           anchor="center", justify="center").place(relx=0.5,rely=0.6,anchor=CENTER)
+    Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
+           anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=10,column=4)
 
-    Button(frame, bg="yellow", command=lambda: [root.destroy(), click()], text="Contact " + str(7 + 1), width=48,
-           anchor="center", justify="center").place(relx=0.5,rely=0.65,anchor=CENTER)
+    Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
+           anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=11,column=4)
 
-    Button(frame, bg="yellow", command=lambda: [root.destroy(), click()], text="Contact " + str(8 + 1), width=48,
-           anchor="center", justify="center").place(relx=0.5,rely=0.7,anchor=CENTER)
+    Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
+           anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=12,column=4)
 
-    Button(frame, bg="yellow", command=lambda: [root.destroy(), click()], text="Contact " + str(9 + 1), width=48,
-           anchor="center", justify="center").place(relx=0.5,rely=0.75,anchor=CENTER)
+    Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
+           anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=13,column=4)
 
-    rel_y = 0.25
+    Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
+           anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=14,column=4)
+
 
     for i in range(10):
         conbi = Button(frame, image=openimg)
-        rel_y += 0.05
-        conbi.place(relx=0.5,rely=rel_y,anchor=CENTER)
+        
+        conbi.grid(row=(5+i),column=3)
         conbi.image = openimg
 
     canvas.create_window(0, 0, anchor='nw', window=frame)
@@ -272,7 +266,7 @@ def default(username):
     canvas.configure(scrollregion=canvas.bbox('all'),
                      yscrollcommand=scroll_y.set)
 
-    canvas.place(relx=0.5, rely=0.3, width = 50 , height=100 ,anchor=CENTER)
-    scroll_y.place(relx=0.6,rely=0.3 , height=100, width=10 ,anchor=CENTER)
+    canvas.grid(row=12, column=12, columnspan = 2 , rowspan=2 ,padx=500,pady=200)
+    scroll_y.grid(row=12,column=13,sticky='ns', rowspan=5)
 
     root.mainloop()
