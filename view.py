@@ -2,6 +2,8 @@ from tkinter import *
 from PIL import ImageTk, Image
 from tkinter.font import Font
 
+user = ''
+
 
 def login(login_backend, register_backend):
     x = Tk()
@@ -121,52 +123,55 @@ def register(register_backend, login_backend):
 
 def click(num=1):
     chat_page = Tk()
-    chat_page.attributes('-fullscreen', True)
+    chat_page.state('zoomed')
     chat_page.configure(background="light blue")
     chat_page.title("Contact  " + str(num) + " Chat Page")
     Button(chat_page, text=" <- Back ", font=("Courier", 8, "normal"), padx=20, bg="white", fg="red",
-           command=lambda: [chat_page.destroy(), default()]).place(relx=0.1, rely=0.1, anchor=CENTER)
+           command=lambda: [chat_page.destroy(), default(user)]).grid(row=0, column=0)
     contact_details = Frame(chat_page, bg="light blue", pady=20, padx=50)
-    contact_details.place(relx=0.5, rely=0.1, width=20, anchor=CENTER)
+    contact_details.grid(row=0, column=1)
     profileimg = Image.open('images/pr.jpg')  # the location of the image would change according to every user
     profileimage = profileimg.resize((30, 30), Image.ANTIALIAS)
     openprofileimage = ImageTk.PhotoImage(profileimage)
     buttonforprofileimage = Button(contact_details, image=openprofileimage)
-    buttonforprofileimage.place(relx=0.4, rely=0.1, anchor=CENTER)
+    buttonforprofileimage.grid(row=0, column=1)
     buttonforprofileimage.image = openprofileimage
-    Button(contact_details, text="Contact  " + str(num), font=("Courier", 12, "bold"), bg="light green",
-           fg="red").place(relx=0.5, rely=0.1, anchor=CENTER)
+    Button(contact_details, text="Contact  " + str(num), font=("Courier", 12, "bold"), bg="light green", fg="red").grid(
+        row=0, column=2)
     messagebox = Frame(chat_page, bg="pink")
-    messagebox.place(relx=0.2, rely=0.2, width=20, anchor=CENTER)
-    Label(messagebox, text="Hello!!", bg="pink", fg="black").place(relx=0.2, rely=0.2, anchor=CENTER)
-    Label(messagebox, text="14.08", bg="pink", font=("Arial", 6, 'roman'), padx=5).place(relx=0.3, rely=0.2,
-                                                                                         anchor=CENTER)
-
+    messagebox.grid(row=1, column=0)
+    Label(messagebox, text="Hello!!", bg="pink", fg="black").grid(row=1, column=0)
+    Label(messagebox, text="14.08", bg="pink", font=("Arial", 6, 'roman'), padx=5).grid(row=1, column=1)
+    Label(chat_page,
+          text="                                                                                                                                                          ",
+          bg="light blue", fg="black").grid(row=2, column=0)
     messagebox2 = Frame(chat_page, bg="snow")
-    messagebox2.place(relx=0.8, rely=0.3, width=20, anchor=CENTER)
-    Label(messagebox2, text="Who are you?", bg="snow", fg="black").place(relx=0.8, rely=0.3, anchor=CENTER)
-    Label(messagebox2, text="14.08", bg="snow", font=("Arial", 6, 'roman')).place(relx=0.8, rely=0.3, anchor=CENTER)
+    messagebox2.grid(row=2, column=3)
+    Label(messagebox2, text="Who are you?", bg="snow", fg="black").grid(row=2, column=4)
+    Label(messagebox2, text="14.08", bg="snow", font=("Arial", 6, 'roman')).grid(row=2, column=5)
     messagebox3 = Frame(chat_page, bg="pink")
-    messagebox3.place(relx=0.2, rely=0.4, width=20, anchor=CENTER)
-    Label(messagebox3, text="I am contact " + str(num), bg="pink", fg="black").place(relx=0.2, rely=0.4, anchor=CENTER)
-    Label(messagebox3, text="14.08", bg="pink", font=("Arial", 6, 'roman')).place(relx=0.3, rely=0.4, anchor=CENTER)
+    messagebox3.grid(row=3, column=0)
+    Label(messagebox3, text="I am contact " + str(num), bg="pink", fg="black").grid(row=3, column=0)
+    Label(messagebox3, text="14.08", bg="pink", font=("Arial", 6, 'roman')).grid(row=3, column=1)
     chatbox = Frame(chat_page, pady=300, bg="light blue")
-    chatbox.place(relx=0.5, rely=0.8, width=20, anchor=CENTER)
+    chatbox.grid(row=5, column=1)
 
     entryforchatbox = Entry(chatbox, borderwidth=5, bg="yellow", justify="center")
-    entryforchatbox.place(relx=0.5, rely=0.8, anchor=CENTER)
+    entryforchatbox.grid(row=5, column=1)
 
     send = Image.open('images/send.png')
     imageforsend = send.resize((20, 20), Image.ANTIALIAS)
     openimageforsend = ImageTk.PhotoImage(imageforsend)
     buttonforsend = Button(chatbox, image=openimageforsend)
-    buttonforsend.place(relx=0.5, rely=0.9, anchor=CENTER)
+    buttonforsend.grid(row=5, column=3)
     buttonforsend.image = openimageforsend
 
     chat_page.mainloop()
 
 
 def default(username):
+    global user
+    user = username
     root = Tk()
     root.attributes('-fullscreen',True)
     root.title("Chat Page")
