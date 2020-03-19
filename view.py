@@ -262,7 +262,7 @@ def default(username):
     for i in range(10):
         conbi = Button(frame, image=openimg)
         rel_y += 0.05
-        conbi.grid(relx=0.5,rely=rel_y,anchor=CENTER)
+        conbi.place(relx=0.5,rely=rel_y,anchor=CENTER)
         conbi.image = openimg
 
     canvas.create_window(0, 0, anchor='nw', window=frame)
