@@ -185,9 +185,9 @@ def default(username):
     global user
     user = username
     root = Tk()
-    root.state('zoomed')
+    root.state("zoomed")
     root.title("Chat Page")
-    root.configure(background="light green")
+    root.configure(background="light green")    
 
 
 
@@ -251,7 +251,7 @@ def default(username):
     canvas.configure(scrollregion=canvas.bbox('all'),
                      yscrollcommand=scroll_y.set)
 
-    canvas.grid(row=12, column=12, columnspan=2, rowspan=2)
-    scroll_y.grid(row=12, column=13, sticky='ns', rowspan=5)
+    canvas.grid(row=12, column=12, columnspan = 2 ,rowspan=2 )
+    scroll_y.grid(row=12,column=14,rowspan=5,sticky='ns')
 
     root.mainloop()
