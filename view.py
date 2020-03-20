@@ -189,7 +189,7 @@ def default(username):
     root.title("Chat Page")
     root.configure(background="light green")
 
-    # Button(root, text="EXIT", fg="red", command=root.destroy).grid(row=1, column=1)
+
 
     username = Label(root, font=('Kalpurush', 20, 'bold'), text=f"{username}", bg="light green", fg="red")
     username.place(relx=0.5, rely=0.1, anchor=N)
@@ -214,26 +214,20 @@ def default(username):
     button1.place(relx=0.6, rely=0.2, anchor=CENTER)
     button1.image = opensearchimage
 
+    mainframe = Frame(root,bg = "light green")
+    mainframe.grid(row=10,column=10,rowspan=20,columnspan=5,padx=500,pady=142)
+    canvas = Canvas(mainframe, height = 590 , bg="light green")
 
-    # fontstyle = StringVar(value="Courier")
-    # font_size = IntVar(value=20)
-    #
-    # contactfont = Font(family=fontstyle.get(), size=font_size.get(), weight='normal')
-    # scrollbar = Scrollbar(root, orient="vertical")
-
-    canvas = Canvas(root, bg="light green")
 
     frame = Frame(canvas, bg="light green")
     
-    scroll_y = Scrollbar(root, orient="vertical", command=canvas.yview)
+    scroll_y = Scrollbar(mainframe, orient="vertical", command=canvas.yview)
 
-    # img = Image.open('images/pr.jpg')  # the location of the image would change according to every user
-    # image = img.resize((30, 30), Image.ANTIALIAS)
-    # openimg = ImageTk.PhotoImage(image)
+
 
     row = 5
     contacts = db.get_all_contacts()
-    # print(contacts)
+    
     for contact in contacts:
         Button(frame, bg="yellow", text=f"{contact[1]}\t\t {contact[3]}", width=48, height=2,
                anchor="center", justify="center", command=lambda: [root.destroy(), click(contact)]).grid(row=row, column=4)
@@ -248,41 +242,7 @@ def default(username):
         conbi.image = openimg
         row += 1
 
-    # Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
-    #        anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=5,column=4)
-    #
-    # Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
-    #        anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=6,column=4)
-    #
-    # Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
-    #        anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=7,column=4)
-    #
-    # Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
-    #        anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=8,column=4)
-    #
-    # Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
-    #        anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=9,column=4)
-    #
-    # Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
-    #        anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=10,column=4)
-    #
-    # Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
-    #        anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=11,column=4)
-    #
-    # Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
-    #        anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=12,column=4)
-    #
-    # Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
-    #        anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=13,column=4)
-    #
-    # Button(frame, bg="yellow", text="Contact " + str(1), width=48,height=2,
-    #        anchor="center", justify="center",command=lambda: [root.destroy(), click()]).grid(row=14,column=4)
 
-    # for i in range(10):
-    #     conbi = Button(frame, image=openimg)
-    #
-    #     conbi.grid(row=(5+i),column=3)
-    #     conbi.image = openimg
 
     canvas.create_window(0, 0, anchor='nw', window=frame)
 
@@ -291,7 +251,7 @@ def default(username):
     canvas.configure(scrollregion=canvas.bbox('all'),
                      yscrollcommand=scroll_y.set)
 
-    canvas.grid(row=12, column=12, columnspan=2, rowspan=2, padx=500, pady=200)
-    scroll_y.grid(row=12, column=13, sticky='ns', rowspan=2)
+    canvas.grid(row=12, column=12, columnspan=2, rowspan=2)
+    scroll_y.grid(row=12, column=13, sticky='ns', rowspan=5)
 
     root.mainloop()
