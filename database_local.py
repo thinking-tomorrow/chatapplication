@@ -21,6 +21,7 @@ def create_table():
                 ID                  INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_name           VARCHAR(256) NOT NULL,
                 message             VARCHAR(256) NOT NULL,
+                date                VARCHAR(256) NOT NULL,
                 time                VARCHAR(256) NOT NULL,
                 received            BOOLEAN NOT NULL
             );'''
@@ -49,24 +50,23 @@ def get_contact(username):
 
 
 def get_chats(username):
-    sql = f"SELECT * FROM chats WHERE user_name=={username}"
+    sql = f"SELECT * FROM chats WHERE user_name=='{username}'"
     cursor.execute(sql)
     db.commit()
 
-    if cursor.rowcount > 0:
-        return cursor.fetchall()
-    else:
-        return False
+    return cursor.fetchall()
+
 
 try:
     create_table()
 except Exception:
-    sql = "INSERT INTO contacts(user_name, email, status, profile_picture) VALUES('sajjad', 'sajjad@gmail.com', 'Hello', 'test.jpg')"
-    sql2 = "INSERT INTO chats(user_name, message, time, received) VALUES()"
+    if __name__ == '__main__':
+        # sql = "INSERT INTO contacts(user_name, email, status, profile_picture) VALUES('aritra', 'aritra@gmail.com', 'Hi', 'test4.jpg')"
+        sql2 = "INSERT INTO chats(user_name, message, date, time, received) VALUES('ayush', 'ok no problem.', '20-03-2020', '14:12', 'True')"
 
-
-    cursor.execute(sql)
-    db.commit()
-
-    print("done")
+        # cursor.execute(sql)
+        cursor.execute(sql2)
+        db.commit()
+        # print(cursor.fetchone())
+        print("done")
     pass
