@@ -215,7 +215,7 @@ def default(username):
     button1.image = opensearchimage
 
     mainframe = Frame(root,bg = "light green")
-    mainframe.grid(row=10,column=10,rowspan=20,columnspan=5,padx=500,pady=142)
+    mainframe.grid(row=10,column=10,rowspan=20,columnspan=5,padx=500,pady=160)
     canvas = Canvas(mainframe, height = 500 , bg="light green")
 
 
