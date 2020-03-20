@@ -216,7 +216,7 @@ def default(username):
 
     mainframe = Frame(root,bg = "light green")
     mainframe.grid(row=10,column=10,rowspan=20,columnspan=5,padx=500,pady=142)
-    canvas = Canvas(mainframe, height = 590 , bg="light green")
+    canvas = Canvas(mainframe, height = 500 , bg="light green")
 
 
     frame = Frame(canvas, bg="light green")
