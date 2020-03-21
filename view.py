@@ -150,22 +150,23 @@ def click(contact):
 
     if not chats:
         messagebox = Frame(chat_page, bg="pink")
-        messagebox.grid(row=1, column=2)
+        messagebox.place(relx=0.5, rely=0.3)
 
-        Label(messagebox, text="No chat history!!", bg="pink", fg="black").place(relx=0.5, rely=0.)
+        Label(messagebox, text="No chat history!!", bg="pink", fg="black").place(relx=0.5, rely=0.3)
         
     else:
-        relx_number = 0.1
-        rely_number = 0.1
+        relx_number = 0.2
+        rely_number = 0.2
         for chat in chats:
             if chat[5] == 'True':
+
                 messagebox = Frame(chat_page, bg="pink")
-                messagebox.place(relx=relx_number, rely=rely_number)
+                messagebox.place(relx= relx_number, rely= rely_number)
 
 
                 Label(messagebox, text=chat[2], bg="pink", fg="black").place(relx=relx_number, rely=rely_number)
                 Label(messagebox, text=chat[4], bg="pink", font=("Arial", 6, 'roman'), padx=5).place(
-                relx=(relx_number+ 0.25), rely=rely_number)
+                relx=(relx_number + 0.25), rely=rely_number)
                 
                 rely_number+=0.05
                 relx_number+=0.7
@@ -263,3 +264,4 @@ def default(username):
     scroll_y.grid(row=12, column=14, rowspan=5, sticky='ns')
 
     root.mainloop()
+
