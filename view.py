@@ -159,7 +159,9 @@ def click(contact):
         rely_number = 0.1
         for chat in chats:
             if chat[5] == 'True':
-                
+                messagebox = Frame(chat_page, bg="pink")
+                messagebox.place(relx=relx_number, rely=rely_number)
+
 
                 Label(messagebox, text=chat[2], bg="pink", fg="black").place(relx=relx_number, rely=rely_number)
                 Label(messagebox, text=chat[4], bg="pink", font=("Arial", 6, 'roman'), padx=5).place(
@@ -169,7 +171,7 @@ def click(contact):
                 relx_number+=0.7
             else:
                 messagebox2 = Frame(chat_page, bg="snow")
-                messagebox2.grid(row=row_number, column=3)
+                messagebox2.place(relx=relx_number, rely=rely_number)
 
                 Label(messagebox2, text=chat[2], bg="snow", fg="black").place(relx=relx_number, rely=rely_number)
                 Label(messagebox2, text=chat[4], bg="snow", font=("Arial", 6, 'roman')).place(
