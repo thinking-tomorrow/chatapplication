@@ -149,9 +149,10 @@ def click(contact):
 
 
     if not chats:
-        
+        messagebox = Frame(chat_page, bg="pink")
+        messagebox.grid(row=1, column=2)
 
-        Label(root, text="No chat history!!", bg="pink", fg="black").place(relx=0.5, rely=0.)
+        Label(messagebox, text="No chat history!!", bg="pink", fg="black").place(relx=0.5, rely=0.)
         
     else:
         relx_number = 0.1
@@ -160,17 +161,18 @@ def click(contact):
             if chat[5] == 'True':
                 
 
-                Label(root, text=chat[2], bg="pink", fg="black").place(relx=relx_number, rely=rely_number)
-                Label(root, text=chat[4], bg="pink", font=("Arial", 6, 'roman'), padx=5).place(
+                Label(messagebox, text=chat[2], bg="pink", fg="black").place(relx=relx_number, rely=rely_number)
+                Label(messagebox, text=chat[4], bg="pink", font=("Arial", 6, 'roman'), padx=5).place(
                 relx=(relx_number+ 0.25), rely=rely_number)
                 
                 rely_number+=0.05
                 relx_number+=0.7
             else:
-                
+                messagebox2 = Frame(chat_page, bg="snow")
+                messagebox2.grid(row=row_number, column=3)
 
-                Label(root, text=chat[2], bg="snow", fg="black").place(relx=relx_number, rely=rely_number)
-                Label(root, text=chat[4], bg="snow", font=("Arial", 6, 'roman')).place(
+                Label(messagebox2, text=chat[2], bg="snow", fg="black").place(relx=relx_number, rely=rely_number)
+                Label(messagebox2, text=chat[4], bg="snow", font=("Arial", 6, 'roman')).place(
                     relx=(relx_number+0.25), rely=rely_number)
 
                 rely_number+=0.05
