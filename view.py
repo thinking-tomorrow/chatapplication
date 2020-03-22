@@ -147,7 +147,6 @@ def click(contact):
     Button(contact_details, text=contact[1], font=("Courier", 12, "bold"), bg="light green", fg="red").grid(
         row=0, column=2)
 
-
     if not chats:
         messagebox = Frame(chat_page, bg="pink")
         messagebox.grid(row=1, column=2)
