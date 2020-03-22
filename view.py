@@ -152,33 +152,30 @@ def click(contact):
         messagebox = Frame(chat_page, bg="pink")
         messagebox.grid(row=1, column=2)
 
-        Label(messagebox, text="No chat history!!", bg="pink", fg="black").place(relx=0.5, rely=0.)
-        
+        Label(messagebox, text="No chat history!!", bg="pink", fg="black").grid(row=1, column=0)
+        Label(chat_page,
+              text="                                                                                                                                                          ",
+              bg="light blue", fg="black").grid(row=2, column=0)
     else:
-        relx_number = 0.1
-        rely_number = 0.1
+        row_number = 1
         for chat in chats:
             if chat[5] == 'True':
                 messagebox = Frame(chat_page, bg="pink")
-                messagebox.place(relx=relx_number, rely=rely_number)
+                messagebox.grid(row=row_number, column=0)
 
-
-                Label(messagebox, text=chat[2], bg="pink", fg="black").place(relx=relx_number, rely=rely_number)
-                Label(messagebox, text=chat[4], bg="pink", font=("Arial", 6, 'roman'), padx=5).place(
-                relx=(relx_number+ 0.25), rely=rely_number)
-                
-                rely_number+=0.05
-                relx_number+=0.7
+                Label(messagebox, text=chat[2], bg="pink", fg="black").grid(row=row_number, column=0)
+                Label(messagebox, text=chat[4], bg="pink", font=("Arial", 6, 'roman'), padx=5).grid(row=row_number, column=1)
+                Label(chat_page,
+                      text="                                                                                                                                                          ",
+                      bg="light blue", fg="black").grid(row=row_number+1, column=0)
             else:
                 messagebox2 = Frame(chat_page, bg="snow")
-                messagebox2.place(relx=relx_number, rely=rely_number)
+                messagebox2.grid(row=row_number, column=3)
 
-                Label(messagebox2, text=chat[2], bg="snow", fg="black").place(relx=relx_number, rely=rely_number)
-                Label(messagebox2, text=chat[4], bg="snow", font=("Arial", 6, 'roman')).place(
-                    relx=(relx_number+0.25), rely=rely_number)
+                Label(messagebox2, text=chat[2], bg="snow", fg="black").grid(row=row_number, column=4)
+                Label(messagebox2, text=chat[4], bg="snow", font=("Arial", 6, 'roman')).grid(row=row_number, column=5)
 
-                rely_number+=0.05
-                relx_number-=0.7
+            row_number += 1
 
     chatbox = Frame(chat_page, pady=300, bg="light blue")
     chatbox.grid(row=5, column=1)
