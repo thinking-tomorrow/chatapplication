@@ -162,31 +162,40 @@ def click(contact):
                 messagebox = Frame(chat_page, bg="pink")
                 messagebox.grid(row=row_number, column=0)
 
-                Label(messagebox, text=chat[2], bg="pink", fg="black").grid(row=row_number, column=0)
-                Label(messagebox, text=chat[4], bg="pink", font=("Arial", 6, 'roman'), padx=5).grid(row=row_number, column=1)
+                Label(messagebox, text=chat[2], bg="pink", fg="black").grid(row=row_number, column=0,pady=10)
+                Label(messagebox, text=chat[4], bg="pink", font=("Arial", 6, 'roman'), padx=5,pady=10).grid(row=row_number,
+                                                                                                    column=1)
                 Label(chat_page,
                       text="                                                                                                                                                          ",
-                      bg="light blue", fg="black").grid(row=row_number+1, column=0)
+                      bg="light blue", fg="black").grid(row=row_number + 1, column=0)
+
+
+
+                row_number+=2
+
             else:
-                messagebox2 = Frame(chat_page, bg="snow")
-                messagebox2.grid(row=row_number, column=3)
+                messagebox2 = Frame(chat_page,bg="snow")
+                messagebox2.grid(row=row_number, column=3,columnspan=3)
 
-                Label(messagebox2, text=chat[2], bg="snow", fg="black").grid(row=row_number, column=4)
-                Label(messagebox2, text=chat[4], bg="snow", font=("Arial", 6, 'roman')).grid(row=row_number, column=5)
+                Label(messagebox2, text=chat[2], bg="snow", fg="black",pady=10).grid(row=row_number, column=4)
+                Label(messagebox2, text=chat[4], bg="snow", font=("Arial", 6, 'roman'),pady=10).grid(row=row_number, column=5)
+                Label(chat_page,
+                      text="                            ",
+                      bg="light blue").grid(row= row_number + 1, column=4)
 
-            row_number += 1
+                row_number += 2
 
-    chatbox = Frame(chat_page, pady=300, bg="light blue")
-    chatbox.grid(row=5, column=1)
+    #chatbox = Frame(chat_page, bg="light blue")
+    #chatbox.place(relx=0.5,rely=0.9)
 
-    entryforchatbox = Entry(chatbox, borderwidth=5, bg="yellow", justify="center")
-    entryforchatbox.grid(row=5, column=1)
+    entryforchatbox = Entry(chat_page, borderwidth=5, bg="yellow", justify="center")
+    entryforchatbox.place(relx=0.5,rely=0.9)
 
     send = Image.open('images/send.png')
     imageforsend = send.resize((20, 20), Image.ANTIALIAS)
     openimageforsend = ImageTk.PhotoImage(imageforsend)
-    buttonforsend = Button(chatbox, image=openimageforsend)
-    buttonforsend.grid(row=5, column=3)
+    buttonforsend = Button(chat_page, image=openimageforsend)
+    buttonforsend.place(relx=0.6,rely=0.9)
     buttonforsend.image = openimageforsend
 
     chat_page.mainloop()
