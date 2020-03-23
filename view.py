@@ -152,20 +152,18 @@ def click(contact):
         messagebox.grid(row=1, column=2)
 
         Label(messagebox, text="No chat history!!", bg="pink", fg="black").grid(row=1, column=0)
-        Label(chat_page,
-              text="                                                                                                                                                          ",
-              bg="light blue", fg="black").grid(row=2, column=0)
+
     else:
 
         mainframe = Frame(chat_page, bg="light blue")
-        mainframe.grid(row=0, column=0, rowspan=200, columnspan=20)
+        mainframe.grid(row=1, column=0, rowspan=200, columnspan=20)
         canvas = Canvas(mainframe, height=400, width=1250, bg="light blue")
 
         frame = Frame(canvas, bg="light blue")
 
         scroll_y = Scrollbar(mainframe, orient="vertical", command=canvas.yview)
 
-        row_number = 1
+        row_number = 2
         for chat in chats:
             if chat[5] == 'True':
                 messagebox = Frame(frame, bg="pink")
@@ -174,22 +172,17 @@ def click(contact):
                 Label(messagebox, text=chat[2], bg="pink", fg="black").grid(row=row_number, column=0)
                 Label(messagebox, text=chat[4], bg="pink", font=("Arial", 6, 'roman'), padx=5,pady=10).grid(row=row_number,
                                                                                                     column=1)
-                Label(chat_page,
-                      text="                                                                                                                                                          ",
-                      bg="light blue", fg="black").grid(row=row_number + 1, column=0)
 
 
 
                 row_number+=2
 
             else:
-                messagebox2 = Frame(frame, bg="light blue",padx=500)
-                messagebox2.grid(row=row_number, column=2, columnspan=3)
+                messagebox2 = Frame(frame, bg="light blue",padx=800)
+                messagebox2.grid(row=row_number, column=13, columnspan=3)
 
                 Label(messagebox2, text=chat[2], bg="snow", fg="black").grid(row=row_number, column=15)
                 Label(messagebox2, text=chat[4], bg="light blue", fg="red", font=("Arial", 6, 'roman')).grid(row=row_number+1, column=16)
-                Label(chat_page,
-                      text="                            ",bg="light blue").grid(row= row_number + 1, column=17)
 
                 row_number += 2
 
