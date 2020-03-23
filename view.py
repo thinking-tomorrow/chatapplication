@@ -134,8 +134,8 @@ def click(contact):
     Button(chat_page, text=" <- Back ", font=("Courier", 8, "normal"), padx=20, bg="white", fg="red",
            command=lambda: [chat_page.destroy(), default(user)]).grid(row=0, column=0)
 
-    contact_details = Frame(chat_page, bg="light blue", pady=20, padx=50)
-    contact_details.grid(row=0, column=1)
+    contact_details = Frame(chat_page, bg="light blue", pady=20, padx=300)
+    contact_details.grid(row=0, column=1,columnspan=2)
 
     profileimg = Image.open(f'images/profile_image/{contact[4]}')  # the location of the image would change according to every user
     profileimage = profileimg.resize((30, 30), Image.ANTIALIAS)
@@ -183,6 +183,7 @@ def click(contact):
 
                 Label(messagebox2, text=chat[2], bg="snow", fg="black").grid(row=row_number, column=15)
                 Label(messagebox2, text=chat[4], bg="light blue", fg="red", font=("Arial", 6, 'roman')).grid(row=row_number+1, column=16)
+
 
                 row_number += 2
 
