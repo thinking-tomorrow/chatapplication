@@ -62,7 +62,7 @@ try:
 except Exception:
     if __name__ == '__main__':
         # sql = "INSERT INTO contacts(user_name, email, status, profile_picture) VALUES('aritra', 'aritra@gmail.com', 'Hi', 'test4.jpg')"
-        sql2 = "INSERT INTO chats(user_name, message, date, time, received) VALUES('ayush', 'Bye!!', '20-03-2020', '14:13', 'False')"
+        sql2 = "INSERT INTO chats(user_name, message, date, time, received) VALUES('ayush', 'Arye u fine ?', '20-03-2020', '14:13', 'True')"
 
         # cursor.execute(sql)
         cursor.execute(sql2)
