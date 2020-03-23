@@ -156,13 +156,22 @@ def click(contact):
               text="                                                                                                                                                          ",
               bg="light blue", fg="black").grid(row=2, column=0)
     else:
+
+        mainframe = Frame(chat_page, bg="light blue")
+        mainframe.grid(row=0, column=0, rowspan=200, columnspan=20)
+        canvas = Canvas(mainframe, height=400, width=1250, bg="light blue")
+
+        frame = Frame(canvas, bg="light blue")
+
+        scroll_y = Scrollbar(mainframe, orient="vertical", command=canvas.yview)
+
         row_number = 1
         for chat in chats:
             if chat[5] == 'True':
-                messagebox = Frame(chat_page, bg="pink")
+                messagebox = Frame(frame, bg="pink")
                 messagebox.grid(row=row_number, column=0)
 
-                Label(messagebox, text=chat[2], bg="pink", fg="black").grid(row=row_number, column=0,pady=10)
+                Label(messagebox, text=chat[2], bg="pink", fg="black").grid(row=row_number, column=0)
                 Label(messagebox, text=chat[4], bg="pink", font=("Arial", 6, 'roman'), padx=5,pady=10).grid(row=row_number,
                                                                                                     column=1)
                 Label(chat_page,
@@ -174,28 +183,34 @@ def click(contact):
                 row_number+=2
 
             else:
-                messagebox2 = Frame(chat_page,bg="snow")
-                messagebox2.grid(row=row_number, column=3,columnspan=3)
+                messagebox2 = Frame(frame, bg="light blue",padx=500)
+                messagebox2.grid(row=row_number, column=2, columnspan=3)
 
-                Label(messagebox2, text=chat[2], bg="snow", fg="black",pady=10).grid(row=row_number, column=4)
-                Label(messagebox2, text=chat[4], bg="snow", font=("Arial", 6, 'roman'),pady=10).grid(row=row_number, column=5)
+                Label(messagebox2, text=chat[2], bg="snow", fg="black").grid(row=row_number, column=15)
+                Label(messagebox2, text=chat[4], bg="light blue", fg="red", font=("Arial", 6, 'roman')).grid(row=row_number+1, column=16)
                 Label(chat_page,
-                      text="                            ",
-                      bg="light blue").grid(row= row_number + 1, column=4)
+                      text="                            ",bg="light blue").grid(row= row_number + 1, column=17)
 
                 row_number += 2
 
-    #chatbox = Frame(chat_page, bg="light blue")
-    #chatbox.place(relx=0.5,rely=0.9)
+        canvas.create_window(0, 0, anchor='nw', window=frame)
+
+        canvas.update_idletasks()
+
+        canvas.configure(scrollregion=canvas.bbox('all'), yscrollcommand=scroll_y.set)
+
+        canvas.grid(row=0, column=0, columnspan=20, rowspan=200)
+        scroll_y.grid(row=0, column=21, rowspan=300, sticky='ns')
+
 
     entryforchatbox = Entry(chat_page, borderwidth=5, bg="yellow", justify="center")
-    entryforchatbox.place(relx=0.5,rely=0.9)
+    entryforchatbox.place(relx=0.4,rely=0.9)
 
     send = Image.open('images/send.png')
     imageforsend = send.resize((20, 20), Image.ANTIALIAS)
     openimageforsend = ImageTk.PhotoImage(imageforsend)
     buttonforsend = Button(chat_page, image=openimageforsend)
-    buttonforsend.place(relx=0.6,rely=0.9)
+    buttonforsend.place(relx=0.5,rely=0.9)
     buttonforsend.image = openimageforsend
 
     chat_page.mainloop()
