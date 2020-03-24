@@ -1,4 +1,5 @@
 import sqlite3
+import datetime
 
 db = sqlite3.connect('chat_application_local.db')
 cursor = db.cursor()
@@ -57,16 +58,27 @@ def get_chats(username):
     return cursor.fetchall()
 
 
+def add_message(message, contact, now):
+    date = now.date()
+    time = str(now.time()).split('.')[0]
+    sql = f"INSERT INTO chats(user_name, message, date, time, received) VALUES('{contact}', '{message}', '{date}', '{time}', 'False')"
+    cursor.execute(sql)
+    db.commit()
+    return True
+
+
 try:
     create_table()
 except Exception:
     if __name__ == '__main__':
+        pass
         # sql = "INSERT INTO contacts(user_name, email, status, profile_picture) VALUES('aritra', 'aritra@gmail.com', 'Hi', 'test4.jpg')"
-        sql2 = "INSERT INTO chats(user_name, message, date, time, received) VALUES('ayush', 'Bye!! (final time)', '20-03-2020', '14:13', 'False')"
+        # sql2 = "INSERT INTO chats(user_name, message, date, time, received) VALUES('ayush', 'Bye!! (final time)', '20-03-2020', '14:13', 'False')"
 
         # cursor.execute(sql)
-        cursor.execute(sql2)
-        db.commit()
+        # cursor.execute(sql2)
+        # db.commit()
         # print(cursor.fetchone())
-        print("done")
-    pass
+        # print("done")
+    else:
+        pass

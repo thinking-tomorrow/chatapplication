@@ -1,9 +1,22 @@
 from tkinter import messagebox
-import database as db
+import server_local
+import database_local
+import datetime
 import view
 import re
 
 regex = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
+
+
+def send_message(message, contact, page):
+    page.destroy()
+    if str(message).strip() == '':
+        view.click(contact, send_message)
+    else:
+        now = datetime.datetime.now()
+        # server_local.send_message(message, contact[1], now)
+        database_local.add_message(message, contact[1], now)
+        view.click(contact, send_message)
 
 
 def register(username, email, password, repeat_password, window):
@@ -16,15 +29,15 @@ def register(username, email, password, repeat_password, window):
         if not (re.search(regex, email)):
             messagebox.showerror("Error", "invalid Email")
         else:
-            if db.get_user(username):
+            if server_local.get_user(username):
                 messagebox.showerror("Error", "This username has already been taken!")
             else:
                 if password != repeat_password:
                     messagebox.showerror("Error", "The passwords do not match")
                 else:
-                    db.add_user(username, email, password)
+                    server_local.add_user(username, email, password)
                     window.destroy()
-                    view.default(username)
+                    view.default(username, send_message)
 
 
 def login(username, password, window):
@@ -32,7 +45,7 @@ def login(username, password, window):
     if username == '' or password == '':
         messagebox.showerror("Error", "Please fill in all the fields")
     else:
-        data = db.get_user(username)
+        data = server_local.get_user(username)
 
         if not data:
             messagebox.showerror("Error", "Invalid username or password")
@@ -41,7 +54,7 @@ def login(username, password, window):
                 messagebox.showerror("Error", "Invalid username or password")
             else:
                 window.destroy()
-                view.default(data['Username'])
+                view.default(data['Username'], send_message)
 
 
 view.login(login, register)

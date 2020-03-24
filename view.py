@@ -122,7 +122,7 @@ def register(register_backend, login_backend):
     root.mainloop()
 
 
-def click(contact):
+def click(contact, send_function):
     chat_page = Tk()
     chat_page.state('zoomed')
     chat_page.configure(background="light blue")
@@ -131,12 +131,12 @@ def click(contact):
     chats = db.get_chats(contact[1])
 
     Button(chat_page, text=" <- Back ", font=("Courier", 8, "normal"), padx=20, bg="white", fg="red",
-           command=lambda: [chat_page.destroy(), default(user)]).grid(row=0, column=0)
+           command=lambda: [chat_page.destroy(), default(user, send_function)]).grid(row=0, column=0)
 
     contact_details = Frame(chat_page, bg="light blue", pady=20, padx=300)
-    contact_details.grid(row=0, column=1,columnspan=2)
+    contact_details.grid(row=0, column=1, columnspan=2)
 
-    profileimg = Image.open(f'images/profile_image/{contact[4]}')  # the location of the image would change according to every user
+    profileimg = Image.open(f'images/profile_image/{contact[4]}')
     profileimage = profileimg.resize((30, 30), Image.ANTIALIAS)
     openprofileimage = ImageTk.PhotoImage(profileimage)
     buttonforprofileimage = Button(contact_details, image=openprofileimage)
@@ -169,20 +169,15 @@ def click(contact):
                 messagebox.grid(row=row_number, column=0)
 
                 Label(messagebox, text=chat[2], bg="pink", fg="black").grid(row=row_number, column=0)
-                Label(messagebox, text=chat[4], bg="pink", font=("Arial", 6, 'roman'), padx=5,pady=10).grid(row=row_number,
-                                                                                                    column=1)
-
-
-
-                row_number+=2
+                Label(messagebox, text=chat[4], bg="pink", font=("Arial", 6, 'roman'), padx=5, pady=10).grid(row=row_number, column=1)
+                row_number += 2
 
             else:
-                messagebox2 = Frame(frame, bg="light blue",padx=800)
+                messagebox2 = Frame(frame, bg="light blue", padx=800)
                 messagebox2.grid(row=row_number, column=13, columnspan=3)
 
                 Label(messagebox2, text=chat[2], bg="snow", fg="black").grid(row=row_number, column=15)
                 Label(messagebox2, text=chat[4], bg="light blue", fg="red", font=("Arial", 6, 'roman')).grid(row=row_number+1, column=16)
-
 
                 row_number += 2
 
@@ -195,21 +190,21 @@ def click(contact):
         canvas.grid(row=0, column=0, columnspan=20, rowspan=200)
         scroll_y.grid(row=0, column=21, rowspan=300, sticky='ns')
 
-
     entryforchatbox = Entry(chat_page, borderwidth=5, bg="yellow", justify="center")
-    entryforchatbox.place(relx=0.4,rely=0.9)
+    entryforchatbox.place(relx=0.4, rely=0.9)
 
     send = Image.open('images/send.png')
     imageforsend = send.resize((20, 20), Image.ANTIALIAS)
     openimageforsend = ImageTk.PhotoImage(imageforsend)
-    buttonforsend = Button(chat_page, image=openimageforsend)
-    buttonforsend.place(relx=0.5,rely=0.9)
+    buttonforsend = Button(chat_page, image=openimageforsend, command=lambda: [send_function(entryforchatbox.get(), contact, chat_page)])
+
+    buttonforsend.place(relx=0.5, rely=0.9)
     buttonforsend.image = openimageforsend
 
     chat_page.mainloop()
 
 
-def default(username):
+def default(username, send):
     global user
     user = username
     root = Tk()
@@ -240,9 +235,9 @@ def default(username):
     button1.place(relx=0.6, rely=0.2, anchor=CENTER)
     button1.image = opensearchimage
 
-    mainframe = Frame(root,bg = "light green")
-    mainframe.grid(row=10,column=10,rowspan=20,columnspan=5,padx=500,pady=160)
-    canvas = Canvas(mainframe, height = 500 , bg="light green")
+    mainframe = Frame(root, bg="light green")
+    mainframe.grid(row=10, column=10, rowspan=20, columnspan=5, padx=500, pady=160)
+    canvas = Canvas(mainframe, height=500, bg="light green")
 
     frame = Frame(canvas, bg="light green")
     
@@ -253,10 +248,9 @@ def default(username):
     
     for contact in contacts:
         btn = Button(frame, bg="yellow", text=f"{contact[1]}\t\t {contact[3]}", width=48, height=2,
-               anchor="center", justify="center", command=lambda c=contact: [root.destroy(), click(c)]).grid(row=row, column=4)
+                     anchor="center", justify="center", command=lambda c=contact: [root.destroy(), click(c, send)]).grid(row=row, column=4)
 
-
-        img = Image.open(f'images/profile_image/{contact[4]}')  # the location of the image would change according to every user
+        img = Image.open(f'images/profile_image/{contact[4]}')
         image = img.resize((30, 30), Image.ANTIALIAS)
         openimg = ImageTk.PhotoImage(image)
 
