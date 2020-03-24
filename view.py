@@ -129,7 +129,6 @@ def click(contact):
     chat_page.title(contact[1])
 
     chats = db.get_chats(contact[1])
-    print(chats)
 
     Button(chat_page, text=" <- Back ", font=("Courier", 8, "normal"), padx=20, bg="white", fg="red",
            command=lambda: [chat_page.destroy(), default(user)]).grid(row=0, column=0)

@@ -40,7 +40,7 @@ def get_all_contacts():
 
 def get_contact(username):
     sql = f"SELECT * FROM contacts WHERE user_name=={username}"
-    cursor.execute()
+    cursor.execute(sql)
     db.commit()
 
     if cursor.rowcount > 0:
