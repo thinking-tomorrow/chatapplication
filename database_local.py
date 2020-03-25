@@ -58,15 +58,6 @@ def get_chats(username):
     return cursor.fetchall()
 
 
-def search_user(search_query):
-    sql = f"SELECT * FROM contacts WHERE user_name LIKE '{search_query}%'"
-    cursor.execute(sql)
-    db.commit()
-
-    return cursor.fetchall()
-
-
-
 def add_message(message, contact, now):
     date = now.date()
     time = str(now.time()).split('.')[0]
@@ -74,6 +65,14 @@ def add_message(message, contact, now):
     cursor.execute(sql)
     db.commit()
     return True
+
+
+def search_user(search_query):
+    sql = f"SELECT * FROM contacts WHERE user_name LIKE '{search_query}%'"
+    cursor.execute(sql)
+    db.commit()
+
+    return cursor.fetchall()
 
 
 try:
