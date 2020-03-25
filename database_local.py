@@ -67,6 +67,13 @@ def add_message(message, contact, now):
     return True
 
 
+def search_user(search_query):
+    sql = f"SELECT * FROM contacts WHERE user_name LIKE '%{search_query}%'"
+    cursor.execute(sql)
+    db.commit()
+
+    return cursor.fetchall()
+
 try:
     create_table()
 except Exception:
