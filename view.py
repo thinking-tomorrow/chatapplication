@@ -205,32 +205,7 @@ def click(contact, send_function):
     chat_page.mainloop()
 
 
-def sea(se,send):
-    results = db.search_user(se)
-    print(results)
-    p = Tk()
-    p.title("Search Results")
-    p.state('zoomed')
-    p.configure(background="light green")
-    rely = 0.5
-    for result in results:
-        Button(p,text = f'{result[1]} \t\t {result[3]}',bg="yellow",command = lambda c = result : [click(c,send)]).place(relx=0.5,rely=rely)
-        img = Image.open(f'images/profile_image/{result[4]}')
-
-        image = img.resize((30, 30), Image.ANTIALIAS)
-        openimg = ImageTk.PhotoImage(image,master=p)
-
-        conbi = Button(p, image=openimg)
-
-        conbi.place(relx=0.475,rely=(rely-0.01))
-        conbi.image = openimg
-
-        rely+=0.1
-    p.mainloop()
-
-
-
-def default(username,send):
+def default(username, send, query='all'):
     global user
     user = username
     root = Tk()
@@ -243,16 +218,16 @@ def default(username,send):
 
     userimg = Image.open('images/default_profile_image.png')
     userimage = userimg.resize((50, 50), Image.ANTIALIAS)
-    openuserimage = ImageTk.PhotoImage(userimage,master=root)
+    openuserimage = ImageTk.PhotoImage(userimage, master=root)
 
-    buttonforuserimage = Button(root, image=openuserimage, bg="light green", command=lambda: sea(searchbar.get()))
+    buttonforuserimage = Button(root, image=openuserimage, bg="light green")
     buttonforuserimage.place(relx=0.5, rely=0.04, anchor=CENTER)
     buttonforuserimage.image = openuserimage
 
-    searchbar = Entry(root, bg="pink", fg="blue", justify="center", borderwidth=3)
+    pathVar = StringVar()
+    searchbar = Entry(root, bg="pink", fg="blue", justify="center", borderwidth=3, textvariable=pathVar)
 
     searchbar.place(relx=0.5, rely=0.2, width=250, anchor=CENTER)
-
 
     mainframe = Frame(root, bg="light green")
     mainframe.grid(row=10, column=10, rowspan=20, columnspan=5, padx=500, pady=160)
@@ -263,18 +238,15 @@ def default(username,send):
     scroll_y = Scrollbar(mainframe, orient="vertical", command=canvas.yview)
 
     row = 5
-    contacts = db.get_all_contacts()
-    global text
-    text = ''
 
-    list = []
-    imglist = []
+    if query == 'all':
+        contacts = db.get_all_contacts()
+    else:
+        contacts = db.search_user(query)
+
     for contact in contacts:
-        text = f"{contact[1]}\t\t {contact[3]}"
-        btn = Button(frame, bg="yellow", text= text , width=48, height=2,
+        Button(frame, bg="yellow", text=f"{contact[1]}\t\t {contact[3]}", width=48, height=2,
                      anchor="center", justify="center", command=lambda c=contact: [root.destroy(), click(c, send)]).grid(row=row, column=4)
-
-        list.append(contact[1])
 
         img = Image.open(f'images/profile_image/{contact[4]}')
 
@@ -286,13 +258,16 @@ def default(username,send):
         conbi.grid(row=row, column=3)
         conbi.image = openimg
         row += 1
+    else:
+        pass
+        # @HrishikeshBhanja Please insert a no result found label over here
+        # Button(frame, bg="yellow", text="No result found", width=52, height=2, anchor="center", justify="center").grid(row=row, column=4)
 
     searchimage = Image.open('images/search.png')
     searchimageopen = searchimage.resize((20, 20), Image.ANTIALIAS)
-    opensearchimage = ImageTk.PhotoImage(searchimageopen,master=root)
+    opensearchimage = ImageTk.PhotoImage(searchimageopen, master=root)
 
-
-    button1 = Button(root, image=opensearchimage, command= lambda: sea(searchbar.get(),send))
+    button1 = Button(root, image=opensearchimage, command=lambda: [root.destroy(), default(user, send, pathVar.get())])
     button1.place(relx=0.6, rely=0.2, anchor=CENTER)
     button1.image = opensearchimage
 
