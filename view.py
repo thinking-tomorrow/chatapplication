@@ -243,7 +243,7 @@ def default(username,send):
 
     userimg = Image.open('images/default_profile_image.png')
     userimage = userimg.resize((50, 50), Image.ANTIALIAS)
-    openuserimage = ImageTk.PhotoImage(userimage)
+    openuserimage = ImageTk.PhotoImage(userimage,master=root)
 
     buttonforuserimage = Button(root, image=openuserimage, bg="light green", command=lambda: sea(searchbar.get()))
     buttonforuserimage.place(relx=0.5, rely=0.04, anchor=CENTER)
@@ -279,7 +279,7 @@ def default(username,send):
         img = Image.open(f'images/profile_image/{contact[4]}')
 
         image = img.resize((30, 30), Image.ANTIALIAS)
-        openimg = ImageTk.PhotoImage(image)
+        openimg = ImageTk.PhotoImage(image,master=root)
 
         conbi = Button(frame, image=openimg)
 
@@ -289,7 +289,7 @@ def default(username,send):
 
     searchimage = Image.open('images/search.png')
     searchimageopen = searchimage.resize((20, 20), Image.ANTIALIAS)
-    opensearchimage = ImageTk.PhotoImage(searchimageopen)
+    opensearchimage = ImageTk.PhotoImage(searchimageopen,master=root)
 
 
     button1 = Button(root, image=opensearchimage, command= lambda: sea(searchbar.get(),send))
