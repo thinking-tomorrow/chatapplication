@@ -138,7 +138,7 @@ def click(contact, send_function):
 
     profileimg = Image.open(f'images/profile_image/{contact[4]}')
     profileimage = profileimg.resize((30, 30), Image.ANTIALIAS)
-    openprofileimage = ImageTk.PhotoImage(profileimage)
+    openprofileimage = ImageTk.PhotoImage(profileimage,master=chat_page)
     buttonforprofileimage = Button(contact_details, image=openprofileimage)
     buttonforprofileimage.grid(row=0, column=1)
     buttonforprofileimage.image = openprofileimage
@@ -186,6 +186,7 @@ def click(contact, send_function):
         canvas.update_idletasks()
 
         canvas.configure(scrollregion=canvas.bbox('all'), yscrollcommand=scroll_y.set)
+        canvas.yview_scroll(1,"page")
         canvas.yview_moveto(1)
         canvas.grid(row=0, column=0, columnspan=20, rowspan=200)
         scroll_y.grid(row=0, column=21, rowspan=300, sticky='ns')
@@ -195,7 +196,7 @@ def click(contact, send_function):
 
     send = Image.open('images/send.png')
     imageforsend = send.resize((20, 20), Image.ANTIALIAS)
-    openimageforsend = ImageTk.PhotoImage(imageforsend)
+    openimageforsend = ImageTk.PhotoImage(imageforsend,master=chat_page)
     buttonforsend = Button(chat_page, image=openimageforsend, command=lambda: [send_function(entryforchatbox.get(), contact, chat_page)])
 
     buttonforsend.place(relx=0.5, rely=0.9)
@@ -204,13 +205,38 @@ def click(contact, send_function):
     chat_page.mainloop()
 
 
-def default(username, send):
+def sea(se,send):
+    results = db.search_user(se)
+    print(results)
+    p = Tk()
+    p.title("Search Results")
+    p.state('zoomed')
+    p.configure(background="light green")
+    rely = 0.5
+    for result in results:
+        Button(p,text = f'{result[1]} \t\t {result[3]}',bg="yellow",command = lambda c = result : [click(c,send)]).place(relx=0.5,rely=rely)
+        img = Image.open(f'images/profile_image/{result[4]}')
+
+        image = img.resize((30, 30), Image.ANTIALIAS)
+        openimg = ImageTk.PhotoImage(image,master=p)
+
+        conbi = Button(p, image=openimg)
+
+        conbi.place(relx=0.475,rely=(rely-0.01))
+        conbi.image = openimg
+
+        rely+=0.1
+    p.mainloop()
+
+
+
+def default(username,send):
     global user
     user = username
     root = Tk()
     root.state("zoomed")
     root.title("Chat Page")
-    root.configure(background="light green")    
+    root.configure(background="light green")
 
     username = Label(root, font=('Kalpurush', 20, 'bold'), text=f"{username}", bg="light green", fg="red")
     username.place(relx=0.5, rely=0.1, anchor=N)
@@ -219,38 +245,39 @@ def default(username, send):
     userimage = userimg.resize((50, 50), Image.ANTIALIAS)
     openuserimage = ImageTk.PhotoImage(userimage)
 
-    buttonforuserimage = Button(root, image=openuserimage, bg="light green")
+    buttonforuserimage = Button(root, image=openuserimage, bg="light green", command=lambda: sea(searchbar.get()))
     buttonforuserimage.place(relx=0.5, rely=0.04, anchor=CENTER)
     buttonforuserimage.image = openuserimage
-
-    searchimage = Image.open('images/search.png')
-    searchimageopen = searchimage.resize((20, 20), Image.ANTIALIAS)
-    opensearchimage = ImageTk.PhotoImage(searchimageopen)
 
     searchbar = Entry(root, bg="pink", fg="blue", justify="center", borderwidth=3)
 
     searchbar.place(relx=0.5, rely=0.2, width=250, anchor=CENTER)
 
-    button1 = Button(root, image=opensearchimage,width=50, bg='white')
-    button1.place(relx=0.6, rely=0.2, anchor=CENTER)
-    button1.image = opensearchimage
 
     mainframe = Frame(root, bg="light green")
     mainframe.grid(row=10, column=10, rowspan=20, columnspan=5, padx=500, pady=160)
     canvas = Canvas(mainframe, height=500, bg="light green")
 
     frame = Frame(canvas, bg="light green")
-    
+
     scroll_y = Scrollbar(mainframe, orient="vertical", command=canvas.yview)
 
     row = 5
     contacts = db.get_all_contacts()
-    
+    global text
+    text = ''
+
+    list = []
+    imglist = []
     for contact in contacts:
-        btn = Button(frame, bg="yellow", text=f"{contact[1]}\t\t {contact[3]}", width=48, height=2,
+        text = f"{contact[1]}\t\t {contact[3]}"
+        btn = Button(frame, bg="yellow", text= text , width=48, height=2,
                      anchor="center", justify="center", command=lambda c=contact: [root.destroy(), click(c, send)]).grid(row=row, column=4)
 
+        list.append(contact[1])
+
         img = Image.open(f'images/profile_image/{contact[4]}')
+
         image = img.resize((30, 30), Image.ANTIALIAS)
         openimg = ImageTk.PhotoImage(image)
 
@@ -259,6 +286,15 @@ def default(username, send):
         conbi.grid(row=row, column=3)
         conbi.image = openimg
         row += 1
+
+    searchimage = Image.open('images/search.png')
+    searchimageopen = searchimage.resize((20, 20), Image.ANTIALIAS)
+    opensearchimage = ImageTk.PhotoImage(searchimageopen)
+
+
+    button1 = Button(root, image=opensearchimage, command= lambda: sea(searchbar.get(),send))
+    button1.place(relx=0.6, rely=0.2, anchor=CENTER)
+    button1.image = opensearchimage
 
     canvas.create_window(0, 0, anchor='nw', window=frame)
 
