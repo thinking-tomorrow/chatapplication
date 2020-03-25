@@ -161,6 +161,7 @@ def click(contact, send_function):
         frame = Frame(canvas, bg="light blue")
 
         scroll_y = Scrollbar(mainframe, orient="vertical", command=canvas.yview)
+        frame.yview_pickplace("end")
 
         row_number = 2
         for chat in chats:
