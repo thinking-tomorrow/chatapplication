@@ -186,7 +186,7 @@ def click(contact, send_function):
         canvas.update_idletasks()
 
         canvas.configure(scrollregion=canvas.bbox('all'), yscrollcommand=scroll_y.set)
-
+        canvas.yview_moveto(1)
         canvas.grid(row=0, column=0, columnspan=20, rowspan=200)
         scroll_y.grid(row=0, column=21, rowspan=300, sticky='ns')
 
