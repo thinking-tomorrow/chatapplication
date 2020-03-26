@@ -40,19 +40,17 @@ def get_all_contacts():
 
 
 def get_contact(username):
-    sql = f"SELECT * FROM contacts WHERE user_name=={username}"
+    sql = f"SELECT * FROM contacts WHERE user_name=='{username}'"
     cursor.execute(sql)
     db.commit()
 
-    if cursor.rowcount > 0:
-        return cursor.fetchone()
-    else:
-        return False
+    return cursor.fetchall()
 
 
 def get_chats(username):
     sql = f"SELECT * FROM chats WHERE user_name=='{username}'"
     cursor.execute(sql)
+    print()
     db.commit()
 
     return cursor.fetchall()
@@ -74,6 +72,13 @@ def search_user(search_query):
 
     return cursor.fetchall()
 
+
+def add_user(user):
+    sql = f"INSERT INTO contacts(user_name, email, status, profile_picture) VALUES('{user[1]}', '{user[2]}', '{user[3]}', 'user{4}')"
+
+    cursor.execute(sql)
+    db.commit()
+    return True
 
 try:
     create_table()

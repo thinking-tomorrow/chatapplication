@@ -17,8 +17,8 @@ def get_user(username):
 
 def add_user(username, email, password):
 
-    query = "INSERT INTO clients (Username, Email, Password) VALUES(%s, %s, %s)"
-    params = (username, email, password)
+    query = "INSERT INTO clients (Username, Email, Password, ProfilePicture) VALUES(%s, %s, %s, %s)"
+    params = (username, email, password, 'test.jpg')
 
     cursor.execute(query, params)
     my_db.commit()
