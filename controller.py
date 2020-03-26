@@ -14,7 +14,7 @@ def send_message(message, contact, page):
         view.click(contact, send_message)
     else:
         now = datetime.datetime.now()
-        # server_local.send_message(message, contact[1], now)
+        server_local.send_message(message, contact[1], now)
         database_local.add_message(message, contact[1], now)
         view.click(contact, send_message)
 
