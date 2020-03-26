@@ -121,6 +121,25 @@ def register(register_backend, login_backend):
 
     root.mainloop()
 
+def add_contact(send):
+
+    a = Tk()
+    a.state('zoomed')
+    a.configure(background="light green")
+    a.title('Add Contacts')
+
+    Button(a, text=" <- Back ", font=("Courier", 8, "normal"), padx=20, bg="white", fg="red",
+           command=lambda: [a.destroy(), default(user, send)]).place(relx=0.1,rely=0.1)
+
+    Label(a,text = "ADD CONTACTS" , font = ('Verdana',20,'bold'),bg="light green",fg='dark green').place(relx=0.375,rely=0.1)
+
+    Label(a,text="Enter the Contact-Name or Contact Email-ID", font = ('Verdana',10,'bold'),bg="light green",fg='dark green').place(relx=0.35,rely=0.3)
+
+    Entry(a,bg = "#BEFAFA",relief="sunken", width = 90).place(relx=0.3,rely=0.4)
+
+    Button(a,text="Add Contact",bg="black",fg="white").place(relx=0.45,rely=0.9)
+
+    a.mainloop()
 
 def click(contact, send_function):
     chat_page = Tk()
@@ -264,7 +283,22 @@ def default(username, send, query=''):
 
     row = 5
 
-    if query == '':
+
+
+
+    contacts_image = Image.open('images/add_contacts.png')
+    add_contacts_image = contacts_image.resize((80, 80), Image.ANTIALIAS)
+    open_add_contacts_image = ImageTk.PhotoImage(add_contacts_image, master=root)
+
+    buttonadd_contact = Button(root, image=open_add_contacts_image, bg="light green",command= lambda : add_contact(send))
+
+    buttonadd_contact["border"] = "0"
+    buttonadd_contact["bg"] = "light green"
+    buttonadd_contact.place(relx=0.7, rely=0.9, anchor=CENTER)
+    buttonadd_contact.image = open_add_contacts_image
+
+    if query == 'all':
+
         contacts = db.get_all_contacts()
     else:
         contacts = db.search_user(query)
@@ -285,7 +319,7 @@ def default(username, send, query=''):
         row += 1
     else:
         pass
-        # @HrishikeshBhanja Please insert a no result found label over here
+        #Label(frame,text='No result found !!',bg='light green').place(relx=0.5,rely=0.4)
 
     searchimage = Image.open('images/search.png')
     searchimageopen = searchimage.resize((20, 20), Image.ANTIALIAS)
