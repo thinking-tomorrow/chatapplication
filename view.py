@@ -205,7 +205,16 @@ def click(contact, send_function):
     chat_page.mainloop()
 
 
-def default(username, send, query='all'):
+def on_keypress(username, send, char, window, test):
+    window.destroy()
+    if ord(char) == 8:
+        test = test[:-1]
+    else:
+        test = test+char
+    default(username, send, test)
+
+
+def default(username, send, query=''):
     global user
     user = username
     root = Tk()
@@ -213,7 +222,7 @@ def default(username, send, query='all'):
     root.title("Chat Page")
     root.configure(background="light green")
 
-    if query != 'all':
+    if query != '':
         Button(root, text=" <- Back ", font=("Courier", 8, "normal"), padx=20, bg="white", fg="red",
                command=lambda: [root.destroy(), default(user, send)]).grid(row=0, column=0)
     else:
@@ -236,11 +245,15 @@ def default(username, send, query='all'):
     pathVar = StringVar()
     searchbar = Entry(root, bg="pink", fg="blue", justify="center", borderwidth=3, textvariable=pathVar)
     searchbar.place(relx=0.5, rely=0.2, width=250, anchor=CENTER)
-    searchbar.bind('<KeyPress>', lambda event: [root.destroy(), default(user, send, event.char)])
-    mainframe = Frame(root, bg="light green")
-    if query != 'all':
-        mainframe.grid(row=10, column=10, rowspan=20, columnspan=5, padx=400, pady=140)
+    searchbar.bind('<KeyPress>', lambda event: [on_keypress(user, send, event.char, root, searchbar.get())])
+    searchbar.focus()
 
+    mainframe = Frame(root, bg="light green")
+
+    if query != '':
+        mainframe.grid(row=10, column=10, rowspan=20, columnspan=5, padx=400, pady=140)
+        searchbar.delete(0, END)
+        searchbar.insert(0, query)
     else:
         mainframe.grid(row=10, column=10, rowspan=20, columnspan=5, padx=500, pady=160)
     canvas = Canvas(mainframe, height=500, bg="light green")
@@ -251,7 +264,7 @@ def default(username, send, query='all'):
 
     row = 5
 
-    if query == 'all':
+    if query == '':
         contacts = db.get_all_contacts()
     else:
         contacts = db.search_user(query)
@@ -278,7 +291,7 @@ def default(username, send, query='all'):
     searchimageopen = searchimage.resize((20, 20), Image.ANTIALIAS)
     opensearchimage = ImageTk.PhotoImage(searchimageopen, master=root)
 
-    button1 = Button(root, image=opensearchimage, command=lambda: [root.destroy(), default(user, send, pathVar.get())])
+    button1 = Button(root, image=opensearchimage, command=lambda: [default(user, send, pathVar.get())])
     button1.place(relx=0.6, rely=0.2, anchor=CENTER)
     button1.image = opensearchimage
 
