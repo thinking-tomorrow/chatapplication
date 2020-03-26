@@ -6,6 +6,8 @@ import database_local as db
 user = ''
 
 
+
+
 def login(login_backend, register_backend):
     x = Tk()
     x.state('zoomed')
@@ -130,7 +132,7 @@ def click(contact, send_function):
 
     chats = db.get_chats(contact[1])
 
-    Button(chat_page, text=" <- Back ", font=("Courier", 8, "normal"), padx=20, bg="white", fg="red",
+    Button(chat_page, text=" <- Back ", font=("Courier", 8, "bold"), padx=20, bg="white", fg="red",
            command=lambda: [chat_page.destroy(), default(user, send_function)]).grid(row=0, column=0)
 
     contact_details = Frame(chat_page, bg="light blue", pady=20, padx=300)
@@ -205,6 +207,9 @@ def click(contact, send_function):
     chat_page.mainloop()
 
 
+def onkey_release(searchbar):
+    return searchbar.get()
+
 def default(username, send, query='all'):
     global user
     user = username
@@ -230,10 +235,16 @@ def default(username, send, query='all'):
     buttonforuserimage.place(relx=0.5, rely=0.04, anchor=CENTER)
     buttonforuserimage.image = openuserimage
 
-    pathVar = StringVar()
-    searchbar = Entry(root, bg="pink", fg="blue", justify="center", borderwidth=3, textvariable=pathVar)
+
+    searchbar = Entry(root, bg="pink", fg="blue", justify="center", borderwidth=3)
+
+    pathVar = onkey_release(searchbar)
+
+    searchbar.config(textvariable = pathVar)
 
     searchbar.place(relx=0.5, rely=0.2, width=250, anchor=CENTER)
+
+    searchbar.bind('<KeyRelease>',onkey_release)
 
     mainframe = Frame(root, bg="light green")
     if query != 'all':
@@ -275,6 +286,8 @@ def default(username, send, query='all'):
     searchimage = Image.open('images/search.png')
     searchimageopen = searchimage.resize((20, 20), Image.ANTIALIAS)
     opensearchimage = ImageTk.PhotoImage(searchimageopen, master=root)
+
+
 
     button1 = Button(root, image=opensearchimage, command=lambda: [root.destroy(), default(user, send, pathVar.get())])
     button1.place(relx=0.6, rely=0.2, anchor=CENTER)
