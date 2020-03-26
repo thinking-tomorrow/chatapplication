@@ -27,13 +27,13 @@ def login(login_backend, register_backend):
     abel = Label(x, text="Enter your username", font=fontconfi, bg="light green", fg="slate blue", padx=10, pady=10)
     abel.place(relx=0.5, rely=0.2, anchor=CENTER)
 
-    q = Entry(x, width=90, bg="light blue", justify="center")
+    q = Entry(x, width=90, bg="#BEFAFA", relief="sunken", justify="center", highlightcolor = "blue")
     q.place(relx=0.5, rely=0.3, anchor=CENTER)
 
     abel = Label(x, text="Enter your password", font=fontconfi, bg="light green", fg="slate blue", padx=10, pady=10)
     abel.place(relx=0.5, rely=0.4, anchor=CENTER)
 
-    s = Entry(x, show="*", width=90, bg="light blue", justify="center")
+    s = Entry(x, show="*", width=90, justify="center", bg="#BEFAFA", relief="sunken")
 
     s.place(relx=0.5, rely=0.5, anchor=CENTER)
 
@@ -78,24 +78,24 @@ def register(register_backend, login_backend):
     myLabel = Label(root, text="SIGN-UP TODAY!!", font=fontcon, bg="light green", fg="dark green", padx=20, pady=50)
     myLabel.place(relx=0.5, rely=0.1, anchor=CENTER)
 
-    abel = Label(root, text="Enter your Username", font=fontconf, bg="light green", fg="slate blue", padx=10, pady=10)
+    abel = Label(root, text="Enter your Username", bg = "light green", font=fontconf, fg="slate blue", padx=10, pady=10)
     abel.place(relx=0.5, rely=0.2, anchor=CENTER)
 
-    e = Entry(root, width=90, bg="light blue", justify="center")
+    e = Entry(root, width=90, bg="#BEFAFA", relief="sunken", justify="center")
 
     e.place(relx=0.5, rely=0.25, anchor=CENTER)
 
     abel = Label(root, text="Enter your email-id:", font=fontconf, bg="light green", fg="slate blue", padx=10, pady=10)
     abel.place(relx=0.5, rely=0.3, anchor=CENTER)
 
-    f = Entry(root, width=90, bg="light blue", justify="center")
+    f = Entry(root, width=90, bg="#BEFAFA", relief="sunken", justify="center")
 
     f.place(relx=0.5, rely=0.35, anchor=CENTER)
 
     abel = Label(root, text="Enter your Password", font=fontconf, bg="light green", fg="slate blue", padx=10, pady=10)
     abel.place(relx=0.5, rely=0.4, anchor=CENTER)
 
-    h = Entry(root, width=90, show="*", bg="light blue", justify="center")
+    h = Entry(root, width=90, show="*", bg="#BEFAFA", relief="sunken", justify="center")
 
     h.place(relx=0.5, rely=0.45, anchor=CENTER)
 
@@ -103,7 +103,7 @@ def register(register_backend, login_backend):
                  pady=10)
     abel.place(relx=0.5, rely=0.5, anchor=CENTER)
 
-    g = Entry(root, show="*", width=90, bg="light blue", justify="center")
+    g = Entry(root, show="*", width=90, bg="#BEFAFA", relief="sunken", justify="center")
 
     g.place(relx=0.5, rely=0.55, anchor=CENTER)
 
@@ -212,6 +212,12 @@ def default(username, send, query='all'):
     root.state("zoomed")
     root.title("Chat Page")
     root.configure(background="light green")
+
+    if query != 'all':
+        Button(root, text=" <- Back ", font=("Courier", 8, "normal"), padx=20, bg="white", fg="red",
+               command=lambda: [root.destroy(), default(user, send)]).grid(row=0, column=0)
+    else:
+        pass
 
     username = Label(root, font=('Kalpurush', 20, 'bold'), text=f"{username}", bg="light green", fg="red")
     username.place(relx=0.5, rely=0.1, anchor=N)
