@@ -6,8 +6,6 @@ import database_local as db
 user = ''
 
 
-
-
 def login(login_backend, register_backend):
     x = Tk()
     x.state('zoomed')
@@ -207,9 +205,6 @@ def click(contact, send_function):
     chat_page.mainloop()
 
 
-def onkey_release(searchbar):
-    return searchbar.get()
-
 def default(username, send, query='all'):
     global user
     user = username
@@ -232,24 +227,21 @@ def default(username, send, query='all'):
     openuserimage = ImageTk.PhotoImage(userimage, master=root)
 
     buttonforuserimage = Button(root, image=openuserimage, bg="light green")
+
+    buttonforuserimage["border"] = "0"
+    buttonforuserimage["bg"] = "light green"
     buttonforuserimage.place(relx=0.5, rely=0.04, anchor=CENTER)
     buttonforuserimage.image = openuserimage
 
-
-    searchbar = Entry(root, bg="pink", fg="blue", justify="center", borderwidth=3)
-
-    pathVar = onkey_release(searchbar)
-
-    searchbar.config(textvariable = pathVar)
-
+    pathVar = StringVar()
+    searchbar = Entry(root, bg="pink", fg="blue", justify="center", borderwidth=3, textvariable=pathVar)
     searchbar.place(relx=0.5, rely=0.2, width=250, anchor=CENTER)
-
-    searchbar.bind('<KeyRelease>',onkey_release)
-
+    searchbar.bind('<KeyPress>', lambda event: [root.destroy(), default(user, send, event.char)])
     mainframe = Frame(root, bg="light green")
     if query != 'all':
         mainframe.grid(row=10, column=10, rowspan=20, columnspan=5, padx=400, pady=140)
-    else :
+
+    else:
         mainframe.grid(row=10, column=10, rowspan=20, columnspan=5, padx=500, pady=160)
     canvas = Canvas(mainframe, height=500, bg="light green")
 
@@ -271,7 +263,7 @@ def default(username, send, query='all'):
         img = Image.open(f'images/profile_image/{contact[4]}')
 
         image = img.resize((30, 30), Image.ANTIALIAS)
-        openimg = ImageTk.PhotoImage(image,master=root)
+        openimg = ImageTk.PhotoImage(image, master=root)
 
         conbi = Button(frame, image=openimg)
 
@@ -281,13 +273,10 @@ def default(username, send, query='all'):
     else:
         pass
         # @HrishikeshBhanja Please insert a no result found label over here
-        # Button(frame, bg="yellow", text="No result found", width=52, height=2, anchor="center", justify="center").grid(row=row, column=4)
 
     searchimage = Image.open('images/search.png')
     searchimageopen = searchimage.resize((20, 20), Image.ANTIALIAS)
     opensearchimage = ImageTk.PhotoImage(searchimageopen, master=root)
-
-
 
     button1 = Button(root, image=opensearchimage, command=lambda: [root.destroy(), default(user, send, pathVar.get())])
     button1.place(relx=0.6, rely=0.2, anchor=CENTER)
