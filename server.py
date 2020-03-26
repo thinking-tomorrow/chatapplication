@@ -5,6 +5,8 @@ server_socket = socket.socket()
 server_socket.bind(('localhost', 1234))
 server_socket.listen(5)
 
+HEADER_SIZE = 10
+
 
 def get_user(username):
     return db.get_user(username)
