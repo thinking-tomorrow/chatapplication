@@ -236,7 +236,10 @@ def default(username, send, query='all'):
     searchbar.place(relx=0.5, rely=0.2, width=250, anchor=CENTER)
 
     mainframe = Frame(root, bg="light green")
-    mainframe.grid(row=10, column=10, rowspan=20, columnspan=5, padx=500, pady=160)
+    if query != 'all':
+        mainframe.grid(row=10, column=10, rowspan=20, columnspan=5, padx=400, pady=140)
+    else :
+        mainframe.grid(row=10, column=10, rowspan=20, columnspan=5, padx=500, pady=160)
     canvas = Canvas(mainframe, height=500, bg="light green")
 
     frame = Frame(canvas, bg="light green")
