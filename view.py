@@ -290,14 +290,16 @@ def default(username, send, query=''):
     add_contacts_image = contacts_image.resize((80, 80), Image.ANTIALIAS)
     open_add_contacts_image = ImageTk.PhotoImage(add_contacts_image, master=root)
 
-    buttonadd_contact = Button(root, image=open_add_contacts_image, bg="light green",command= lambda : add_contact(send))
+    buttonadd_contact = Button(root, image=open_add_contacts_image, bg="light green",command= lambda : [root.destroy(),add_contact(send)])
 
     buttonadd_contact["border"] = "0"
     buttonadd_contact["bg"] = "light green"
     buttonadd_contact.place(relx=0.7, rely=0.9, anchor=CENTER)
     buttonadd_contact.image = open_add_contacts_image
 
-    if query == 'all':
+    contactcount = 0
+
+    if query == '':
 
         contacts = db.get_all_contacts()
     else:
@@ -316,10 +318,12 @@ def default(username, send, query=''):
 
         conbi.grid(row=row, column=3)
         conbi.image = openimg
+        contactcount += 1
         row += 1
-    else:
-        pass
-        #Label(frame,text='No result found !!',bg='light green').place(relx=0.5,rely=0.4)
+
+    if len(contacts) == 0 :
+        print(len(contacts))
+        Button(frame,text="No results found !!",bg='yellow',width=60,justify='center').grid(row=5,column=4)
 
     searchimage = Image.open('images/search.png')
     searchimageopen = searchimage.resize((20, 20), Image.ANTIALIAS)
