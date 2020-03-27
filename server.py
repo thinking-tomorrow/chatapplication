@@ -2,6 +2,7 @@ import socket
 import database as db
 
 server_socket = socket.socket()
+server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 server_socket.bind(('localhost', 1234))
 server_socket.listen(5)
 
@@ -19,6 +20,7 @@ def add_user(username, email, password):
 while True:
     client_socket, addr = server_socket.accept()
     print("Connected with ", addr)
+
     request = bytes.decode(client_socket.recv(1024), 'utf-8')
 
     if 'add_user' in request:
@@ -29,4 +31,7 @@ while True:
         client_socket.send(bytes(str(db.get_user(x[1])), 'utf-8'))
     elif 'send_message' in request:
         x = request.split(',')
-        client_socket.send(bytes(str(db.send_message(x[1], x[2], x[3]))))
+        client_socket.send(bytes(str(db.send_message(x[1], x[2], x[3], x[4])), 'utf-8'))
+    elif 'get_contact' in request:
+        x = request.split(',')
+        client_socket.send(bytes(str(db.get_contact(x[1])), 'utf-8'))

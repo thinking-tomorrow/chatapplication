@@ -6,6 +6,11 @@ import database_local as db
 user = ''
 
 
+def load_function(func):
+    global add_contact_backend
+    add_contact_backend = func
+
+
 def login(login_backend, register_backend):
     x = Tk()
     x.state('zoomed')
@@ -121,6 +126,7 @@ def register(register_backend, login_backend):
 
     root.mainloop()
 
+
 def add_contact(send):
 
     a = Tk()
@@ -131,15 +137,17 @@ def add_contact(send):
     Button(a, text=" <- Back ", font=("Courier", 8, "normal"), padx=20, bg="white", fg="red",
            command=lambda: [a.destroy(), default(user, send)]).place(relx=0.1,rely=0.1)
 
-    Label(a,text = "ADD CONTACTS" , font = ('Verdana',20,'bold'),bg="light green",fg='dark green').place(relx=0.375,rely=0.1)
+    Label(a, text="ADD CONTACTS", font=('Verdana', 20, 'bold'), bg="light green", fg='dark green').place(relx=0.375, rely=0.1)
 
-    Label(a,text="Enter the Contact-Name or Contact Email-ID", font = ('Verdana',10,'bold'),bg="light green",fg='dark green').place(relx=0.35,rely=0.3)
+    Label(a, text="Enter the Contact-Name or Contact Email-ID", font=('Verdana', 10, 'bold'), bg="light green", fg='dark green').place(relx=0.35, rely=0.3)
 
-    Entry(a,bg = "#BEFAFA",relief="sunken", width = 90).place(relx=0.3,rely=0.4)
+    contact = Entry(a, bg="#BEFAFA", relief="sunken", width=90)
+    contact.place(relx=0.3, rely=0.4)
 
-    Button(a,text="Add Contact",bg="black",fg="white").place(relx=0.45,rely=0.9)
+    Button(a, text="Add Contact", bg="black", fg="white", command=lambda: [add_contact_backend(contact.get(), a, user)]).place(relx=0.45, rely=0.9)
 
     a.mainloop()
+
 
 def click(contact, send_function):
     chat_page = Tk()
@@ -283,14 +291,11 @@ def default(username, send, query=''):
 
     row = 5
 
-
-
-
     contacts_image = Image.open('images/add_contacts.png')
     add_contacts_image = contacts_image.resize((80, 80), Image.ANTIALIAS)
     open_add_contacts_image = ImageTk.PhotoImage(add_contacts_image, master=root)
 
-    buttonadd_contact = Button(root, image=open_add_contacts_image, bg="light green",command= lambda : [root.destroy(),add_contact(send)])
+    buttonadd_contact = Button(root, image=open_add_contacts_image, bg="light green", command=lambda: [root.destroy(), add_contact(send)])
 
     buttonadd_contact["border"] = "0"
     buttonadd_contact["bg"] = "light green"
@@ -306,8 +311,9 @@ def default(username, send, query=''):
         contacts = db.search_user(query)
 
     for contact in contacts:
+
         Button(frame, bg="yellow", text=f"{contact[1]}\t\t {contact[3]}", width=48, height=2,
-                     anchor="center", justify="center", command=lambda c=contact: [root.destroy(), click(c, send)]).grid(row=row, column=4)
+               anchor="center", justify="center", command=lambda c=contact: [root.destroy(), click(c, send)]).grid(row=row, column=4)
 
         img = Image.open(f'images/profile_image/{contact[4]}')
 
@@ -321,9 +327,8 @@ def default(username, send, query=''):
         contactcount += 1
         row += 1
 
-    if len(contacts) == 0 :
-        print(len(contacts))
-        Button(frame,text="No results found !!",bg='yellow',width=60,justify='center').grid(row=5,column=4)
+    if len(contacts) == 0:
+        Button(frame, text="No results found !!", bg='yellow', width=60, justify='center').grid(row=5, column=4)
 
     searchimage = Image.open('images/search.png')
     searchimageopen = searchimage.resize((20, 20), Image.ANTIALIAS)

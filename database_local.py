@@ -1,33 +1,60 @@
 import sqlite3
-import datetime
+import os
 
-db = sqlite3.connect('chat_application_local.db')
+db = sqlite3.connect(f'chat_application_local.db')
 cursor = db.cursor()
 
 
+def drop_db():
+    db.close()
+    os.remove("chat_application_local.db")
+
+
 def create_table():
-    sql = '''CREATE TABLE contacts (
+    sql = f'''
+            CREATE TABLE contacts (
                 ID INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_name           VARCHAR(256) NOT NULL,
                 email               VARCHAR(256) NOT NULL,
                 status              VARCHAR(256),
                 profile_picture     VARCHAR(256)
-            );    
-        '''
+            );'''
 
     cursor.execute(sql)
     db.commit()
 
-    sql = '''CREATE TABLE chats (
+    sql = ''' CREATE TABLE chats (
                 ID                  INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_name           VARCHAR(256) NOT NULL,
                 message             VARCHAR(256) NOT NULL,
                 date                VARCHAR(256) NOT NULL,
                 time                VARCHAR(256) NOT NULL,
                 received            BOOLEAN NOT NULL
-            );'''
+            );
+        '''
+
     cursor.execute(sql)
     db.commit()
+
+    sql = ''' CREATE TABLE settings (
+                ID                  INTEGER PRIMARY KEY AUTOINCREMENT,
+                key                 VARCHAR(256) NOT NULL,
+                value               VARCHAR(256) NOT NULL                  
+            );
+        '''
+    cursor.execute(sql)
+    db.commit()
+
+
+def create_and_drop_table():
+    drop_db()
+
+    global db, cursor
+
+    db = sqlite3.connect('chat_application_local.db')
+    cursor = db.cursor()
+
+    create_table()
 
 
 def get_all_contacts():
@@ -47,10 +74,17 @@ def get_contact(username):
     return cursor.fetchall()
 
 
+def get_user(detail):
+    sql = f"SELECT * FROM contacts WHERE user_name=='{detail}' OR email=='{detail}'"
+    cursor.execute(sql)
+    db.commit()
+
+    return cursor.fetchall()
+
+
 def get_chats(username):
     sql = f"SELECT * FROM chats WHERE user_name=='{username}'"
     cursor.execute(sql)
-    print()
     db.commit()
 
     return cursor.fetchall()
@@ -74,24 +108,46 @@ def search_user(search_query):
 
 
 def add_user(user):
-    sql = f"INSERT INTO contacts(user_name, email, status, profile_picture) VALUES('{user[1]}', '{user[2]}', '{user[3]}', 'user{4}')"
+    sql = f"INSERT INTO contacts(user_name, email, status, profile_picture) VALUES('{user[1]}', '{user[2]}', '{user[3]}', '{user[4]}')"
 
     cursor.execute(sql)
     db.commit()
     return True
 
-try:
-    create_table()
-except Exception:
-    if __name__ == '__main__':
-        pass
-        # sql = "INSERT INTO contacts(user_name, email, status, profile_picture) VALUES('aritra', 'aritra@gmail.com', 'Hi', 'test4.jpg')"
-        # sql2 = "INSERT INTO chats(user_name, message, date, time, received) VALUES('ayush', 'Bye!! (final time)', '20-03-2020', '14:13', 'False')"
 
-        # cursor.execute(sql)
-        # cursor.execute(sql2)
-        # db.commit()
-        # print(cursor.fetchone())
-        # print("done")
-    else:
-        pass
+def get_current_user():
+    sql = "SELECT * FROM settings WHERE key='user'"
+    try:
+        cursor.execute(sql)
+        return cursor.fetchone()[2]
+    except:
+        return False
+    finally:
+        db.commit()
+
+
+def set_current_user(username):
+    sql = f"INSERT INTO settings(key, value) VALUES('user', '{username}')"
+    cursor.execute(sql)
+    db.commit()
+
+    return True
+
+
+def get_settings(key):
+    sql = "SELECT * FROM settings WHERE key='{key}'"
+    try:
+        cursor.execute(sql)
+        return cursor.fetchone()[2]
+    except:
+        return False
+    finally:
+        db.commit()
+
+
+def set_setting(key, value):
+    sql = f"INSERT INTO settings(key, value) VALUES('{key}', '{value}')"
+    cursor.execute(sql)
+    db.commit()
+
+    return True
