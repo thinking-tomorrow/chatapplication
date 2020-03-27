@@ -14,7 +14,7 @@ def send_message(message, contact, page):
         view.click(contact, send_message)
     else:
         now = datetime.datetime.now()
-        server_local.send_message(message, contact[1], now, database_local.get_current_user())
+        server_local.send_message(message, contact[1], now, database_local.get_setting('username'))
         database_local.add_message(message, contact[1], now)
         view.click(contact, send_message)
 
@@ -40,10 +40,10 @@ def register(username, email, password, repeat_password, window):
                     view.default(username, send_message)
 
                     database_local.create_and_drop_table()
-                    database_local.set_current_user(username)
+                    database_local.set_setting('username', username)
 
 
-def login(username, password, window):
+def login(username, password, window, remember):
     if username == '' or password == '':
         messagebox.showerror("Error", "Please fill in all the fields")
     else:
@@ -54,13 +54,20 @@ def login(username, password, window):
             if data['Password'] != password:
                 messagebox.showerror("Error", "Invalid username or password")
             else:
-                if database_local.get_current_user() != username:
+                # if database_local.get_current_user() != username:
+                if database_local.get_setting('username') != username:
                     # database_local.drop_db()
                     try:
                         database_local.create_and_drop_table()
-                        database_local.set_current_user(username)
+                        # database_local.set_current_user(username)
+                        database_local.set_setting('username', username)
                     except Exception as e:
                         pass
+
+                if remember.get() == 1:
+                    database_local.set_setting('remember', 'True')
+                else:
+                    database_local.set_setting('remember', 'False')
 
                 window.destroy()
                 view.default(data['Username'], send_message)
@@ -70,7 +77,7 @@ def add_contact(contact, window, username):
     if str(contact).strip() == '':
         messagebox.showerror("Error", "Please enter a username or email")
     else:
-        if contact == database_local.get_current_user():
+        if contact == database_local.get_setting('username'):
             messagebox.showerror("Error", "You cannot add yourself")
         else:
             if database_local.get_user(contact):
@@ -87,4 +94,7 @@ def add_contact(contact, window, username):
 
 
 view.load_function(add_contact)
-view.login(login, register)
+if database_local.get_setting('remember') == 'True':
+    view.default(database_local.get_setting('username'), send_message)
+else:
+    view.login(login, register)

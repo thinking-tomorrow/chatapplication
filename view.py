@@ -42,10 +42,12 @@ def login(login_backend, register_backend):
 
     s.place(relx=0.5, rely=0.5, anchor=CENTER)
 
-    ut = Checkbutton(x, text="Remember Me!!", bg="light green")
+    remember = IntVar()
+
+    ut = Checkbutton(x, text="Remember Me!!", bg="light green", variable=remember)
     ut.place(relx=0.5, rely=0.6, anchor=CENTER)
 
-    bi = Button(x, text="LOGIN", fg="white", bg="black", width=12, command=lambda: [login_backend(q.get(), s.get(), x)])
+    bi = Button(x, text="LOGIN", fg="white", bg="black", width=12, command=lambda: [login_backend(q.get(), s.get(), x, remember)])
     bi.place(relx=0.5, rely=0.7, anchor=CENTER)
 
     fontFamily12 = StringVar(value="Arial")
@@ -135,7 +137,7 @@ def add_contact(send):
     a.title('Add Contacts')
 
     Button(a, text=" <- Back ", font=("Courier", 8, "normal"), padx=20, bg="white", fg="red",
-           command=lambda: [a.destroy(), default(user, send)]).place(relx=0.1,rely=0.1)
+           command=lambda: [a.destroy(), default(user, send)]).place(relx=0.1, rely=0.1)
 
     Label(a, text="ADD CONTACTS", font=('Verdana', 20, 'bold'), bg="light green", fg='dark green').place(relx=0.375, rely=0.1)
 

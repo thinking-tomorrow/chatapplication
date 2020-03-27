@@ -134,8 +134,8 @@ def set_current_user(username):
     return True
 
 
-def get_settings(key):
-    sql = "SELECT * FROM settings WHERE key='{key}'"
+def get_setting(key):
+    sql = f"SELECT * FROM settings WHERE key='{key}'"
     try:
         cursor.execute(sql)
         return cursor.fetchone()[2]
@@ -146,8 +146,14 @@ def get_settings(key):
 
 
 def set_setting(key, value):
-    sql = f"INSERT INTO settings(key, value) VALUES('{key}', '{value}')"
+    sql = f"SELECT * FROM settings WHERE key='{key}'"
     cursor.execute(sql)
-    db.commit()
-
+    if cursor.fetchone():
+        sql = f"UPDATE settings SET value='{value}' WHERE key='{key}'"
+        cursor.execute(sql)
+        db.commit()
+    else:
+        sql = f"INSERT INTO settings(key, value) VALUES('{key}', '{value}')"
+        cursor.execute(sql)
+        db.commit()
     return True
