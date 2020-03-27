@@ -57,4 +57,22 @@ def login(username, password, window):
                 view.default(data['Username'], send_message)
 
 
+def add_contact(contact, window, user):
+    if str(contact).strip() == '':
+        messagebox.showerror("Error", "Please enter a username or email")
+    else:
+        if database_local.get_user(contact):
+            messagebox.showerror("Error", "User already in contacts")
+        else:
+            if not server_local.get_contact(contact):
+                messagebox.showerror("Error", "No such user")
+            else:
+                user = server_local.get_contact(contact)[0]
+                database_local.add_user((user[0], user[1], user[2], user[3], user[5]))
+
+                window.destroy()
+                view.default(user, send_message)
+
+
+view.load_function(add_contact)
 view.login(login, register)

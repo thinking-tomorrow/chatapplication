@@ -17,8 +17,8 @@ def get_user(username):
 
 def add_user(username, email, password):
 
-    query = "INSERT INTO clients (Username, Email, Password, ProfilePicture) VALUES(%s, %s, %s, %s)"
-    params = (username, email, password, 'test.jpg')
+    query = "INSERT INTO clients (Username, Email, Status, Password, ProfilePicture) VALUES(%s, %s, %s, %s, %s)"
+    params = (username, email, f'Hey there! I am {username}', password, 'default_profile_image.png')
 
     cursor.execute(query, params)
     my_db.commit()
@@ -27,3 +27,11 @@ def add_user(username, email, password):
 
 def send_message(message, contact, now):
     print("sent")
+
+
+def get_contact(details):
+    sql = f"SELECT * FROM clients WHERE Username='{details}' OR Email='{details}'"
+    cursor.execute(sql)
+    my_db.commit()
+
+    return cursor.fetchall()
