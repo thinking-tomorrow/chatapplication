@@ -240,6 +240,49 @@ def on_keypress(username, send, char, window, test):
         test = test+char
     default(username, send, test)
 
+def settings(username,send):
+    s = Tk()
+    s.state('zoomed')
+    s.title('Settings')
+    s.configure(background='#ECE5DD')
+
+
+    frame = Frame(s,bg="#25D366",width=2000,height=100)
+    frame.place(relx=0.00001,rely=0.0000001)
+
+    Label(frame,text="SETTINGS",bg="#25D366",fg="white",font=('Helvetica',15,'bold')).place(relx=0.32,rely=0.25)
+
+    backimg = Image.open('images/back.webp')
+    backimage = backimg.resize((50, 50), Image.ANTIALIAS)
+    openbackimage = ImageTk.PhotoImage(backimage, master=frame)
+
+    backbutton = Button(frame, image=openbackimage,command=lambda: [s.destroy(), default(user, send)] )
+
+    backbutton["border"] = "0"
+    backbutton["bg"] = "#25D366"
+    backbutton.place(relx=0.02, rely=0.4, anchor=CENTER)
+    backbutton.image = openbackimage
+
+    userimg = Image.open('images/default_profile_image.png')
+    userimage = userimg.resize((50, 50), Image.ANTIALIAS)
+    openuserimage = ImageTk.PhotoImage(userimage, master=s)
+
+    buttonforuserimage = Button(s, image=openuserimage )
+
+    buttonforuserimage["border"] = "0"
+    buttonforuserimage["bg"] = "#ECE5DD"
+    buttonforuserimage.place(relx=0.5, rely=0.24, anchor=CENTER)
+    buttonforuserimage.image = openuserimage
+
+    Label(s, text= f"{username}",bg='#ECE5DD',fg='#075E54', font=('Kalpurush', 20, 'bold')).place(relx=0.45,rely=0.3)
+
+    b = Button(s,text='Change your Password',bg="#ECE5DD",fg="#075E54",font=('Kalpurush', 20, 'bold'),width=90,relief='flat',anchor='w')
+    b.place(relx=0.00001,rely=0.4)
+
+    Label(b,text='Change your Password if u want to...',bg="#ECE5DD",fg='#25D366',font=('Helvetica',10,'normal')).place(relx=0.7,rely=0.4)
+
+    s.mainloop()
+
 
 def default(username, send, query=''):
     global user
@@ -337,6 +380,16 @@ def default(username, send, query=''):
     button1 = Button(root, image=opensearchimage, command=lambda: [default(user, send, pathVar.get())])
     button1.place(relx=0.6, rely=0.2, anchor=CENTER)
     button1.image = opensearchimage
+
+    menuimg = Image.open('images/menu.webp')
+    menuimageopen = menuimg.resize((20, 20), Image.ANTIALIAS)
+    openmenuimage = ImageTk.PhotoImage(menuimageopen, master=root)
+
+    button1 = Button(root,bg='light green', image=openmenuimage, command=lambda: [root.destroy(),settings(user,send)])
+    button1.place(relx=0.95, rely=0.05, anchor=CENTER)
+    button1.image = openmenuimage
+
+    button1['border'] = 0
 
     canvas.create_window(0, 0, anchor='nw', window=frame)
 
