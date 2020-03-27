@@ -1,5 +1,4 @@
 import sqlite3
-import datetime
 import os
 
 db = sqlite3.connect(f'chat_application_local.db')
@@ -86,7 +85,6 @@ def get_user(detail):
 def get_chats(username):
     sql = f"SELECT * FROM chats WHERE user_name=='{username}'"
     cursor.execute(sql)
-    print()
     db.commit()
 
     return cursor.fetchall()
@@ -130,6 +128,25 @@ def get_current_user():
 
 def set_current_user(username):
     sql = f"INSERT INTO settings(key, value) VALUES('user', '{username}')"
+    cursor.execute(sql)
+    db.commit()
+
+    return True
+
+
+def get_settings(key):
+    sql = "SELECT * FROM settings WHERE key='{key}'"
+    try:
+        cursor.execute(sql)
+        return cursor.fetchone()[2]
+    except:
+        return False
+    finally:
+        db.commit()
+
+
+def set_setting(key, value):
+    sql = f"INSERT INTO settings(key, value) VALUES('{key}', '{value}')"
     cursor.execute(sql)
     db.commit()
 

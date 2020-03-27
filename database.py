@@ -30,12 +30,10 @@ def send_message(message, contact, now, sender):
     datetime = str(now).split(' ')
     date = datetime[0]
     time = datetime[1].split('.')[0]
-    print(date)
     sql = "INSERT INTO chats (message, date, time, sent_from, sent_to) VALUES(%s, %s, %s, %s, %s)"
     params = (message, date, time, sender, contact)
 
     cursor.execute(sql, params)
-    print(cursor.statement)
     my_db.commit()
     return True
 
