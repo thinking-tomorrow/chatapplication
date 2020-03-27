@@ -4,7 +4,6 @@ from tkinter.font import Font
 import database_local as db
 
 user = ''
-# add_contact_backend = function()
 
 
 def load_function(func):
@@ -312,6 +311,7 @@ def default(username, send, query=''):
         contacts = db.search_user(query)
 
     for contact in contacts:
+
         Button(frame, bg="yellow", text=f"{contact[1]}\t\t {contact[3]}", width=48, height=2,
                anchor="center", justify="center", command=lambda c=contact: [root.destroy(), click(c, send)]).grid(row=row, column=4)
 
