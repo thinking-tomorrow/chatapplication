@@ -1,8 +1,8 @@
 import socket
 import ast
 
-# client_socket = socket.socket()
-# client_socket.connect(('localhost', 1234))
+# receiver_socket = socket.socket()
+# receiver_socket.connect(('localhost', 1234))
 
 HEADER_SIZE = 10
 
