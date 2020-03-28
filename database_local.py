@@ -135,6 +135,7 @@ def set_current_user(username):
 
 
 def get_setting(key):
+
     sql = f"SELECT * FROM settings WHERE key='{key}'"
     try:
         cursor.execute(sql)
