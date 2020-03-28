@@ -11,12 +11,12 @@ regex = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
 def send_message(message, contact, page):
     page.destroy()
     if str(message).strip() == '':
-        view.click(contact, send_message)
+        view.click(contact, send_message, login,register)
     else:
         now = datetime.datetime.now()
         server_local.send_message(message, contact[1], now, database_local.get_setting('username'))
         database_local.add_message(message, contact[1], now)
-        view.click(contact, send_message)
+        view.click(contact, send_message, login,register)
 
 
 def register(username, email, password, repeat_password, window):
@@ -37,7 +37,7 @@ def register(username, email, password, repeat_password, window):
                 else:
                     server_local.add_user(username, email, password)
                     window.destroy()
-                    view.default(username, send_message)
+                    view.default(username, send_message , login,register)
 
                     database_local.create_and_drop_table()
                     database_local.set_setting('username', username)
@@ -70,7 +70,7 @@ def login(username, password, window, remember):
                     database_local.set_setting('remember', 'False')
 
                 window.destroy()
-                view.default(data['Username'], send_message)
+                view.default(data['Username'], send_message, login,register)
 
 
 def add_contact(contact, window, username):
@@ -90,11 +90,11 @@ def add_contact(contact, window, username):
                     database_local.add_user((user[0], user[1], user[2], user[3], user[5]))
 
                     window.destroy()
-                    view.default(username, send_message)
+                    view.default(username, send_message, login,register)
 
 
 view.load_function(add_contact)
 if database_local.get_setting('remember') == 'True':
-    view.default(database_local.get_setting('username'), send_message)
+    view.default(database_local.get_setting('username'), send_message, login,register)
 else:
     view.login(login, register)
