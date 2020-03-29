@@ -6,12 +6,15 @@ import database_local as db
 user = ''
 
 
-def load_function(func):
-    global add_contact_backend
-    add_contact_backend = func
+def load_function(login_func, register_func, add_contact_func, send_message_func):
+    global add_contact_backend, login_backend, register_backend, send_message_backend
+    add_contact_backend = add_contact_func
+    login_backend = login_func
+    register_backend = register_func
+    send_message_backend = send_message_func
 
 
-def login(login_backend, register_backend):
+def login():
     x = Tk()
     x.state('zoomed')
     # x.geometry(f"570x{x.winfo_screenheight()}")
@@ -68,7 +71,7 @@ def login(login_backend, register_backend):
     tFont = Font(family=fontFamily12.get(), size=fontSize15.get(), weight='normal')
 
     ylabel = Button(x, text="Not yet registered??", font=tFont, bg="#ECE5DD",
-                    fg = "red",command=lambda: [x.destroy(), register(register_backend, login_backend)])
+                    fg = "red",command=lambda: [x.destroy(), register()])
 
     ylabel['border'] = 0
 
@@ -78,7 +81,7 @@ def login(login_backend, register_backend):
     x.mainloop()
 
 
-def register(register_backend, login_backend):
+def register():
     global root
     root = Tk()
     root.state('zoomed')
@@ -147,13 +150,13 @@ def register(register_backend, login_backend):
     WFont = Font(family=fontFamily2.get(), size=fontSize5.get(), weight='normal')
 
     yLabel = Button(root, text="Already registered??", font=WFont, bg="#ECE5DD", relief='flat',  fg = 'red',
-                    command=lambda: [root.destroy(), login(login_backend, register_backend)], justify="center")
+                    command=lambda: [root.destroy(), login()], justify="center")
     yLabel.place(relx=0.5, rely=0.9, anchor=CENTER)
 
     root.mainloop()
 
 
-def add_contact(send,log,reg):
+def add_contact():
 
     a = Tk()
     a.state('zoomed')
@@ -168,7 +171,7 @@ def add_contact(send,log,reg):
     openprofileimage = ImageTk.PhotoImage(profileimage, master=a)
 
     b = Button(frame, image=openprofileimage, font=("Courier", 8, "normal"), padx=20, bg="white", fg="red",
-           command=lambda: [a.destroy(), default(user, send,log,reg)])
+           command=lambda: [a.destroy(), default()])
     b.place(relx=0.001, rely=0.3)
     b['background'] = "#25D366"
     b['border'] = 0
@@ -180,12 +183,12 @@ def add_contact(send,log,reg):
     contact = Entry(a, bg="#BEFAFA", relief="sunken", width=90)
     contact.place(relx=0.275, rely=0.4)
 
-    Button(a, text="Add Contact", font = ('Helvetica',10,'bold') , bg="#25D366", fg="white", relief='flat', command=lambda: [add_contact_backend(contact.get(), a, user)]).place(relx=0.45, rely=0.6)
+    Button(a, text="Add Contact", font = ('Helvetica',10,'bold') , bg="#25D366", fg="white", relief='flat', command=lambda: [add_contact_backend(contact.get(), a)]).place(relx=0.45, rely=0.6)
 
     a.mainloop()
 
 
-def click(contact, send_function , login ,reg):
+def click(contact):
     chat_page = Tk()
     chat_page.state('zoomed')
     chat_page.configure(background="#ECE5DD")
@@ -201,7 +204,7 @@ def click(contact, send_function , login ,reg):
     openprofileimage = ImageTk.PhotoImage(profileimage, master=fra)
 
     b = Button(fra, image=openprofileimage, bg="#25D366",
-               command=lambda: [chat_page.destroy(), default(user, send, login , reg)])
+               command=lambda: [chat_page.destroy(), default()])
     b.place(relx=0.01, rely=0.3)
     b['background'] = "#25D366"
     b['border'] = 0
@@ -247,9 +250,9 @@ def click(contact, send_function , login ,reg):
 
     if not chats:
         messagebox = Frame(chat_page, bg="pink")
-        messagebox.grid(row=3, column=2)
+        messagebox.place(relx=0.5,rely=0.5)
 
-        Label(messagebox, text="No chat history!!", bg="pink", fg="black").grid(row=1, column=0)
+        Label(chat_page, text="No chat history!!", bg="pink", fg="black").place(relx=0.5,rely=0.5)
 
     else:
 
@@ -296,23 +299,31 @@ def click(contact, send_function , login ,reg):
     send = Image.open('images/send.png')
     imageforsend = send.resize((20, 20), Image.ANTIALIAS)
     openimageforsend = ImageTk.PhotoImage(imageforsend,master=chat_page)
-    buttonforsend = Button(chat_page, image=openimageforsend, command=lambda: [send_function(entryforchatbox.get(), contact, chat_page)])
+    buttonforsend = Button(chat_page, image=openimageforsend, command=lambda: [send_message_backend(entryforchatbox.get(), contact, chat_page)])
 
     buttonforsend.place(relx=0.7, rely=0.9)
     buttonforsend.image = openimageforsend
 
+    send = Image.open('images/attachment.webp')
+    imageforsend = send.resize((20, 20), Image.ANTIALIAS)
+    openimageforsend = ImageTk.PhotoImage(imageforsend, master=chat_page)
+    buttonforsend = Button(chat_page, image=openimageforsend)
+    buttonforsend.place(relx=0.6799, rely=0.9)
+    buttonforsend.image = openimageforsend
+
+
     chat_page.mainloop()
 
 
-def on_keypress(username, send, char, window, test , login ,reg):
+def on_keypress(char, window, test):
     window.destroy()
     if ord(char) == 8:
         test = test[:-1]
     else:
         test = test+char
-    default(username, send, login , reg, test)
+    default(test)
 
-def settings(username,send , login ,reg):
+def settings(user=db.get_setting('username')):
     s = Tk()
     s.state('zoomed')
     s.title('Settings')
@@ -328,7 +339,7 @@ def settings(username,send , login ,reg):
     backimage = backimg.resize((50, 50), Image.ANTIALIAS)
     openbackimage = ImageTk.PhotoImage(backimage, master=frame)
 
-    backbutton = Button(frame, image=openbackimage,command=lambda: [s.destroy(), default(user, send , login ,reg)] )
+    backbutton = Button(frame, image=openbackimage,command=lambda: [s.destroy(), default()] )
 
     backbutton["border"] = "0"
     backbutton["bg"] = "#25D366"
@@ -346,7 +357,7 @@ def settings(username,send , login ,reg):
     buttonforuserimage.place(relx=0.5, rely=0.24, anchor=CENTER)
     buttonforuserimage.image = openuserimage
 
-    Label(s, text= f"{username}",bg='#ECE5DD',fg='#075E54', font=('Kalpurush', 20, 'bold')).place(relx=0.45,rely=0.3)
+    Label(s, text= f"{user}",bg='#ECE5DD',fg='#075E54', font=('Kalpurush', 20, 'bold')).place(relx=0.45,rely=0.3)
 
     b = Button(s,text='Change your Password',bg="#ECE5DD",fg="#075E54",font=('Kalpurush', 20, 'bold'),width=90,relief='flat',anchor='w')
     b.place(relx=0.00001,rely=0.4)
@@ -356,22 +367,32 @@ def settings(username,send , login ,reg):
     s.mainloop()
 
 
-def default(username, send, login_backend , register_backend , query=''):
-    global user
-    user = username
+def default(query=''):
+    user = db.get_setting('username')
     root = Tk()
     root.state("zoomed")
     root.title("Home Page")
     root.configure(background="#ECE5DD")
 
+    frame = Frame(root, bg="#25D366", width=2000, height=100)
+    frame.place(relx=0.00001, rely=0.0000001)
+
     if query != '':
-        Button(root, text=" <- Back ", font=("Courier", 8, "normal"), padx=20, bg="white", fg="red",
-               command=lambda: [root.destroy(), default(user, send , login_backend,register_backend)]).grid(row=0, column=0)
+        backimg = Image.open('images/back.webp')
+        backimage = backimg.resize((50, 50), Image.ANTIALIAS)
+        openbackimage = ImageTk.PhotoImage(backimage, master=frame)
+
+        backbutton = Button(frame, image=openbackimage, command=lambda: [root.destroy(), default()])
+
+        backbutton["border"] = "0"
+        backbutton["bg"] = "#25D366"
+        backbutton.place(relx=0.02, rely=0.4, anchor=CENTER)
+        backbutton.image = openbackimage
+
     else:
         pass
 
-    frame = Frame(root, bg="#25D366", width=2000, height=100)
-    frame.place(relx=0.00001, rely=0.0000001)
+
 
     Label(frame, text="HOME", bg="#25D366", fg="white", font=('Helvetica', 25, 'bold')).place(relx=0.32, rely=0.3)
 
@@ -380,7 +401,7 @@ def default(username, send, login_backend , register_backend , query=''):
     openmenuimage = ImageTk.PhotoImage(menuimageopen, master=root)
 
     button1 = Button(frame, bg='#25D366', image=openmenuimage,
-                     command=lambda: [root.destroy(), settings(user, send, login_backend, register_backend)])
+                     command=lambda: [root.destroy(), settings()])
     button1.place(relx=0.65, rely=0.5, anchor=CENTER)
     button1.image = openmenuimage
 
@@ -389,7 +410,7 @@ def default(username, send, login_backend , register_backend , query=''):
 
     Button(frame, text="Logout", width=10, bg="#075E54", fg="white",
            command=lambda: [db.set_setting('remember', 'False'), root.destroy(),
-                            login(login_backend, register_backend)]).place(relx=0.55, rely=0.4)
+                            login()]).place(relx=0.55, rely=0.4)
 
     backimg = Image.open('images/home.png')
     backimage = backimg.resize((50, 50), Image.ANTIALIAS)
@@ -398,7 +419,7 @@ def default(username, send, login_backend , register_backend , query=''):
     homebutton = Label(frame, image=openbackimage, bg='#25D366')
     homebutton.place(relx=0.29, rely=0.3)
 
-    username = Label(root, font=('Kalpurush', 20, 'bold'), text=f"{username}", bg="#ECE5DD", fg="#075E54")
+    username = Label(root, font=('Kalpurush', 20, 'bold'), text=f"{user}", bg="#ECE5DD", fg="#075E54")
     username.place(relx=0.5, rely=0.3, anchor=N)
 
     userimg = Image.open('images/default_profile_image.png')
@@ -415,7 +436,7 @@ def default(username, send, login_backend , register_backend , query=''):
     pathVar = StringVar()
     searchbar = Entry(root, bg="pink", fg="blue", justify="center", borderwidth=3, textvariable=pathVar)
     searchbar.place(relx=0.5, rely=0.4, width=250, anchor=CENTER)
-    searchbar.bind('<KeyPress>', lambda event: [on_keypress(user, send, event.char, root, searchbar.get() , login_backend,register_backend)])
+    searchbar.bind('<KeyPress>', lambda event: [on_keypress(event.char, root, searchbar.get())])
     searchbar.focus()
 
     mainframe = Frame(root, bg="#ECE5DD")
@@ -438,7 +459,7 @@ def default(username, send, login_backend , register_backend , query=''):
     add_contacts_image = contacts_image.resize((80, 80), Image.ANTIALIAS)
     open_add_contacts_image = ImageTk.PhotoImage(add_contacts_image, master=root)
 
-    buttonadd_contact = Button(root, image=open_add_contacts_image, bg="#ECE5DD", command=lambda: [root.destroy(), add_contact(send, login_backend,register_backend)])
+    buttonadd_contact = Button(root, image=open_add_contacts_image, bg="#ECE5DD", command=lambda: [root.destroy(), add_contact()])
 
     buttonadd_contact["border"] = "0"
     buttonadd_contact["bg"] = "#ECE5DD"
@@ -456,7 +477,7 @@ def default(username, send, login_backend , register_backend , query=''):
     for contact in contacts:
 
         Button(frame, bg="#34B7F1", text=f"{contact[1]}\t\t {contact[3]}", width=48, height=2,
-               anchor="center", justify="center", command=lambda c=contact: [root.destroy(), click(c, send, login_backend,register_backend)]).grid(row=row, column=4)
+               anchor="center", justify="center", command=lambda c=contact: [root.destroy(), click(c)]).grid(row=row, column=4)
 
         img = Image.open(f'images/profile_image/{contact[4]}')
 
@@ -477,7 +498,7 @@ def default(username, send, login_backend , register_backend , query=''):
     searchimageopen = searchimage.resize((20, 20), Image.ANTIALIAS)
     opensearchimage = ImageTk.PhotoImage(searchimageopen, master=root)
 
-    button1 = Button(root, image=opensearchimage, command=lambda: [default(user, send, login_backend,register_backend, pathVar.get())])
+    button1 = Button(root, image=opensearchimage, command=lambda: [default()])
     button1.place(relx=0.6, rely=0.4, anchor=CENTER)
     button1.image = opensearchimage
 
