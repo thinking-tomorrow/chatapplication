@@ -241,12 +241,10 @@ def click(contact):
     buttonfornewimage = Button(fra, image=openmenuimage)
     buttonfornewimage.place(relx=0.11,rely=0.35)
 
-    menuimg = Image.open(f'images/profile_image/{contact[4]}')
-    menuimage = menuimg.resize((50, 50), Image.ANTIALIAS)
-    openmenuimage = ImageTk.PhotoImage(menuimage, master=fra)
 
-    buttonfornewimage = Button(fra, image=openmenuimage)
-    buttonfornewimage.place(relx=0.11,rely=0.35)
+    buttonfornewimage['border'] = 0
+    buttonfornewimage['background'] = "#25D366"
+
 
     if not chats:
         messagebox = Frame(chat_page, bg="pink")
