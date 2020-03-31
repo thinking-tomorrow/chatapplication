@@ -89,6 +89,20 @@ def get_chats(username):
 
     return cursor.fetchall()
 
+def uploadprofilepicture(username,profilepicture):
+    for i in range(1,4):
+        print(i)
+        print("in db local")
+    sql = f"UPDATE clients SET profile_picture='{profilepicture}' WHERE user_name='{username}'"
+
+    try:
+        cursor.execute(sql)
+        return True
+    except:
+        return False
+    finally:
+        db.commit()
+
 
 def add_message(message, contact, now):
     date = now.date()

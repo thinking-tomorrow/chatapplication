@@ -26,6 +26,13 @@ while True:
     if 'add_user' in request:
         x = request.split(',')
         client_socket.send(bytes(str(db.add_user(x[1], x[2], x[3])), 'utf-8'))
+    elif 'change_image' in request:
+        print('hello')
+        for i in range(4):
+            print(i)
+            print('in server')
+        x = request.split(',')
+        client_socket.send(bytes(str(db.uploadprofilepicture(x[1], x[2])), 'utf-8'))
     elif 'get_user' in request:
         x = request.split(',')
         client_socket.send(bytes(str(db.get_user(x[1])), 'utf-8'))
@@ -35,3 +42,4 @@ while True:
     elif 'get_contact' in request:
         x = request.split(',')
         client_socket.send(bytes(str(db.get_contact(x[1])), 'utf-8'))
+

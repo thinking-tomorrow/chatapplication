@@ -91,7 +91,12 @@ def add_contact(contact, window):
                     view.default()
 
 
-view.load_function(login, register, add_contact, send_message)
+def uploadprofilepicture(username,profilepicture):
+    database_local.uploadprofilepicture(username, profilepicture)
+    server_local.change_image(username,profilepicture)
+
+
+view.load_function(login, register, add_contact, send_message, uploadprofilepicture)
 if database_local.get_setting('remember') == 'True':
     view.default()
 else:

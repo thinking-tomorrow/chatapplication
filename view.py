@@ -1,17 +1,22 @@
 from tkinter import *
-from PIL import ImageTk, Image, ImageOps , ImageDraw
+from PIL import ImageTk, Image
+import server_local
 from tkinter.font import Font
 import database_local as db
+from tkinter import filedialog  as f
+
 
 user = ''
 
 
-def load_function(login_func, register_func, add_contact_func, send_message_func):
-    global add_contact_backend, login_backend, register_backend, send_message_backend
+def load_function(login_func, register_func, add_contact_func, send_message_func, upload_image_func):
+    global add_contact_backend, login_backend, register_backend, send_message_backend, uploadimage_func
     add_contact_backend = add_contact_func
     login_backend = login_func
     register_backend = register_func
     send_message_backend = send_message_func
+    uploadimage_func = upload_image_func
+
 
 
 def login():
@@ -312,6 +317,56 @@ def click(contact):
 
     chat_page.mainloop()
 
+def changepassword(user):
+
+    root = Tk()
+    root.title('Change your Password')
+    root.state('zoomed')
+    root.configure(background = '#ECE5DD')
+
+    fra = Frame(root, bg="#25D366", width=1500, height=120)
+    fra.place(relx=0.00001, rely=0.0000001)
+
+    Label(fra,text='Change your Password',bg='#25D366',fg='white',font=('Helvetica',20,'bold')).place(relx=0.32,rely=0.4)
+
+    backimg = Image.open('images/back.webp')
+    backimage = backimg.resize((50, 50), Image.ANTIALIAS)
+    openbackimage = ImageTk.PhotoImage(backimage, master=fra)
+
+    backbutton = Button(fra, image=openbackimage, command=lambda: [root.destroy(), settings()])
+
+    backbutton["border"] = "0"
+    backbutton["bg"] = "#25D366"
+    backbutton.place(relx=0.02, rely=0.4, anchor=CENTER)
+    backbutton.image = openbackimage
+
+    userdetails = server_local.get_user(user)
+
+    profileimage = userdetails['ProfilePicture']
+
+    profileimg = Image.open(f'images/profile_image/{profileimage}')
+    profileimage = profileimg.resize((50, 50), Image.ANTIALIAS)
+    openprofileimage = ImageTk.PhotoImage(profileimage, master=fra)
+
+    ProfileImage = Button(root, image=openprofileimage)
+
+    ProfileImage["border"] = "0"
+    ProfileImage["bg"] = "#ECE5DD"
+    ProfileImage.place(relx=0.5, rely=0.3, anchor=CENTER)
+    ProfileImage.image = openprofileimage
+
+    profilename = userdetails['Username']
+
+    Label(root,bg='#ECE5DD',text=profilename,fg='#075E54',font=('Kalpurush',20,'bold')).place(relx=0.45,rely=0.4)
+
+    currentpassword = userdetails['Password']
+
+    Label(root,text='Your Current Password',bg='#ECE5DD',fg='#075E54',font=('Kaplurush',15,'bold')).place(relx=0.02,rely=0.5)
+
+    Label(root,text='This is your current password',bg='#ECE5DD',fg='#075E54',font=('Kalpurush',10,'bold')).place(relx=0.01,rely=0.6)
+
+    Label(root,text=currentpassword)
+
 
 def on_keypress(char, window, test):
     window.destroy()
@@ -321,12 +376,31 @@ def on_keypress(char, window, test):
         test = test+char
     default(test)
 
+def updateprofilepic(user):
+
+    root = Tk()
+
+    root.withdraw()
+
+    n = server_local.get_user(user)
+
+    filename = f.askopenfilename(initialdir="/", title="Select file",
+                        filetypes=(("jpeg files", "*.jpg"), ("all files", "*.*")))
+
+    uploadimage_func(user,filename)
+
+    default()
+
+    root.mainloop()
+
 def settings(user=db.get_setting('username')):
     s = Tk()
     s.state('zoomed')
     s.title('Settings')
     s.configure(background='#ECE5DD')
 
+
+    userdetails = server_local.get_user(user)
 
     frame = Frame(s,bg="#25D366",width=2000,height=100)
     frame.place(relx=0.00001,rely=0.0000001)
@@ -344,11 +418,13 @@ def settings(user=db.get_setting('username')):
     backbutton.place(relx=0.02, rely=0.4, anchor=CENTER)
     backbutton.image = openbackimage
 
-    userimg = Image.open('images/default_profile_image.png')
+    x = userdetails['ProfilePicture']
+
+    userimg = Image.open(f'images/profile_image/{x}')
     userimage = userimg.resize((50, 50), Image.ANTIALIAS)
     openuserimage = ImageTk.PhotoImage(userimage, master=s)
 
-    buttonforuserimage = Button(s, image=openuserimage )
+    buttonforuserimage = Button(s, image=openuserimage)
 
     buttonforuserimage["border"] = "0"
     buttonforuserimage["bg"] = "#ECE5DD"
@@ -357,30 +433,58 @@ def settings(user=db.get_setting('username')):
 
     Label(s, text= f"{user}",bg='#ECE5DD',fg='#075E54', font=('Kalpurush', 20, 'bold')).place(relx=0.45,rely=0.3)
 
-    b = Button(s,text='Change your Password',bg="#ECE5DD",fg="#075E54",font=('Kalpurush', 20, 'bold'),width=90,relief='flat',anchor='w')
-    b.place(relx=0.00001,rely=0.4)
+    b = Button(s,text='Change your Password',bg="#ECE5DD",fg="#075E54",font=('Kalpurush', 20, 'bold'),width=90,relief='flat',anchor='w', command = lambda : [s.destroy(),changepassword(user)])
+    b.place(relx=0.1,rely=0.4)
 
-    Label(b,text='Change your Password if u want to...',bg="#ECE5DD",fg='#25D366',font=('Helvetica',10,'normal')).place(relx=0.7,rely=0.4)
+    menuimg = Image.open('images/password.jpg')
+    menuimageopen = menuimg.resize((50, 50), Image.ANTIALIAS)
+    openmenuimage = ImageTk.PhotoImage(menuimageopen, master=s)
+
+    button1 = Button(s, bg="#ECE5DD", image=openmenuimage, anchor = 'w')
+    button1.place(relx=0.08, rely=0.45, anchor=CENTER)
+    button1.image = openmenuimage
+
+    b = Button(s,text='Change your Profile Picture',bg="#ECE5DD",fg="#075E54",font=('Kalpurush', 20, 'bold'),width=90,relief='flat',anchor='w')#command = lambda : [s.destroy(),updateprofilepic(user)])
+    b.place(relx=0.00001,rely=0.5)
+
+    b = Button(s,text='Change the Theme',bg="#ECE5DD",fg="#075E54",font=('Kalpurush', 20, 'bold'),width=90,relief='flat',anchor='w')
+    b.place(relx=0.00001,rely=0.6)
+
+    b = Button(s,text='Turn off Notifications',bg="#ECE5DD",fg="#075E54",font=('Kalpurush', 20, 'bold'),width=90,relief='flat',anchor='w')
+    b.place(relx=0.00001,rely=0.7)
+
+    b = Button(s,text='Other Details',bg="#ECE5DD",fg="#075E54",font=('Kalpurush', 20, 'bold'),width=90,relief='flat',anchor='w')
+    b.place(relx=0.00001,rely=0.8)
+
+    b = Button(s,text='About Us',bg="#ECE5DD",fg="#075E54",font=('Kalpurush', 20, 'bold'),width=90,relief='flat',anchor='w')
+    b.place(relx=0.00001,rely=0.9)
+
+
+
 
     s.mainloop()
 
 
 def default(query=''):
     user = db.get_setting('username')
+    n = server_local.get_user(user)
+
+
+
     root = Tk()
     root.state("zoomed")
     root.title("Home Page")
     root.configure(background="#ECE5DD")
 
-    frame = Frame(root, bg="#25D366", width=2000, height=100)
-    frame.place(relx=0.00001, rely=0.0000001)
+    fra = Frame(root, bg="#25D366", width=2000, height=100)
+    fra.place(relx=0.00001, rely=0.0000001)
 
     if query != '':
         backimg = Image.open('images/back.webp')
         backimage = backimg.resize((50, 50), Image.ANTIALIAS)
-        openbackimage = ImageTk.PhotoImage(backimage, master=frame)
+        openbackimage = ImageTk.PhotoImage(backimage, master=fra)
 
-        backbutton = Button(frame, image=openbackimage, command=lambda: [root.destroy(), default()])
+        backbutton = Button(fra, image=openbackimage, command=lambda: [root.destroy(), default()])
 
         backbutton["border"] = "0"
         backbutton["bg"] = "#25D366"
@@ -392,13 +496,13 @@ def default(query=''):
 
 
 
-    Label(frame, text="HOME", bg="#25D366", fg="white", font=('Helvetica', 25, 'bold')).place(relx=0.32, rely=0.3)
+    Label(fra, text="HOME", bg="#25D366", fg="white", font=('Helvetica', 25, 'bold')).place(relx=0.32, rely=0.3)
 
     menuimg = Image.open('images/menu.webp')
     menuimageopen = menuimg.resize((50, 50), Image.ANTIALIAS)
     openmenuimage = ImageTk.PhotoImage(menuimageopen, master=root)
 
-    button1 = Button(frame, bg='#25D366', image=openmenuimage,
+    button1 = Button(fra, bg='#25D366', image=openmenuimage,
                      command=lambda: [root.destroy(), settings()])
     button1.place(relx=0.65, rely=0.5, anchor=CENTER)
     button1.image = openmenuimage
@@ -406,30 +510,36 @@ def default(query=''):
 
     button1['border'] = 0
 
-    Button(frame, text="Logout", width=10, bg="#075E54", fg="white",
+    Button(fra, text="Logout", width=10, bg="#075E54", fg="white",
            command=lambda: [db.set_setting('remember', 'False'), root.destroy(),
                             login()]).place(relx=0.55, rely=0.4)
 
     backimg = Image.open('images/home.png')
     backimage = backimg.resize((50, 50), Image.ANTIALIAS)
-    openbackimage = ImageTk.PhotoImage(backimage, master=frame)
+    openbackimage = ImageTk.PhotoImage(backimage, master=fra)
 
-    homebutton = Label(frame, image=openbackimage, bg='#25D366')
+    homebutton = Label(fra, image=openbackimage, bg='#25D366')
     homebutton.place(relx=0.29, rely=0.3)
 
     username = Label(root, font=('Kalpurush', 20, 'bold'), text=f"{user}", bg="#ECE5DD", fg="#075E54")
     username.place(relx=0.5, rely=0.3, anchor=N)
 
-    userimg = Image.open('images/default_profile_image.png')
+    x = n['ProfilePicture']
+
+
+    userimg = Image.open(f'images/profile_image/{x}')
     userimage = userimg.resize((50, 50), Image.ANTIALIAS)
     openuserimage = ImageTk.PhotoImage(userimage, master=root)
 
-    buttonforuserimage = Button(root, image=openuserimage, bg="#ECE5DD")
+    buttonforuserimage = Button(root, image=openuserimage, bg="#ECE5DD",command = lambda  : [root.destroy(),updateprofilepic(user)])
 
     buttonforuserimage["border"] = "0"
     buttonforuserimage["bg"] = "#ECE5DD"
     buttonforuserimage.place(relx=0.5, rely=0.24, anchor=CENTER)
     buttonforuserimage.image = openuserimage
+
+
+
 
     pathVar = StringVar()
     searchbar = Entry(root, bg="pink", fg="blue", justify="center", borderwidth=3, textvariable=pathVar)

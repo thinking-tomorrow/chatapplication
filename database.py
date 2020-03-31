@@ -46,3 +46,17 @@ def get_contact(details):
     my_db.commit()
 
     return cursor.fetchall()
+
+def uploadprofilepicture(username,profilepicture):
+    for i in range(1,4):
+        print(i)
+        print('in db')
+    sql = f"UPDATE clients SET ProfilePicture='{profilepicture}' WHERE Username='{username}'"
+
+    try:
+        cursor.execute(sql)
+        return True
+    except:
+        return False
+    finally:
+        my_db.commit()

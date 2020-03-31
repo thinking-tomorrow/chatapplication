@@ -41,3 +41,18 @@ def send_message(message, contact, now, sender):
     data = ast.literal_eval(bytes.decode(client_socket.recv(1024), 'utf-8'))
     client_socket.close()
     return data
+
+def change_image(username,profileimage):
+    for i in range(4):
+        print(i)
+        print('in server local')
+    client_socket = socket.socket()
+    client_socket.connect(('localhost',1234))
+    print('H')
+    client_socket.send(bytes(f"image_message,{username},{profileimage}", 'utf-8'))
+    print('Hello!')
+    data = ast.literal_eval(bytes.decode(client_socket.recv(1024),'utf-8'))
+    print('Hello!')
+    client_socket.close()
+    print('Hello!')
+    return data
