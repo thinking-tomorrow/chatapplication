@@ -363,9 +363,32 @@ def changepassword(user):
 
     Label(root,text='Your Current Password',bg='#ECE5DD',fg='#075E54',font=('Kaplurush',15,'bold')).place(relx=0.02,rely=0.5)
 
-    Label(root,text='This is your current password',bg='#ECE5DD',fg='#075E54',font=('Kalpurush',10,'bold')).place(relx=0.01,rely=0.6)
+    Label(root,text='This is your current password',bg='#ECE5DD',fg='#075E54',font=('Kalpurush',13,'bold')).place(relx=0.01,rely=0.6)
 
-    Label(root,text=currentpassword)
+    Label(root,text=currentpassword, bg='#ECE5DD',fg='#075E54',font=('Kalpurush',10,'normal')).place(relx=0.4,rely=0.6)
+
+    Label(root,text='Enter your new password here:',bg='#ECE5DD',fg='#075E54',font=('Kalpurush',13,'bold')).place(relx=0.01,rely=0.7)
+
+    passwordentry = Entry(root,bg='#BEFAFA',relief='flat',width=90,justify='center')
+    passwordentry.place(relx=0.4,rely=0.7)
+
+    Label(root,text='Confirm your password entry:',bg='#ECE5DD',fg='#075E54',font=('Kalpurush',13,'bold')).place(relx=0.01,rely=0.8)
+
+    confirmpasswordentry = Entry(root ,bg='#BEFAFA',relief='flat',width=90,justify='center')
+    confirmpasswordentry.place(relx=0.4,rely=0.8)
+
+    passimg = Image.open('images/change_password.webp')
+    passimage = passimg.resize((50, 50), Image.ANTIALIAS)
+    openpassimage = ImageTk.PhotoImage(passimage, master=root)
+
+    passimagebutton = Button(root, image=openpassimage)
+
+    passimagebutton["border"] = "0"
+    passimagebutton["bg"] = "#ECE5DD"
+    passimagebutton.place(relx=0.4, rely=0.9)
+    passimagebutton.image = openpassimage
+
+    Button(root,text='Change your password',bg='#075E54',fg='white').place(relx=0.45,rely=0.925)
 
 
 def on_keypress(char, window, test):
@@ -392,6 +415,50 @@ def updateprofilepic(user):
     default()
 
     root.mainloop()
+
+def changetheme():
+
+    root = Tk()
+    root.title('Change the theme')
+    root.configure(background='#ECE5DD')
+
+    root.state('zoomed')
+
+    options = ['Default','Light','Dark']
+
+    fra = Frame(root, bg="#25D366", width=1500, height=120)
+    fra.place(relx=0.00001, rely=0.0000001)
+
+    Label(fra, text='Change your Password', bg='#25D366', fg='white', font=('Helvetica', 20, 'bold')).place(relx=0.32,
+                                                                                                            rely=0.4)
+
+    backimg = Image.open('images/back.webp')
+    backimage = backimg.resize((50, 50), Image.ANTIALIAS)
+    openbackimage = ImageTk.PhotoImage(backimage, master=fra)
+
+    backbutton = Button(fra, image=openbackimage, command=lambda: [root.destroy(), settings()])
+
+    backbutton["border"] = "0"
+    backbutton["bg"] = "#25D366"
+    backbutton.place(relx=0.02, rely=0.4, anchor=CENTER)
+    backbutton.image = openbackimage
+
+    clicked = StringVar()
+    clicked.set(options[0])
+
+    Label(root,text='Your Current theme is:',bg='#ECE5DD',font=('Kalpurush',15,'bold'),fg='#075E54').place(relx=0.0001,rely=0.2)
+
+    current_theme = 'Default'
+
+    Label(root,text=current_theme,bg='#ECE5DD',font=('Kalpurush',15,'normal'),fg='#075E54').place(relx=0.3,rely=0.2)
+
+    Label(root,text='Change your theme',bg='#ECE5DD',font=('Kalpurush',20,'bold'),fg='#075E54').place(relx=0.00001,rely=0.5)
+
+    dropdown = OptionMenu(root,clicked,*options)
+    dropdown.config(width=50,bg='#00ACEE',fg='#075E54',font=('Helvetica',10,'bold'))
+    dropdown.place(relx=0.3,rely=0.5)
+
+    Button(root,text='Change the theme',bg='#075E54',fg='white').place(relx=0.5,rely=0.9)
 
 def settings(user=db.get_setting('username')):
     s = Tk()
@@ -440,14 +507,14 @@ def settings(user=db.get_setting('username')):
     menuimageopen = menuimg.resize((50, 50), Image.ANTIALIAS)
     openmenuimage = ImageTk.PhotoImage(menuimageopen, master=s)
 
-    button1 = Button(s, bg="#ECE5DD", image=openmenuimage, anchor = 'w')
+    button1 = Button(s, bg="#ECE5DD", image=openmenuimage, anchor = 'w',command= lambda : [s.destroy(),changepassword(user)])
     button1.place(relx=0.08, rely=0.45, anchor=CENTER)
     button1.image = openmenuimage
 
     b = Button(s,text='Change your Profile Picture',bg="#ECE5DD",fg="#075E54",font=('Kalpurush', 20, 'bold'),width=90,relief='flat',anchor='w')#command = lambda : [s.destroy(),updateprofilepic(user)])
     b.place(relx=0.00001,rely=0.5)
 
-    b = Button(s,text='Change the Theme',bg="#ECE5DD",fg="#075E54",font=('Kalpurush', 20, 'bold'),width=90,relief='flat',anchor='w')
+    b = Button(s,text='Change the Theme',bg="#ECE5DD",fg="#075E54",font=('Kalpurush', 20, 'bold'),width=90,relief='flat',anchor='w', command = lambda : [s.destroy(),changetheme()])
     b.place(relx=0.00001,rely=0.6)
 
     b = Button(s,text='Turn off Notifications',bg="#ECE5DD",fg="#075E54",font=('Kalpurush', 20, 'bold'),width=90,relief='flat',anchor='w')
@@ -460,10 +527,27 @@ def settings(user=db.get_setting('username')):
     b.place(relx=0.00001,rely=0.9)
 
 
-
-
     s.mainloop()
 
+def openimage(image,username):
+
+    root = Tk()
+
+    root.state('zoomed')
+
+    root.configure(background='black')
+
+    root.title(f'{username}')
+
+    menuimg = Image.open(f'images/profile_image/{image}')
+    menuimageopen = menuimg.resize((500, 500), Image.ANTIALIAS)
+    openmenuimage = ImageTk.PhotoImage(menuimageopen, master=root)
+
+    button1 = Label(root, bg='black', image=openmenuimage)
+    button1.place(relx=0.5, rely=0.5, anchor=CENTER)
+    button1.image = openmenuimage
+
+    root.mainloop()
 
 def default(query=''):
     user = db.get_setting('username')
@@ -587,12 +671,13 @@ def default(query=''):
         Button(frame, bg="#34B7F1", text=f"{contact[1]}\t\t {contact[3]}", width=48, height=2,
                anchor="center", justify="center", command=lambda c=contact: [root.destroy(), click(c)]).grid(row=row, column=4)
 
+
         img = Image.open(f'images/profile_image/{contact[4]}')
 
         image = img.resize((30, 30), Image.ANTIALIAS)
         openimg = ImageTk.PhotoImage(image, master=root)
 
-        conbi = Button(frame, image=openimg)
+        conbi = Button(frame, image=openimg, command=lambda c = contact : openimage(c[4],c[1]))
 
         conbi.grid(row=row, column=3)
         conbi.image = openimg
