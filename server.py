@@ -21,18 +21,18 @@ while True:
     client_socket, addr = server_socket.accept()
     print("Connected with ", addr)
 
-    request = bytes.decode(client_socket.recv(1024), 'utf-8')
+    request = bytes.decode(client_socket.recv(4096), 'utf-8')
 
     if 'add_user' in request:
         x = request.split(',')
         client_socket.send(bytes(str(db.add_user(x[1], x[2], x[3])), 'utf-8'))
-    elif 'change_image' in request:
+    elif 'image_message' in request:
         print('hello')
         for i in range(4):
             print(i)
             print('in server')
         x = request.split(',')
-        client_socket.send(bytes(str(db.uploadprofilepicture(x[1], x[2])), 'utf-8'))
+        client_socket.send(bytes(db.uploadprofilepicture(str(x[1]),x[2])), 'utf-8')
     elif 'get_user' in request:
         x = request.split(',')
         client_socket.send(bytes(str(db.get_user(x[1])), 'utf-8'))

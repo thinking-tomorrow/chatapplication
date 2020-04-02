@@ -239,16 +239,20 @@ def click(contact):
 
     Label(fra, text=contact[1], font=("Helvetica", 20, "bold"), bg="#25D366", fg="#075E54",relief='flat').place(relx=0.15,rely=0.375)
 
-    menuimg = Image.open(f'images/profile_image/{contact[4]}')
+    print(contact)
+
+    menuimg = Image.open(f'images/profile_image/{contact[4]}')#,command = lambda :  [contactinfo()])
     menuimage = menuimg.resize((50, 50), Image.ANTIALIAS)
     openmenuimage = ImageTk.PhotoImage(menuimage, master=fra)
 
-    buttonfornewimage = Button(fra, image=openmenuimage)
+    buttonfornewimage = Button(fra, image=openmenuimage)#, command = lambda c = contact : [contactdetails(c)])
     buttonfornewimage.place(relx=0.11,rely=0.35)
 
 
     buttonfornewimage['border'] = 0
     buttonfornewimage['background'] = "#25D366"
+
+
 
 
     if not chats:
@@ -344,7 +348,9 @@ def changepassword(user):
 
     profileimage = userdetails['ProfilePicture']
 
-    profileimg = Image.open(f'images/profile_image/{profileimage}')
+    profile_image_str = bytes.decode(profileimage,'utf-8')
+
+    profileimg = Image.open(f'images/profile_image/{profile_image_str}')
     profileimage = profileimg.resize((50, 50), Image.ANTIALIAS)
     openprofileimage = ImageTk.PhotoImage(profileimage, master=fra)
 
@@ -407,10 +413,21 @@ def updateprofilepic(user):
 
     n = server_local.get_user(user)
 
+
+
     filename = f.askopenfilename(initialdir="/", title="Select file",
                         filetypes=(("jpeg files", "*.jpg"), ("all files", "*.*")))
 
-    uploadimage_func(user,filename)
+    username_profile = Image.open(f'{filename}')
+
+    ext = str(filename).split('.')[1]
+
+    if ext.upper() == 'JPG':
+        ext = 'jpeg'
+
+    username_profile.save(f'images/profile_image/{user}',ext)
+
+    uploadimage_func(user,username_profile)
 
     default()
 
@@ -487,7 +504,9 @@ def settings(user=db.get_setting('username')):
 
     x = userdetails['ProfilePicture']
 
-    userimg = Image.open(f'images/profile_image/{x}')
+    b = bytes.decode(x,'utf-8')
+
+    userimg = Image.open(f'images/profile_image/{b}')
     userimage = userimg.resize((50, 50), Image.ANTIALIAS)
     openuserimage = ImageTk.PhotoImage(userimage, master=s)
 
@@ -501,14 +520,14 @@ def settings(user=db.get_setting('username')):
     Label(s, text= f"{user}",bg='#ECE5DD',fg='#075E54', font=('Kalpurush', 20, 'bold')).place(relx=0.45,rely=0.3)
 
     b = Button(s,text='Change your Password',bg="#ECE5DD",fg="#075E54",font=('Kalpurush', 20, 'bold'),width=90,relief='flat',anchor='w', command = lambda : [s.destroy(),changepassword(user)])
-    b.place(relx=0.1,rely=0.4)
+    b.place(relx=0.04,rely=0.4)
 
     menuimg = Image.open('images/password.jpg')
     menuimageopen = menuimg.resize((50, 50), Image.ANTIALIAS)
     openmenuimage = ImageTk.PhotoImage(menuimageopen, master=s)
 
     button1 = Button(s, bg="#ECE5DD", image=openmenuimage, anchor = 'w',command= lambda : [s.destroy(),changepassword(user)])
-    button1.place(relx=0.08, rely=0.45, anchor=CENTER)
+    button1.place(relx=0.02, rely=0.45, anchor=CENTER)
     button1.image = openmenuimage
 
     b = Button(s,text='Change your Profile Picture',bg="#ECE5DD",fg="#075E54",font=('Kalpurush', 20, 'bold'),width=90,relief='flat',anchor='w')#command = lambda : [s.destroy(),updateprofilepic(user)])
@@ -610,8 +629,11 @@ def default(query=''):
 
     x = n['ProfilePicture']
 
+    image = bytes.decode(x,'utf-8')
 
-    userimg = Image.open(f'images/profile_image/{x}')
+
+
+    userimg = Image.open(f'images/profile_image/{image}')
     userimage = userimg.resize((50, 50), Image.ANTIALIAS)
     openuserimage = ImageTk.PhotoImage(userimage, master=root)
 

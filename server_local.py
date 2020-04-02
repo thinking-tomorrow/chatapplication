@@ -1,5 +1,6 @@
 import socket
 import ast
+from PIL import Image
 
 # receiver_socket = socket.socket()
 # receiver_socket.connect(('localhost', 1234))
@@ -42,17 +43,18 @@ def send_message(message, contact, now, sender):
     client_socket.close()
     return data
 
-def change_image(username,profileimage):
-    for i in range(4):
-        print(i)
-        print('in server local')
+def change_image(username ,imagepath):
+
     client_socket = socket.socket()
     client_socket.connect(('localhost',1234))
-    print('H')
-    client_socket.send(bytes(f"image_message,{username},{profileimage}", 'utf-8'))
-    print('Hello!')
-    data = ast.literal_eval(bytes.decode(client_socket.recv(1024),'utf-8'))
-    print('Hello!')
+
+    image = Image.open(f'images/profile_image/{username}')
+
+    print(image)
+
+    client_socket.send(bytes(f"image_message,{username},{image}", 'utf-8'))
+    print('h')
+    data = ast.literal_eval(bytes.decode(client_socket.recv(4096),'utf-8'))
+    print('HELLO')
     client_socket.close()
-    print('Hello!')
     return data
