@@ -97,7 +97,5 @@ def uploadprofilepicture(username,profilepicture):
 
 
 view.load_function(login, register, add_contact, send_message, uploadprofilepicture)
-if database_local.get_setting('remember') == 'True':
-    view.default()
-else:
-    view.login()
+
+view.homepage()

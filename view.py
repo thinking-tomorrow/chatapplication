@@ -5,6 +5,7 @@ from tkinter.font import Font
 import database_local as db
 from tkinter import filedialog  as f
 
+import datetime
 
 user = ''
 
@@ -17,7 +18,54 @@ def load_function(login_func, register_func, add_contact_func, send_message_func
     send_message_backend = send_message_func
     uploadimage_func = upload_image_func
 
+def hello():
 
+    if db.get_setting('remember') == 'True':
+
+        default()
+    else:
+        login()
+
+def homepage():
+    root = Tk()
+
+
+
+    root.title('Introductory Page')
+    root.iconbitmap('images/logo.ico')
+    root.configure(background = '#ECE5DD')
+
+    root.state('zoomed')
+
+    frame = Frame(root, bg="#25D366", width=2000, height=75)
+    frame.place(relx=0.00001, rely=0.0000001)
+
+    Label(frame,text='Welcome!',bg='#25D366',fg='white',font=('Helvetica',15,'bold')).place(relx=0.31,rely=0.25)
+
+    logoimg = Image.open('images/logo.png')
+    logoimage = logoimg.resize((500,500),Image.ANTIALIAS)
+    openlogoimage = ImageTk.PhotoImage(logoimage,master=root)
+
+    logoLabel = Label(root,image= openlogoimage)
+    logoLabel.place(relx=0.3,rely=0.15)
+    logoLabel['border'] = 0
+    logoLabel['background'] = '#ECE5DD'
+
+    Label(root,text='THINKING TOMORROW',bg='#ECE5DD',fg='#075E54',font=('Kalpurush',20,'bold')).place(relx=0.35,rely=0.9)
+
+    nextimg = Image.open('images/next.webp')
+    nextimage = nextimg.resize((50,50),Image.ANTIALIAS)
+    opennextimage = ImageTk.PhotoImage(nextimage,master=root)
+
+    b = Button(root,image=opennextimage,command= lambda : [root.destroy(),hello()])
+
+    b.place(relx=0.9,rely=0.9)
+    b['border'] = 0
+    b['background'] = '#ECE5DD'
+
+    b.image = opennextimage
+
+    root.mainloop()
 
 def login():
     x = Tk()
@@ -30,6 +78,7 @@ def login():
     fontSizze2 = IntVar(value=8)
     appfont = Font(family=fontFamilyy.get(), size=fontSizze.get(), weight='normal')
 
+    x.iconbitmap('images/logo.ico')
 
     frame = Frame(x,bg="#25D366",width=2000,height=100)
     frame.place(relx=0.00001,rely=0.0000001)
@@ -95,6 +144,8 @@ def register():
     root.title("Sign-up Form")
     fontFamily = StringVar(value="Verdana")
     fontSize = IntVar(value=12)
+
+    root.iconbitmap('images/logo.ico')
 
     fontcon = Font(family=fontFamily.get(), size=fontSize.get(), weight='normal')
 
@@ -168,6 +219,8 @@ def add_contact():
     a.configure(background="#ECE5DD")
     a.title('Add Contacts')
 
+    a.iconbitmap('images/logo.ico')
+
     frame = Frame(a, bg="#25D366", width=2000, height=100)
     frame.place(relx=0.00001, rely=0.0000001)
 
@@ -192,6 +245,75 @@ def add_contact():
 
     a.mainloop()
 
+def contactinfo(contact):
+    root = Tk()
+
+    root.configure(background='#ECE5DD')
+    root.state('zoomed')
+
+    contactname = contact[1]
+
+    root.iconbitmap('images/logo.ico')
+
+    root.title(f'{contactname}')
+
+    fra = Frame(root, bg="#25D366", width=1500, height=120)
+    fra.place(relx=0.00001, rely=0.0000001)
+
+    backimg = Image.open('images/back.webp')
+    backimage = backimg.resize((50, 50), Image.ANTIALIAS)
+    openbackimage = ImageTk.PhotoImage(backimage, master=fra)
+
+    backbutton = Button(fra, image=openbackimage, command=lambda: [root.destroy(), click(contact)])
+
+    backbutton["border"] = "0"
+    backbutton["bg"] = "#25D366"
+    backbutton.place(relx=0.02, rely=0.4, anchor=CENTER)
+    backbutton.image = openbackimage
+
+    Label(fra,text=contactname,bg='#25D366',fg='white',font=('Helvetica',30,'bold')).place(relx=0.42,rely=0.3)
+
+    contactimg = Image.open(f'images/profile_image/{contact[4]}')
+    contactimage = contactimg.resize((50, 50), Image.ANTIALIAS)
+    opencontactimage = ImageTk.PhotoImage(contactimage, master=fra)
+
+    imageLabel = Label(fra, image=opencontactimage)
+
+    imageLabel["border"] = "0"
+    imageLabel["bg"] = "#25D366"
+    imageLabel.place(relx=0.4, rely=0.55, anchor=CENTER)
+    imageLabel.image = opencontactimage
+
+    bigcontactimage = contactimg.resize((250,250),Image.ANTIALIAS)
+    openbigcontactimage = ImageTk.PhotoImage(bigcontactimage,master=root)
+
+    bigimageLabel = Label(root,image=openbigcontactimage)
+
+    bigimageLabel['border'] = 0
+    bigimageLabel['background'] = '#ECE5DD'
+    bigimageLabel.place(relx=0.35,rely=0.175)
+    bigimageLabel.image = openbigcontactimage
+
+    Label(root,text=contactname,bg='#ECE5DD',fg='#075E54',font=('Kalpurush',20,'bold')).place(relx=0.001,rely=0.59)
+
+    Label(root,text='STATUS:',bg='#ECE5DD',fg='#075E54',font=('Kalpurush',20,'bold')).place(relx=0.001,rely=0.69)
+
+    status = contact[3]
+
+    if status == '':
+        status = 'No status'
+    else:
+        pass
+
+    Label(root, text=f'{status}', bg='#ECE5DD', fg='#00ACEE', font=('Kalpurush', 20, 'bold')).place(relx=0.1, rely=0.69)
+
+    Label(root,text='Last Seen today at : ',bg='#ECE5DD',fg='#075E54',font=('Kalpurush',20,'bold')).place(relx=0.001,rely=0.79)
+
+    now = datetime.datetime.now()
+
+    current_time = now.strftime('%H:%M:%S')
+
+    Label(root,text=f'{current_time}',bg='#ECE5DD',fg='#00ACEE',font=('Kalpurush',20,'bold')).place(relx=0.25,rely=0.79)
 
 def click(contact):
     chat_page = Tk()
@@ -200,6 +322,8 @@ def click(contact):
     chat_page.title(contact[1])
 
     chats = db.get_chats(contact[1])
+
+    chat_page.iconbitmap('images/logo.ico')
 
     fra = Frame(chat_page, bg="#25D366", width=1500, height=120)
     fra.place(relx=0.00001, rely=0.0000001)
@@ -239,13 +363,12 @@ def click(contact):
 
     Label(fra, text=contact[1], font=("Helvetica", 20, "bold"), bg="#25D366", fg="#075E54",relief='flat').place(relx=0.15,rely=0.375)
 
-    print(contact)
 
-    menuimg = Image.open(f'images/profile_image/{contact[4]}')#,command = lambda :  [contactinfo()])
+    menuimg = Image.open(f'images/profile_image/{contact[4]}')
     menuimage = menuimg.resize((50, 50), Image.ANTIALIAS)
     openmenuimage = ImageTk.PhotoImage(menuimage, master=fra)
 
-    buttonfornewimage = Button(fra, image=openmenuimage)#, command = lambda c = contact : [contactdetails(c)])
+    buttonfornewimage = Button(fra, image=openmenuimage, command = lambda :  [chat_page.destroy(),contactinfo(contact)])
     buttonfornewimage.place(relx=0.11,rely=0.35)
 
 
@@ -328,6 +451,8 @@ def changepassword(user):
     root.state('zoomed')
     root.configure(background = '#ECE5DD')
 
+    root.iconbitmap('images/logo.ico')
+
     fra = Frame(root, bg="#25D366", width=1500, height=120)
     fra.place(relx=0.00001, rely=0.0000001)
 
@@ -348,9 +473,9 @@ def changepassword(user):
 
     profileimage = userdetails['ProfilePicture']
 
-    profile_image_str = bytes.decode(profileimage,'utf-8')
 
-    profileimg = Image.open(f'images/profile_image/{profile_image_str}')
+
+    profileimg = Image.open(f'images/profile_image/{profileimage}')
     profileimage = profileimg.resize((50, 50), Image.ANTIALIAS)
     openprofileimage = ImageTk.PhotoImage(profileimage, master=fra)
 
@@ -439,6 +564,8 @@ def changetheme():
     root.title('Change the theme')
     root.configure(background='#ECE5DD')
 
+    root.iconbitmap('images/logo.ico')
+
     root.state('zoomed')
 
     options = ['Default','Light','Dark']
@@ -483,6 +610,7 @@ def settings(user=db.get_setting('username')):
     s.title('Settings')
     s.configure(background='#ECE5DD')
 
+    s.iconbitmap('images/logo.ico')
 
     userdetails = server_local.get_user(user)
 
@@ -504,9 +632,7 @@ def settings(user=db.get_setting('username')):
 
     x = userdetails['ProfilePicture']
 
-    b = bytes.decode(x,'utf-8')
-
-    userimg = Image.open(f'images/profile_image/{b}')
+    userimg = Image.open(f'images/profile_image/{x}')
     userimage = userimg.resize((50, 50), Image.ANTIALIAS)
     openuserimage = ImageTk.PhotoImage(userimage, master=s)
 
@@ -552,7 +678,11 @@ def openimage(image,username):
 
     root = Tk()
 
+    root.iconbitmap('images/logo.ico')
+
     root.state('zoomed')
+
+    root.attributes('-alpha', 0.9)
 
     root.configure(background='black')
 
@@ -573,11 +703,12 @@ def default(query=''):
     n = server_local.get_user(user)
 
 
-
     root = Tk()
     root.state("zoomed")
     root.title("Home Page")
     root.configure(background="#ECE5DD")
+
+    root.iconbitmap('images/logo.ico')
 
     fra = Frame(root, bg="#25D366", width=2000, height=100)
     fra.place(relx=0.00001, rely=0.0000001)
@@ -629,11 +760,8 @@ def default(query=''):
 
     x = n['ProfilePicture']
 
-    image = bytes.decode(x,'utf-8')
 
-
-
-    userimg = Image.open(f'images/profile_image/{image}')
+    userimg = Image.open(f'images/profile_image/{x}')
     userimage = userimg.resize((50, 50), Image.ANTIALIAS)
     openuserimage = ImageTk.PhotoImage(userimage, master=root)
 
