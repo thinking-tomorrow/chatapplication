@@ -5,34 +5,30 @@ from tkinter.font import Font
 import database_local as db
 from tkinter import filedialog  as f
 
-import webbrowser
-
 import datetime
 
 user = ''
 
 
-def load_function(login_func, register_func, add_contact_func, send_message_func, upload_image_func):
-    global add_contact_backend, login_backend, register_backend, send_message_backend, uploadimage_func
+def load_function(login_func, register_func, add_contact_func, send_message_func, upload_image_func, password_func):
+    global add_contact_backend, login_backend, register_backend, send_message_backend, uploadimage_func, password_back
     add_contact_backend = add_contact_func
     login_backend = login_func
     register_backend = register_func
     send_message_backend = send_message_func
     uploadimage_func = upload_image_func
+    password_back = password_func
+
 
 def hello():
-
     if db.get_setting('remember') == 'True':
-
         default()
     else:
         login()
 
+
 def homepage():
     root = Tk()
-
-
-
     root.title('Introductory Page')
     root.iconbitmap('images/logo.ico')
     root.configure(background = '#ECE5DD')
@@ -68,6 +64,7 @@ def homepage():
     b.image = opennextimage
 
     root.mainloop()
+
 
 def login():
     x = Tk()
@@ -247,6 +244,7 @@ def add_contact():
 
     a.mainloop()
 
+
 def contactinfo(contact):
     root = Tk()
 
@@ -316,6 +314,7 @@ def contactinfo(contact):
     current_time = now.strftime('%H:%M:%S')
 
     Label(root,text=f'{current_time}',bg='#ECE5DD',fg='#00ACEE',font=('Kalpurush',20,'bold')).place(relx=0.25,rely=0.79)
+
 
 def click(contact):
     chat_page = Tk()
@@ -446,19 +445,19 @@ def click(contact):
 
     chat_page.mainloop()
 
+
 def changepassword(user):
 
     root = Tk()
     root.title('Change your Password')
     root.state('zoomed')
-    root.configure(background = '#ECE5DD')
-
+    root.configure(background='#ECE5DD')
     root.iconbitmap('images/logo.ico')
 
     fra = Frame(root, bg="#25D366", width=1500, height=120)
     fra.place(relx=0.00001, rely=0.0000001)
 
-    Label(fra,text='Change your Password',bg='#25D366',fg='white',font=('Helvetica',20,'bold')).place(relx=0.32,rely=0.4)
+    Label(fra, text='Change your Password', bg='#25D366', fg='white', font=('Helvetica', 20, 'bold')).place(relx=0.32, rely=0.4)
 
     backimg = Image.open('images/back.webp')
     backimage = backimg.resize((50, 50), Image.ANTIALIAS)
@@ -475,8 +474,6 @@ def changepassword(user):
 
     profileimage = userdetails['ProfilePicture']
 
-
-
     profileimg = Image.open(f'images/profile_image/{profileimage}')
     profileimage = profileimg.resize((50, 50), Image.ANTIALIAS)
     openprofileimage = ImageTk.PhotoImage(profileimage, master=fra)
@@ -490,24 +487,24 @@ def changepassword(user):
 
     profilename = userdetails['Username']
 
-    Label(root,bg='#ECE5DD',text=profilename,fg='#075E54',font=('Kalpurush',20,'bold')).place(relx=0.45,rely=0.4)
+    Label(root, bg='#ECE5DD', text=profilename, fg='#075E54', font=('Kalpurush', 20, 'bold')).place(relx=0.45, rely=0.4)
 
-    currentpassword = userdetails['Password']
+    currentpassword = '*'*len(userdetails['Password'])
 
-    Label(root,text='Your Current Password',bg='#ECE5DD',fg='#075E54',font=('Kaplurush',15,'bold')).place(relx=0.02,rely=0.5)
+    # Label(root, text='Your Current Password', bg='#ECE5DD',fg='#075E54',font=('Kaplurush',15,'bold')).place(relx=0.02,rely=0.5)
 
-    Label(root,text='This is your current password',bg='#ECE5DD',fg='#075E54',font=('Kalpurush',13,'bold')).place(relx=0.01,rely=0.6)
+    Label(root, text='Your current password', bg='#ECE5DD', fg='#075E54', font=('Kalpurush', 13, 'bold')).place(relx=0.01, rely=0.6)
 
-    Label(root,text=currentpassword, bg='#ECE5DD',fg='#075E54',font=('Kalpurush',10,'normal')).place(relx=0.4,rely=0.6)
+    Label(root, text=currentpassword, bg='#ECE5DD', fg='#075E54', font=('Kalpurush', 10, 'normal')).place(relx=0.4, rely=0.6)
 
-    Label(root,text='Enter your new password here:',bg='#ECE5DD',fg='#075E54',font=('Kalpurush',13,'bold')).place(relx=0.01,rely=0.7)
+    Label(root, text='Enter your new password here:', bg='#ECE5DD', fg='#075E54', font=('Kalpurush', 13, 'bold')).place(relx=0.01, rely=0.7)
 
-    passwordentry = Entry(root,bg='#BEFAFA',relief='flat',width=90,justify='center')
-    passwordentry.place(relx=0.4,rely=0.7)
+    passwordentry = Entry(root, bg='#BEFAFA', relief='flat', width=90, justify='center', show='*')
+    passwordentry.place(relx=0.4, rely=0.7)
 
-    Label(root,text='Confirm your password entry:',bg='#ECE5DD',fg='#075E54',font=('Kalpurush',13,'bold')).place(relx=0.01,rely=0.8)
+    Label(root, text='Confirm your password entry:', bg='#ECE5DD', fg='#075E54', font=('Kalpurush', 13, 'bold')).place(relx=0.01, rely=0.8)
 
-    confirmpasswordentry = Entry(root ,bg='#BEFAFA',relief='flat',width=90,justify='center')
+    confirmpasswordentry = Entry(root, bg='#BEFAFA', relief='flat', width=90, justify='center', show='*')
     confirmpasswordentry.place(relx=0.4,rely=0.8)
 
     passimg = Image.open('images/change_password.webp')
@@ -521,7 +518,8 @@ def changepassword(user):
     passimagebutton.place(relx=0.4, rely=0.9)
     passimagebutton.image = openpassimage
 
-    Button(root,text='Change your password',bg='#075E54',fg='white').place(relx=0.45,rely=0.925)
+    Button(root, text='Change your password', bg='#075E54', fg='white',
+           command=lambda: [password_back(passwordentry.get(), confirmpasswordentry.get())]).place(relx=0.45, rely=0.925)
 
 
 def on_keypress(char, window, test):
@@ -531,6 +529,7 @@ def on_keypress(char, window, test):
     else:
         test = test+char
     default(test)
+
 
 def updateprofilepic(user):
 
@@ -559,6 +558,7 @@ def updateprofilepic(user):
     default()
 
     root.mainloop()
+
 
 def changetheme():
 
@@ -606,81 +606,6 @@ def changetheme():
 
     Button(root,text='Change the theme',bg='#075E54',fg='white').place(relx=0.5,rely=0.9)
 
-def github():
-    webbrowser.open_new(r"https://github.com/thinking-tomorrow/chatapplication")
-
-
-def aboutus():
-    root = Tk()
-
-    root.configure(background = '#ECE5DD')
-
-    root.state('zoomed')
-
-    root.iconbitmap('images/logo.ico')
-    root.title('About Us')
-
-    frame = Frame(root, bg="#25D366", width=2000, height=100)
-    frame.place(relx=0.00001, rely=0.0000001)
-
-    Label(frame, text="ABOUT US", bg="#25D366", fg="white", font=('Helvetica', 20, 'bold')).place(relx=0.32, rely=0.3)
-
-    logoimg = Image.open('images/logo.png')
-    logoimage = logoimg.resize((200,200),Image.ANTIALIAS)
-    openlogoimage = ImageTk.PhotoImage(logoimage,master=root)
-
-    logoLabel = Label(root,image=openlogoimage)
-
-    logoLabel.place(relx=0.45,rely=0.2)
-    logoLabel['border'] = 0
-    logoLabel['background'] = '#ECE5DD'
-
-    logoLabel.image = openlogoimage
-
-    backimg = Image.open('images/back.webp')
-    backimage = backimg.resize((50,50),Image.ANTIALIAS)
-    openbackimage = ImageTk.PhotoImage(backimage,master=frame)
-
-    backbutton = Button(frame,image = openbackimage,command = lambda : [root.destroy(),settings()])
-
-    backbutton.place(relx=0.01,rely=0.3)
-
-    backbutton['border'] = 0
-    backbutton['background'] = '#25D366'
-
-    backbutton.image = openbackimage
-
-    Label(root,text='THINKING TOMORROW',bg='#ECE5DD',fg='#075E54',font=('Kalpurush',20,'bold')).place(relx=0.4,rely=0.5)
-
-    Label(root,text='What is Thinking Tomorrow ? ',bg='#ECE5DD',fg='#075E54',font=('Kalpurush',20,'bold')).place(relx=0.001,rely=0.55)
-
-    info = 'Thinking Tomorrow is a non-profittable organisation that has worked on building this chat application . We hope u like it !'
-
-    Label(root,text=info,bg='#ECE5DD',fg='#075E54',font=('Kalpurush',12,'bold')).place(relx=0.001,rely=0.6)
-
-    Label(root,text='WHO ARE WE?',bg='#ECE5DD',fg='#075E54',font=('Kalpurush',20,'bold')).place(relx=0.001,rely=0.65)
-
-    devinfo =  "The developers behind this project are Sajjad Ahmed Shaaz(the major part)and Hrishikesh Bhanja . The team has worked in the best way possible to provide all the necessary"
-
-    dev2info = 'functions to the user. If they are any problems u are always free to email us to the below addresses'
-
-    Label(root,text=devinfo,bg='#ECE5DD',fg='#075E54',font=('Kalpurush',12,'bold')).place(relx=0.001,rely=0.7)
-    Label(root, text=dev2info, bg='#ECE5DD', fg='#075E54', font=('Kalpurush', 12, 'bold')).place(relx=0.001, rely=0.73)
-
-    gitimg = Image.open('images/git.png')
-    gitimage = gitimg.resize((50, 50), Image.ANTIALIAS)
-    opengitimage = ImageTk.PhotoImage(gitimage, master=root)
-
-    gitbutton = Button(root, image=opengitimage, command=lambda: [root.destroy(), github()])
-
-    gitbutton["border"] = "0"
-    gitbutton["bg"] = "#ECE5DD"
-    gitbutton.place(relx=0.02, rely=0.9, anchor=CENTER)
-    gitbutton.image = opengitimage
-
-    Label(root,text='The Email-ids are as follows:',bg='#ECE5DD',fg='#075E54',font=('Kalpurush',15,'bold')).place(relx=0.34,rely=0.8)
-
-    Label(root,text='mailsajjad006@gmail.com,hrishipotter123@gmail.com',fg='#00ACEE',bg='#ECE5DD',font=('Kalpurush',12,'bold')).place(relx=0.3,rely=0.9)
 
 def settings(user=db.get_setting('username')):
     s = Tk()
@@ -743,16 +668,17 @@ def settings(user=db.get_setting('username')):
     b = Button(s,text='Turn off Notifications',bg="#ECE5DD",fg="#075E54",font=('Kalpurush', 20, 'bold'),width=90,relief='flat',anchor='w')
     b.place(relx=0.00001,rely=0.7)
 
-    b = Button(s,text='Change your status',bg="#ECE5DD",fg="#075E54",font=('Kalpurush', 20, 'bold'),width=90,relief='flat',anchor='w')
+    b = Button(s,text='Other Details',bg="#ECE5DD",fg="#075E54",font=('Kalpurush', 20, 'bold'),width=90,relief='flat',anchor='w')
     b.place(relx=0.00001,rely=0.8)
 
-    b = Button(s,text='About Us',bg="#ECE5DD",fg="#075E54",font=('Kalpurush', 20, 'bold'),width=90,relief='flat',anchor='w',command = lambda : [s.destroy(),aboutus()])
+    b = Button(s,text='About Us',bg="#ECE5DD",fg="#075E54",font=('Kalpurush', 20, 'bold'),width=90,relief='flat',anchor='w')
     b.place(relx=0.00001,rely=0.9)
 
 
     s.mainloop()
 
-def openimage(image,username):
+
+def openimage(image, username):
 
     root = Tk()
 
@@ -775,6 +701,7 @@ def openimage(image,username):
     button1.image = openmenuimage
 
     root.mainloop()
+
 
 def default(query=''):
     user = db.get_setting('username')
@@ -922,9 +849,6 @@ def default(query=''):
     button1 = Button(root, image=opensearchimage, command=lambda: [default()])
     button1.place(relx=0.6, rely=0.4, anchor=CENTER)
     button1.image = opensearchimage
-
-
-
 
     canvas.create_window(0, 0, anchor='nw', window=frame)
 

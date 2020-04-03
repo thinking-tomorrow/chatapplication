@@ -43,7 +43,17 @@ def send_message(message, contact, now, sender):
     client_socket.close()
     return data
 
-def change_image(username ,imagepath):
+
+def change_password(username, password):
+    client_socket = socket.socket()
+    client_socket.connect(('localhost', 1234))
+    client_socket.send(bytes(f"change,{username},{password}", 'utf-8'))
+    data = ast.literal_eval(bytes.decode(client_socket.recv(1024), 'utf-8'))
+    client_socket.close()
+    return data
+
+
+def change_image(username, imagepath):
 
     client_socket = socket.socket()
     client_socket.connect(('localhost',1234))

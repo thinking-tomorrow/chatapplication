@@ -47,10 +47,9 @@ def get_contact(details):
 
     return cursor.fetchall()
 
-def uploadprofilepicture(username,profilepicture):
-    for i in range(1,4):
-        print(i)
-        print('in db')
+
+def uploadprofilepicture(username, profilepicture):
+
     sql = f"UPDATE clients SET ProfilePicture='{profilepicture}' WHERE Username='{username}'"
 
     try:
@@ -60,3 +59,10 @@ def uploadprofilepicture(username,profilepicture):
         return False
     finally:
         my_db.commit()
+
+
+def change_password(username, password):
+    sql = f"UPDATE clients SET Password='{password}' WHERE Username='{username}'"
+    cursor.execute(sql)
+    my_db.commit()
+    return True
