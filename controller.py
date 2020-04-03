@@ -40,6 +40,7 @@ def register(username, email, password, repeat_password, window):
 
                     database_local.create_and_drop_table()
                     database_local.set_setting('username', username)
+                    database_local.set_setting('profile_image', 'default_profile_image.png')
 
                     view.default()
 
@@ -105,8 +106,8 @@ def change_password(password, retype_password):
 
 
 def uploadprofilepicture(username, profilepicture):
-    database_local.uploadprofilepicture(username, profilepicture)
-    server_local.change_image(username, profilepicture)
+    pass
+    # server_local.change_image(username, profilepicture)
 
 
 view.load_function(login, register, add_contact, send_message, uploadprofilepicture, change_password)

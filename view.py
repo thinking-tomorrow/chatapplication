@@ -4,9 +4,7 @@ import server_local
 from tkinter.font import Font
 import database_local as db
 from tkinter import filedialog  as f
-
 import webbrowser
-
 import datetime
 
 user = ''
@@ -533,31 +531,27 @@ def on_keypress(char, window, test):
     default(test)
 
 
-def updateprofilepic(user):
+def updateprofilepic(user, window):
 
     root = Tk()
-
     root.withdraw()
 
-    n = server_local.get_user(user)
-
-
-
     filename = f.askopenfilename(initialdir="/", title="Select file",
-                        filetypes=(("jpeg files", "*.jpg"), ("all files", "*.*")))
+                                 filetypes=(("all files", "*.jpg",), ("all files", "*.png"), ("all files", "*.jpeg")))
 
-    username_profile = Image.open(f'{filename}')
+    if filename:
 
-    ext = str(filename).split('.')[1]
+        username_profile = Image.open(f'{filename}')
 
-    if ext.upper() == 'JPG':
-        ext = 'jpeg'
+        ext = str(filename).split('.')[1]
+        if ext.upper() == 'JPG':
+            ext = 'jpeg'
 
-    username_profile.save(f'images/profile_image/{user}',ext)
-
-    uploadimage_func(user,username_profile)
-
-    default()
+        username_profile.save(f'images/profile_image/{user}_profile.{ext}')
+        db.set_setting('profile_image', f'{user}_profile.{ext}')
+        uploadimage_func(user, username_profile)
+        window.destroy()
+        default()
 
     root.mainloop()
 
@@ -760,15 +754,10 @@ def settings(user=db.get_setting('username')):
 def openimage(image, username):
 
     root = Tk()
-
     root.iconbitmap('images/logo.ico')
-
     root.state('zoomed')
-
     root.attributes('-alpha', 0.9)
-
     root.configure(background='black')
-
     root.title(f'{username}')
 
     menuimg = Image.open(f'images/profile_image/{image}')
@@ -786,12 +775,10 @@ def default(query=''):
     user = db.get_setting('username')
     n = server_local.get_user(user)
 
-
     root = Tk()
     root.state("zoomed")
     root.title("Home Page")
     root.configure(background="#ECE5DD")
-
     root.iconbitmap('images/logo.ico')
 
     fra = Frame(root, bg="#25D366", width=2000, height=100)
@@ -812,8 +799,6 @@ def default(query=''):
     else:
         pass
 
-
-
     Label(fra, text="HOME", bg="#25D366", fg="white", font=('Helvetica', 25, 'bold')).place(relx=0.32, rely=0.3)
 
     menuimg = Image.open('images/menu.webp')
@@ -824,7 +809,6 @@ def default(query=''):
                      command=lambda: [root.destroy(), settings()])
     button1.place(relx=0.65, rely=0.5, anchor=CENTER)
     button1.image = openmenuimage
-
 
     button1['border'] = 0
 
@@ -842,22 +826,19 @@ def default(query=''):
     username = Label(root, font=('Kalpurush', 20, 'bold'), text=f"{user}", bg="#ECE5DD", fg="#075E54")
     username.place(relx=0.5, rely=0.3, anchor=N)
 
-    x = n['ProfilePicture']
-
+    # x = n['ProfilePicture']
+    x = db.get_setting('profile_image')
 
     userimg = Image.open(f'images/profile_image/{x}')
     userimage = userimg.resize((50, 50), Image.ANTIALIAS)
     openuserimage = ImageTk.PhotoImage(userimage, master=root)
 
-    buttonforuserimage = Button(root, image=openuserimage, bg="#ECE5DD",command = lambda  : [root.destroy(),updateprofilepic(user)])
+    buttonforuserimage = Button(root, image=openuserimage, bg="#ECE5DD",command=lambda: [updateprofilepic(user, root)])
 
     buttonforuserimage["border"] = "0"
     buttonforuserimage["bg"] = "#ECE5DD"
     buttonforuserimage.place(relx=0.5, rely=0.24, anchor=CENTER)
     buttonforuserimage.image = openuserimage
-
-
-
 
     pathVar = StringVar()
     searchbar = Entry(root, bg="pink", fg="blue", justify="center", borderwidth=3, textvariable=pathVar)
@@ -905,7 +886,6 @@ def default(query=''):
         Button(frame, bg="#34B7F1", text=f"{contact[1]}\t\t {contact[3]}", width=48, height=2,
                anchor="center", justify="center", command=lambda c=contact: [root.destroy(), click(c)]).grid(row=row, column=4)
 
-
         img = Image.open(f'images/profile_image/{contact[4]}')
 
         image = img.resize((30, 30), Image.ANTIALIAS)
@@ -937,6 +917,5 @@ def default(query=''):
 
     canvas.grid(row=18, column=12, columnspan=2, rowspan=2,pady=7)
     scroll_y.grid(row=18, column=14, rowspan=2, sticky='ns')
-
 
     root.mainloop()

@@ -91,15 +91,15 @@ def get_chats(username):
 
 
 def uploadprofilepicture(username, profilepicture):
-    sql = f"UPDATE clients SET profile_picture='{profilepicture}' WHERE user_name='{username}'"
-
-    try:
-        cursor.execute(sql)
-        return True
-    except:
-        return False
-    finally:
-        db.commit()
+    sql = f"UPDATE contacts SET profile_picture='{profilepicture}' WHERE user_name='{username}'"
+    cursor.execute(sql)
+    # try:
+    #     cursor.execute(sql)
+    #     return True
+    # except:
+    #     return False
+    # finally:
+    #     db.commit()
 
 
 def add_message(message, contact, now):
