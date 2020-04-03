@@ -5,6 +5,8 @@ from tkinter.font import Font
 import database_local as db
 from tkinter import filedialog  as f
 
+import webbrowser
+
 import datetime
 
 user = ''
@@ -607,6 +609,83 @@ def changetheme():
     Button(root,text='Change the theme',bg='#075E54',fg='white').place(relx=0.5,rely=0.9)
 
 
+def github():
+    webbrowser.open_new(r"https://github.com/thinking-tomorrow/chatapplication")
+
+
+def aboutus():
+    root = Tk()
+
+    root.configure(background = '#ECE5DD')
+
+    root.state('zoomed')
+
+    root.iconbitmap('images/logo.ico')
+    root.title('About Us')
+
+    frame = Frame(root, bg="#25D366", width=2000, height=100)
+    frame.place(relx=0.00001, rely=0.0000001)
+
+    Label(frame, text="ABOUT US", bg="#25D366", fg="white", font=('Helvetica', 20, 'bold')).place(relx=0.32, rely=0.3)
+
+    logoimg = Image.open('images/logo.png')
+    logoimage = logoimg.resize((200,200),Image.ANTIALIAS)
+    openlogoimage = ImageTk.PhotoImage(logoimage,master=root)
+
+    logoLabel = Label(root,image=openlogoimage)
+
+    logoLabel.place(relx=0.45,rely=0.2)
+    logoLabel['border'] = 0
+    logoLabel['background'] = '#ECE5DD'
+
+    logoLabel.image = openlogoimage
+
+    backimg = Image.open('images/back.webp')
+    backimage = backimg.resize((50,50),Image.ANTIALIAS)
+    openbackimage = ImageTk.PhotoImage(backimage,master=frame)
+
+    backbutton = Button(frame,image = openbackimage,command = lambda : [root.destroy(),settings()])
+
+    backbutton.place(relx=0.01,rely=0.3)
+
+    backbutton['border'] = 0
+    backbutton['background'] = '#25D366'
+
+    backbutton.image = openbackimage
+
+    Label(root,text='THINKING TOMORROW',bg='#ECE5DD',fg='#075E54',font=('Kalpurush',20,'bold')).place(relx=0.4,rely=0.5)
+
+    Label(root,text='What is Thinking Tomorrow ? ',bg='#ECE5DD',fg='#075E54',font=('Kalpurush',20,'bold')).place(relx=0.001,rely=0.55)
+
+    info = 'Thinking Tomorrow is a non-profittable organisation that has worked on building this chat application . We hope u like it !'
+
+    Label(root,text=info,bg='#ECE5DD',fg='#075E54',font=('Kalpurush',12,'bold')).place(relx=0.001,rely=0.6)
+
+    Label(root,text='WHO ARE WE?',bg='#ECE5DD',fg='#075E54',font=('Kalpurush',20,'bold')).place(relx=0.001,rely=0.65)
+
+    devinfo =  "The developers behind this project are Sajjad Ahmed Shaaz(the major part)and Hrishikesh Bhanja . The team has worked in the best way possible to provide all the necessary"
+
+    dev2info = 'functions to the user. If they are any problems u are always free to email us to the below addresses'
+
+    Label(root,text=devinfo,bg='#ECE5DD',fg='#075E54',font=('Kalpurush',12,'bold')).place(relx=0.001,rely=0.7)
+    Label(root, text=dev2info, bg='#ECE5DD', fg='#075E54', font=('Kalpurush', 12, 'bold')).place(relx=0.001, rely=0.73)
+
+    gitimg = Image.open('images/git.png')
+    gitimage = gitimg.resize((50, 50), Image.ANTIALIAS)
+    opengitimage = ImageTk.PhotoImage(gitimage, master=root)
+
+    gitbutton = Button(root, image=opengitimage, command=lambda: [root.destroy(), github()])
+
+    gitbutton["border"] = "0"
+    gitbutton["bg"] = "#ECE5DD"
+    gitbutton.place(relx=0.02, rely=0.9, anchor=CENTER)
+    gitbutton.image = opengitimage
+
+    Label(root,text='The Email-ids are as follows:',bg='#ECE5DD',fg='#075E54',font=('Kalpurush',15,'bold')).place(relx=0.34,rely=0.8)
+
+    Label(root,text='mailsajjad006@gmail.com,hrishipotter123@gmail.com',fg='#00ACEE',bg='#ECE5DD',font=('Kalpurush',12,'bold')).place(relx=0.3,rely=0.9)
+
+
 def settings(user=db.get_setting('username')):
     s = Tk()
     s.state('zoomed')
@@ -668,10 +747,10 @@ def settings(user=db.get_setting('username')):
     b = Button(s,text='Turn off Notifications',bg="#ECE5DD",fg="#075E54",font=('Kalpurush', 20, 'bold'),width=90,relief='flat',anchor='w')
     b.place(relx=0.00001,rely=0.7)
 
-    b = Button(s,text='Other Details',bg="#ECE5DD",fg="#075E54",font=('Kalpurush', 20, 'bold'),width=90,relief='flat',anchor='w')
+    b = Button(s,text='Change your status',bg="#ECE5DD",fg="#075E54",font=('Kalpurush', 20, 'bold'),width=90,relief='flat',anchor='w')
     b.place(relx=0.00001,rely=0.8)
 
-    b = Button(s,text='About Us',bg="#ECE5DD",fg="#075E54",font=('Kalpurush', 20, 'bold'),width=90,relief='flat',anchor='w')
+    b = Button(s,text='About Us',bg="#ECE5DD",fg="#075E54",font=('Kalpurush', 20, 'bold'),width=90,relief='flat',anchor='w',command = lambda : [s.destroy(),aboutus()])
     b.place(relx=0.00001,rely=0.9)
 
 
