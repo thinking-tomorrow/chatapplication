@@ -89,10 +89,8 @@ def get_chats(username):
 
     return cursor.fetchall()
 
-def uploadprofilepicture(username,profilepicture):
-    for i in range(1,4):
-        print(i)
-        print("in db local")
+
+def uploadprofilepicture(username, profilepicture):
     sql = f"UPDATE clients SET profile_picture='{profilepicture}' WHERE user_name='{username}'"
 
     try:
@@ -126,25 +124,6 @@ def add_user(user):
 
     cursor.execute(sql)
     db.commit()
-    return True
-
-
-def get_current_user():
-    sql = "SELECT * FROM settings WHERE key='user'"
-    try:
-        cursor.execute(sql)
-        return cursor.fetchone()[2]
-    except:
-        return False
-    finally:
-        db.commit()
-
-
-def set_current_user(username):
-    sql = f"INSERT INTO settings(key, value) VALUES('user', '{username}')"
-    cursor.execute(sql)
-    db.commit()
-
     return True
 
 

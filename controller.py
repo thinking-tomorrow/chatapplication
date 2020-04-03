@@ -91,11 +91,23 @@ def add_contact(contact, window):
                     view.default()
 
 
-def uploadprofilepicture(username,profilepicture):
+def change_password(password, retype_password):
+    if password != retype_password:
+        messagebox.showerror("Error", "Password and re-type password does not match")
+    else:
+        if len(password) < 6:
+            messagebox.showerror("Error", "Password should be atleast six characters long")
+        else:
+            if server_local.change_password(database_local.get_setting('username'), password):
+                messagebox.showinfo("Success", "Successfully Changed Your Password")
+            else:
+                messagebox.showerror("Failed", "Sorry! Failed to change your password, Please try again")
+
+
+def uploadprofilepicture(username, profilepicture):
     database_local.uploadprofilepicture(username, profilepicture)
-    server_local.change_image(username,profilepicture)
+    server_local.change_image(username, profilepicture)
 
 
-view.load_function(login, register, add_contact, send_message, uploadprofilepicture)
-
+view.load_function(login, register, add_contact, send_message, uploadprofilepicture, change_password)
 view.homepage()
