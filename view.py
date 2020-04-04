@@ -544,8 +544,7 @@ def updateprofilepic(user, window):
         username_profile = Image.open(f'{filename}')
 
         ext = str(filename).split('.')[1]
-        if ext.upper() == 'JPG':
-            ext = 'jpeg'
+        ext = 'jpeg'
 
         username_profile.save(f'images/profile_image/{user}_profile.{ext}')
         db.set_setting('profile_image', f'{user}_profile.{ext}')
@@ -719,7 +718,7 @@ def settings(user=db.get_setting('username')):
     buttonforuserimage.place(relx=0.5, rely=0.24, anchor=CENTER)
     buttonforuserimage.image = openuserimage
 
-    Label(s, text= f"{user}",bg='#ECE5DD',fg='#075E54', font=('Kalpurush', 20, 'bold')).place(relx=0.45,rely=0.3)
+    Label(s, text=f"{user}", bg='#ECE5DD', fg='#075E54', font=('Kalpurush', 20, 'bold')).place(relx=0.45, rely=0.3)
 
     b = Button(s,text='Change your Password',bg="#ECE5DD",fg="#075E54",font=('Kalpurush', 20, 'bold'),width=90,relief='flat',anchor='w', command = lambda : [s.destroy(),changepassword(user)])
     b.place(relx=0.04,rely=0.4)

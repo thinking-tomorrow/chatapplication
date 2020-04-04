@@ -4,6 +4,7 @@ import database_local
 import datetime
 import view
 import re
+import os.path
 
 regex = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
 
@@ -60,6 +61,11 @@ def login(username, password, window, remember):
                     try:
                         database_local.create_and_drop_table()
                         database_local.set_setting('username', username)
+
+                        if os.path.isfile(f'images/profile_image/{username}_profile.jpeg'):
+                            database_local.set_setting('profile_image', f"{username}_profile.jpeg")
+                        else:
+                            database_local.set_setting('profile_image', 'default_profile_image.jpeg')
                     except Exception as e:
                         pass
 
@@ -106,8 +112,7 @@ def change_password(password, retype_password):
 
 
 def uploadprofilepicture(username, profilepicture):
-    pass
-    # server_local.change_image(username, profilepicture)
+    server_local.change_image(username, profilepicture)
 
 
 view.load_function(login, register, add_contact, send_message, uploadprofilepicture, change_password)

@@ -54,17 +54,11 @@ def change_password(username, password):
 
 
 def change_image(username, imagepath):
-
-    client_socket = socket.socket()
-    client_socket.connect(('localhost',1234))
-
-    image = Image.open(f'images/profile_image/{username}')
-
-    print(image)
-
-    client_socket.send(bytes(f"image_message,{username},{image}", 'utf-8'))
-    print('h')
-    data = ast.literal_eval(bytes.decode(client_socket.recv(4096),'utf-8'))
-    print('HELLO')
-    client_socket.close()
-    return data
+    pass
+    # img = open(imagepath, 'rb')
+    # client_socket = socket.socket()
+    # client_socket.connect(('localhost', 1234))
+    # client_socket.send(bytes(f"change,{username},{password}", 'utf-8'))
+    # data = ast.literal_eval(bytes.decode(client_socket.recv(1024), 'utf-8'))
+    # client_socket.close()
+    # return data
