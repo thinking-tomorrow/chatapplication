@@ -678,12 +678,41 @@ def aboutus():
 
     Label(root,text='mailsajjad006@gmail.com,hrishipotter123@gmail.com',fg='#00ACEE',bg='#ECE5DD',font=('Kalpurush',12,'bold')).place(relx=0.3,rely=0.9)
 
+def updatestatus(username):
+    root = Tk()
+    root.title('Change your Status')
+
+    root.state('zoomed')
+
+    root.configure(background = '#ECE5DD')
+    root.iconbitmap('images/logo.ico')
+
+    frame = Frame(root, bg="#25D366", width=2000, height=100)
+    frame.place(relx=0.00001, rely=0.0000001)
+
+    Label(frame,text="Change your Status",bg="#25D366",fg="white",font=('Helvetica',30,'bold')).place(relx=0.275,rely=0.3)
+
+    userdetails = server_local.get_user(user)
+
+    proimg = Image.open('default_profile_image.png')
+    profileimg = proimg.resize((50,50),Image.ANTIALIAS)
+    openprofileimage = ImageTk.PhotoImage(profileimg,master=root)
+
+    imageLabel = Label(root,image=openprofileimage)
+    imageLabel.place(relx=0.5,rely=0.3)
+
+    imageLabel['border'] = 0
+    imageLabel['background'] = '#ECE5DD'
+
+    root.mainloop()
 
 def settings(user=db.get_setting('username')):
     s = Tk()
     s.state('zoomed')
     s.title('Settings')
     s.configure(background='#ECE5DD')
+
+    print(server_local.get_user(user))
 
     s.iconbitmap('images/logo.ico')
 
@@ -706,6 +735,8 @@ def settings(user=db.get_setting('username')):
     backbutton.image = openbackimage
 
     x = userdetails['ProfilePicture']
+
+    print(x)
 
     userimg = Image.open(f'images/profile_image/{x}')
     userimage = userimg.resize((50, 50), Image.ANTIALIAS)
@@ -740,7 +771,7 @@ def settings(user=db.get_setting('username')):
     b = Button(s,text='Turn off Notifications',bg="#ECE5DD",fg="#075E54",font=('Kalpurush', 20, 'bold'),width=90,relief='flat',anchor='w')
     b.place(relx=0.00001,rely=0.7)
 
-    b = Button(s,text='Change your status',bg="#ECE5DD",fg="#075E54",font=('Kalpurush', 20, 'bold'),width=90,relief='flat',anchor='w')
+    b = Button(s,text='Change your status',bg="#ECE5DD",fg="#075E54",font=('Kalpurush', 20, 'bold'),width=90,relief='flat',anchor='w',command = lambda : [s.destroy(),updatestatus(user)])
     b.place(relx=0.00001,rely=0.8)
 
     b = Button(s,text='About Us',bg="#ECE5DD",fg="#075E54",font=('Kalpurush', 20, 'bold'),width=90,relief='flat',anchor='w',command = lambda : [s.destroy(),aboutus()])
@@ -824,6 +855,11 @@ def default(query=''):
 
     username = Label(root, font=('Kalpurush', 20, 'bold'), text=f"{user}", bg="#ECE5DD", fg="#075E54")
     username.place(relx=0.5, rely=0.3, anchor=N)
+
+    status = n['Status']
+
+    statusLabel = Label(root,font=('Kalpurush',12,'bold'),text=status,bg='#ECE5DD',fg='#075E54')
+    statusLabel.place(relx=0.425,rely=0.35)
 
     # x = n['ProfilePicture']
     x = db.get_setting('profile_image')
