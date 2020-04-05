@@ -52,6 +52,14 @@ def change_password(username, password):
     client_socket.close()
     return data
 
+def change_status(username, new_status):
+    client_socket = socket.socket()
+    client_socket.connect(('localhost', 1234))
+    client_socket.send(bytes(f"change_status,{username},{new_status}", 'utf-8'))
+    data = ast.literal_eval(bytes.decode(client_socket.recv(1024), 'utf-8'))
+    client_socket.close()
+    return data
+
 
 def change_image(username, imagepath):
     pass

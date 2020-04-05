@@ -38,3 +38,7 @@ while True:
     elif 'change' in request:
         x = request.split(',')
         client_socket.send(bytes(str(db.change_password(x[1], x[2])), 'utf-8'))
+    elif 'change_status' in request:
+        x = request.split(',')
+        client_socket.send(bytes(str(db.change_status(x[1], x[2])), 'utf-8'))
+

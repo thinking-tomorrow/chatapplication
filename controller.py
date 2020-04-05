@@ -111,9 +111,23 @@ def change_password(password, retype_password):
                 messagebox.showerror("Failed", "Sorry! Failed to change your password, Please try again")
 
 
+def change_status(current_status,new_status):
+    if current_status == new_status:
+        messagebox.showerror("Error", "New status is the same as old status")
+    else:
+        if len(new_status) > 60:
+            messagebox.showerror("Error", "New status is too long")
+        else:
+            if server_local.change_status(database_local.get_setting('username'), new_status):
+                messagebox.showinfo("Success", "Successfully Changed Your Status")
+            else:
+                messagebox.showerror("Failed", "Sorry! Failed to change your status, Please try again")
+
+
+
 def uploadprofilepicture(username, profilepicture):
     server_local.change_image(username, profilepicture)
 
 
-view.load_function(login, register, add_contact, send_message, uploadprofilepicture, change_password)
+view.load_function(login, register, add_contact, send_message, uploadprofilepicture, change_password,change_status)
 view.homepage()

@@ -10,14 +10,15 @@ import datetime
 user = ''
 
 
-def load_function(login_func, register_func, add_contact_func, send_message_func, upload_image_func, password_func):
-    global add_contact_backend, login_backend, register_backend, send_message_backend, uploadimage_func, password_back
+def load_function(login_func, register_func, add_contact_func, send_message_func, upload_image_func, password_func,status_func):
+    global add_contact_backend, login_backend, register_backend, send_message_backend, uploadimage_func, password_back, status_back
     add_contact_backend = add_contact_func
     login_backend = login_func
     register_backend = register_func
     send_message_backend = send_message_func
     uploadimage_func = upload_image_func
     password_back = password_func
+    status_back = status_func
 
 
 def hello():
@@ -690,19 +691,49 @@ def updatestatus(username):
     frame = Frame(root, bg="#25D366", width=2000, height=100)
     frame.place(relx=0.00001, rely=0.0000001)
 
+    backimg = Image.open('images/back.webp')
+    backimage = backimg.resize((50, 50), Image.ANTIALIAS)
+    openbackimage = ImageTk.PhotoImage(backimage, master=frame)
+
+    backbutton = Button(frame, image=openbackimage, command=lambda: [root.destroy(), settings(username)])
+
+    backbutton["border"] = "0"
+    backbutton["bg"] = "#25D366"
+    backbutton.place(relx=0.02, rely=0.4, anchor=CENTER)
+    backbutton.image = openbackimage
+
     Label(frame,text="Change your Status",bg="#25D366",fg="white",font=('Helvetica',30,'bold')).place(relx=0.275,rely=0.3)
 
-    userdetails = server_local.get_user(user)
+    userdetails = server_local.get_user(username)
 
-    proimg = Image.open('default_profile_image.png')
-    profileimg = proimg.resize((50,50),Image.ANTIALIAS)
+    user_image = f'{username}'+'_profile.jpeg'
+
+    proimg = Image.open(f'images/profile_image/{user_image}')
+    profileimg = proimg.resize((200,200),Image.ANTIALIAS)
     openprofileimage = ImageTk.PhotoImage(profileimg,master=root)
 
     imageLabel = Label(root,image=openprofileimage)
-    imageLabel.place(relx=0.5,rely=0.3)
+    imageLabel.place(relx=0.425,rely=0.2)
 
     imageLabel['border'] = 0
     imageLabel['background'] = '#ECE5DD'
+
+    user = f'{username}'
+
+    Label(root,text=user,bg='#ECE5DD',fg='#075E54',font=('Kalpurush',20,'bold')).place(relx=0.45,rely=0.5)
+
+    Label(root,text='Your Current Status:',bg='#ECE5DD',fg='#075E54',font=('Kalpurush',20,'bold')).place(relx=0.001,rely=0.65)
+
+    current_status = userdetails['Status']
+
+    Label(root,text=current_status,bg='#ECE5DD',fg='#075E54',font=('Kalpurush',15,'bold')).place(relx=0.3,rely=0.66)
+
+    Label(root,text='Enter your new status:',bg='#ECE5DD',fg='#075E54',font=('Kalpurush',20,'bold')).place(relx=0.001,rely=0.75)
+
+    new_statusentry = Entry(root, bg='#BEFAFA', relief='flat', width=90, justify='center')
+    new_statusentry.place(relx=0.3, rely=0.775)
+
+    Button(root,text='Confirm your new status', bg='#075E54', fg='white',command = lambda : status_back(current_status,new_statusentry.get())).place(relx=0.4,rely=0.9)
 
     root.mainloop()
 
