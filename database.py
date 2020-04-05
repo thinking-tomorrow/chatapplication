@@ -67,8 +67,9 @@ def change_password(username, password):
     my_db.commit()
     return True
 
-def change_status(username, new_status):
-    sql = f"UPDATE clients SET Status='{new_status}' WHERE Username='{username}'"
+
+def change_status(username, status):
+    sql = f"UPDATE clients SET Status='{status}' WHERE Username='{username}'"
     cursor.execute(sql)
     my_db.commit()
     return True

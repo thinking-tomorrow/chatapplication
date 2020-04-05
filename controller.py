@@ -124,7 +124,6 @@ def change_status(current_status,new_status):
                 messagebox.showerror("Failed", "Sorry! Failed to change your status, Please try again")
 
 
-
 def uploadprofilepicture(username, profilepicture):
     server_local.change_image(username, profilepicture)
 

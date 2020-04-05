@@ -10,7 +10,7 @@ import datetime
 user = ''
 
 
-def load_function(login_func, register_func, add_contact_func, send_message_func, upload_image_func, password_func,status_func):
+def load_function(login_func, register_func, add_contact_func, send_message_func, upload_image_func, password_func, status_func):
     global add_contact_backend, login_backend, register_backend, send_message_backend, uploadimage_func, password_back, status_back
     add_contact_backend = add_contact_func
     login_backend = login_func
@@ -679,6 +679,7 @@ def aboutus():
 
     Label(root,text='mailsajjad006@gmail.com,hrishipotter123@gmail.com',fg='#00ACEE',bg='#ECE5DD',font=('Kalpurush',12,'bold')).place(relx=0.3,rely=0.9)
 
+
 def updatestatus(username):
     root = Tk()
     root.title('Change your Status')
@@ -709,7 +710,7 @@ def updatestatus(username):
     user_image = f'{username}'+'_profile.jpeg'
 
     proimg = Image.open(f'images/profile_image/{user_image}')
-    profileimg = proimg.resize((200,200),Image.ANTIALIAS)
+    profileimg = proimg.resize((200, 200), Image.ANTIALIAS)
     openprofileimage = ImageTk.PhotoImage(profileimg,master=root)
 
     imageLabel = Label(root,image=openprofileimage)

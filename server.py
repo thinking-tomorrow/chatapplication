@@ -35,7 +35,7 @@ while True:
     elif 'get_contact' in request:
         x = request.split(',')
         client_socket.send(bytes(str(db.get_contact(x[1])), 'utf-8'))
-    elif 'change' in request:
+    elif 'change_password' in request:
         x = request.split(',')
         client_socket.send(bytes(str(db.change_password(x[1], x[2])), 'utf-8'))
     elif 'change_status' in request:
